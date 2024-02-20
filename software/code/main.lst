@@ -1,0 +1,4228 @@
+ARM GAS  /tmp/ccCmPHmz.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 6	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 0	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"main.c"
+  14              	@ GNU C11 (GNU Tools for ARM Embedded Processors) version 5.4.1 20160919 (release) [ARM/embedded-5-
+  15              	@	compiled by GNU C version 4.7.4, GMP version 4.3.2, MPFR version 2.4.2, MPC version 0.8.1
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed:  -I . -I ./inc -imultilib armv6-m
+  18              	@ -iprefix /srv/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/
+  19              	@ -isysroot /srv/gcc-arm-none-eabi-5_4-2016q3/bin/../arm-none-eabi
+  20              	@ -MD code/main.d -MF .dep/main.o.d -MP -MQ code/main.o -D__USES_INITFINI__
+  21              	@ -D RUN_FROM_FLASH=1 code/main.c -mcpu=cortex-m0 -mthumb
+  22              	@ -auxbase-strip code/main.o -gdwarf-2 -O0 -Wall -Wstrict-prototypes
+  23              	@ -fomit-frame-pointer -fverbose-asm
+  24              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  25              	@ -fchkp-check-incomplete-type -fchkp-check-read -fchkp-check-write
+  26              	@ -fchkp-instrument-calls -fchkp-narrow-bounds -fchkp-optimize
+  27              	@ -fchkp-store-bounds -fchkp-use-static-bounds
+  28              	@ -fchkp-use-static-const-bounds -fchkp-use-wrappers -fcommon
+  29              	@ -fdelete-null-pointer-checks -fdwarf2-cfi-asm -fearly-inlining
+  30              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fgnu-runtime
+  31              	@ -fgnu-unique -fident -finline-atomics -fira-hoist-pressure
+  32              	@ -fira-share-save-slots -fira-share-spill-slots -fivopts
+  33              	@ -fkeep-static-consts -fleading-underscore -flifetime-dse
+  34              	@ -flto-odr-type-merging -fmath-errno -fmerge-debug-strings
+  35              	@ -fomit-frame-pointer -fpeephole -fprefetch-loop-arrays
+  36              	@ -freg-struct-return -fsched-critical-path-heuristic
+  37              	@ -fsched-dep-count-heuristic -fsched-group-heuristic -fsched-interblock
+  38              	@ -fsched-last-insn-heuristic -fsched-rank-heuristic -fsched-spec
+  39              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep
+  40              	@ -fsemantic-interposition -fshow-column -fsigned-zeros
+  41              	@ -fsplit-ivs-in-unroller -fstdarg-opt -fstrict-volatile-bitfields
+  42              	@ -fsync-libcalls -ftrapping-math -ftree-coalesce-vars -ftree-cselim
+  43              	@ -ftree-forwprop -ftree-loop-if-convert -ftree-loop-im -ftree-loop-ivcanon
+  44              	@ -ftree-loop-optimize -ftree-parallelize-loops= -ftree-phiprop
+  45              	@ -ftree-reassoc -ftree-scev-cprop -funit-at-a-time -fverbose-asm
+  46              	@ -fzero-initialized-in-bss -mlittle-endian -mpic-data-is-text-relative
+  47              	@ -msched-prolog -mthumb -mvectorize-with-neon-quad
+  48              	
+  49              		.text
+  50              	.Ltext0:
+  51              		.cfi_sections	.debug_frame
+  52              		.global	SENSOR_REGS
+  53              		.data
+  54              		.align	2
+  55              		.type	SENSOR_REGS, %object
+  56              		.size	SENSOR_REGS, 4
+  57              	SENSOR_REGS:
+ARM GAS  /tmp/ccCmPHmz.s 			page 2
+
+
+  58 0000 00000040 		.word	1073741824
+  59              		.global	BUTTON_REGS
+  60              		.align	2
+  61              		.type	BUTTON_REGS, %object
+  62              		.size	BUTTON_REGS, 4
+  63              	BUTTON_REGS:
+  64 0004 00000050 		.word	1342177280
+  65              		.global	LED_REGS
+  66              		.align	2
+  67              		.type	LED_REGS, %object
+  68              		.size	LED_REGS, 4
+  69              	LED_REGS:
+  70 0008 00000060 		.word	1610612736
+  71              		.comm	dp_location,4,4
+  72              		.comm	nMode_normal_times,4,4
+  73              		.comm	nMode_wheel_times,4,4
+  74              		.comm	singal_wheel,1,1
+  75              		.comm	wheel_size,4,4
+  76              		.comm	bit_wheel_size,4,4
+  77              		.comm	ten_wheel_size,4,4
+  78              		.comm	hundrend_wheel_size,4,4
+  79              		.text
+  80              		.align	2
+  81              		.global	read_SENSOR
+  82              		.code	16
+  83              		.thumb_func
+  84              		.type	read_SENSOR, %function
+  85              	read_SENSOR:
+  86              	.LFB1:
+  87              		.file 1 "code/main.c"
+   1:code/main.c   **** #define __MAIN_C__
+   2:code/main.c   **** 
+   3:code/main.c   **** #include <stdint.h>
+   4:code/main.c   **** #include <stdbool.h>
+   5:code/main.c   **** #include <stdio.h>
+   6:code/main.c   **** 
+   7:code/main.c   **** // Define the raw base address values for the i/o devices
+   8:code/main.c   **** 
+   9:code/main.c   **** 
+  10:code/main.c   **** #define AHB_SENSOR_BASE          0x40000000
+  11:code/main.c   **** //SENSOR_REGS[0] count_nFork
+  12:code/main.c   **** //SENSOR_REGS[1] count_average_nFork
+  13:code/main.c   **** //SENSOR_REGS[2] count_average_nCrank
+  14:code/main.c   **** //SENSOR_REGS[3] count_time
+  15:code/main.c   **** //SENSOR_REGS[4] states
+  16:code/main.c   **** 
+  17:code/main.c   **** 
+  18:code/main.c   **** #define AHB_BUTTON_BASE          0x50000000
+  19:code/main.c   **** 
+  20:code/main.c   **** //BUTTON_REGs[0] press_nMode
+  21:code/main.c   **** //BUTTON_REGs[1] press_nTrip
+  22:code/main.c   **** //BUTTON_REGs[2] press_button_both
+  23:code/main.c   **** //BUTTON_REGs[3] states
+  24:code/main.c   **** 
+  25:code/main.c   **** #define AHB_LED_BASE             0x60000000
+  26:code/main.c   **** //LED_REGS[0] DataOut
+  27:code/main.c   **** //nDigit,DP,SegG,SegF,SegE,SegD,SegC,SegB,SegA}={4'b0111,DataOut[8:0]};
+ARM GAS  /tmp/ccCmPHmz.s 			page 3
+
+
+  28:code/main.c   **** 
+  29:code/main.c   **** //#define AHB_OPORT_BASE           0x70000000
+  30:code/main.c   **** //OPORT_REGS[0] oPort
+  31:code/main.c   **** 
+  32:code/main.c   **** volatile uint32_t* SENSOR_REGS = (volatile uint32_t*) AHB_SENSOR_BASE;
+  33:code/main.c   **** volatile uint32_t* BUTTON_REGS = (volatile uint32_t*) AHB_BUTTON_BASE;
+  34:code/main.c   **** volatile uint32_t* LED_REGS = (volatile uint32_t*) AHB_LED_BASE;
+  35:code/main.c   **** //volatile uint32_t* OPORT_REGS = (volatile uint32_t*) AHB_OPORT_BASE;
+  36:code/main.c   **** 
+  37:code/main.c   **** 
+  38:code/main.c   **** #include <stdint.h>
+  39:code/main.c   **** 
+  40:code/main.c   **** //////////////////////////////////////////////////////////////////
+  41:code/main.c   **** // Functions provided to access i/o devices
+  42:code/main.c   **** //////////////////////////////////////////////////////////////////
+  43:code/main.c   **** 
+  44:code/main.c   **** 
+  45:code/main.c   **** ////////////////////////////////
+  46:code/main.c   **** 
+  47:code/main.c   **** 
+  48:code/main.c   **** 
+  49:code/main.c   **** uint32_t dp_location;  //record the location of the dp
+  50:code/main.c   **** uint32_t nMode_normal_times;  // record the under the normal condition how many times the mode is p
+  51:code/main.c   **** //uint32_t nTrip_times;         // record the whether the nTrip is pressed 
+  52:code/main.c   **** uint32_t nMode_wheel_times;   // record under the the wheel size  how many times the Mode button is
+  53:code/main.c   **** //uint32_t nTrip_wheel_times;   // record under the the wheel size how many times the Trip button i
+  54:code/main.c   **** bool singal_wheel;           // the singal means in the wheelsize mode 
+  55:code/main.c   **** uint32_t wheel_size ;         //the wheelsize
+  56:code/main.c   **** uint32_t bit_wheel_size;
+  57:code/main.c   **** uint32_t ten_wheel_size;
+  58:code/main.c   **** uint32_t hundrend_wheel_size;
+  59:code/main.c   **** /////////////useless OPORT which just for testing/////////////////
+  60:code/main.c   **** /*void write_out(uint32_t value) {
+  61:code/main.c   **** 
+  62:code/main.c   ****   OPORT_REGS[0] = value;
+  63:code/main.c   **** 
+  64:code/main.c   **** }
+  65:code/main.c   **** 
+  66:code/main.c   **** uint32_t read_out(void) {
+  67:code/main.c   **** 
+  68:code/main.c   ****   return OPORT_REGS[0];
+  69:code/main.c   **** 
+  70:code/main.c   **** }*/
+  71:code/main.c   **** /////////////////////////SENSOR REGSITERS MODULE/////////////////
+  72:code/main.c   **** 
+  73:code/main.c   **** uint32_t read_SENSOR(int addr) {
+  88              		.loc 1 73 0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 8
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  93 0000 82B0     		sub	sp, sp, #8	@,,
+  94              	.LCFI0:
+  95              		.cfi_def_cfa_offset 8
+  96 0002 0190     		str	r0, [sp, #4]	@ addr, addr
+  74:code/main.c   **** 
+  75:code/main.c   ****   return SENSOR_REGS[addr];
+ARM GAS  /tmp/ccCmPHmz.s 			page 4
+
+
+  97              		.loc 1 75 0
+  98 0004 044B     		ldr	r3, .L3	@ tmp116,
+  99 0006 1A68     		ldr	r2, [r3]	@ D.5538, SENSOR_REGS
+ 100 0008 019B     		ldr	r3, [sp, #4]	@ D.5539, addr
+ 101 000a 9B00     		lsls	r3, r3, #2	@ D.5539, D.5539,
+ 102 000c D318     		adds	r3, r2, r3	@ D.5538, D.5538, D.5539
+ 103 000e 1B68     		ldr	r3, [r3]	@ D.5540, *_6
+  76:code/main.c   **** 
+  77:code/main.c   **** }
+ 104              		.loc 1 77 0
+ 105 0010 1800     		movs	r0, r3	@, <retval>
+ 106 0012 02B0     		add	sp, sp, #8	@,,
+ 107              		@ sp needed	@
+ 108 0014 7047     		bx	lr
+ 109              	.L4:
+ 110 0016 C046     		.align	2
+ 111              	.L3:
+ 112 0018 00000000 		.word	SENSOR_REGS
+ 113              		.cfi_endproc
+ 114              	.LFE1:
+ 115              		.size	read_SENSOR, .-read_SENSOR
+ 116              		.align	2
+ 117              		.global	read_BUTTON
+ 118              		.code	16
+ 119              		.thumb_func
+ 120              		.type	read_BUTTON, %function
+ 121              	read_BUTTON:
+ 122              	.LFB2:
+  78:code/main.c   **** 
+  79:code/main.c   **** 
+  80:code/main.c   **** 
+  81:code/main.c   **** ////////////////////BUTTON_REGSITERS MODULE////////////////////////////////
+  82:code/main.c   **** uint32_t read_BUTTON(int addr) {
+ 123              		.loc 1 82 0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 8
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127              		@ link register save eliminated.
+ 128 001c 82B0     		sub	sp, sp, #8	@,,
+ 129              	.LCFI1:
+ 130              		.cfi_def_cfa_offset 8
+ 131 001e 0190     		str	r0, [sp, #4]	@ addr, addr
+  83:code/main.c   **** 
+  84:code/main.c   ****   return BUTTON_REGS[addr];
+ 132              		.loc 1 84 0
+ 133 0020 044B     		ldr	r3, .L7	@ tmp116,
+ 134 0022 1A68     		ldr	r2, [r3]	@ D.5541, BUTTON_REGS
+ 135 0024 019B     		ldr	r3, [sp, #4]	@ D.5542, addr
+ 136 0026 9B00     		lsls	r3, r3, #2	@ D.5542, D.5542,
+ 137 0028 D318     		adds	r3, r2, r3	@ D.5541, D.5541, D.5542
+ 138 002a 1B68     		ldr	r3, [r3]	@ D.5543, *_6
+  85:code/main.c   **** 
+  86:code/main.c   **** }
+ 139              		.loc 1 86 0
+ 140 002c 1800     		movs	r0, r3	@, <retval>
+ 141 002e 02B0     		add	sp, sp, #8	@,,
+ 142              		@ sp needed	@
+ARM GAS  /tmp/ccCmPHmz.s 			page 5
+
+
+ 143 0030 7047     		bx	lr
+ 144              	.L8:
+ 145 0032 C046     		.align	2
+ 146              	.L7:
+ 147 0034 00000000 		.word	BUTTON_REGS
+ 148              		.cfi_endproc
+ 149              	.LFE2:
+ 150              		.size	read_BUTTON, .-read_BUTTON
+ 151              		.global	__aeabi_fmul
+ 152              		.global	__aeabi_fdiv
+ 153              		.global	__aeabi_fcmple
+ 154              		.global	__aeabi_f2iz
+ 155              		.align	2
+ 156              		.global	distance
+ 157              		.code	16
+ 158              		.thumb_func
+ 159              		.type	distance, %function
+ 160              	distance:
+ 161              	.LFB3:
+  87:code/main.c   **** 
+  88:code/main.c   **** 
+  89:code/main.c   **** 
+  90:code/main.c   **** /////////////////////////CALCULATE MODULE///////////////////////
+  91:code/main.c   **** uint32_t distance(float count_nfork,float circumference) { //the unit of circumference is mm
+ 162              		.loc 1 91 0
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 16
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166 0038 00B5     		push	{lr}	@
+ 167              	.LCFI2:
+ 168              		.cfi_def_cfa_offset 4
+ 169              		.cfi_offset 14, -4
+ 170 003a 85B0     		sub	sp, sp, #20	@,,
+ 171              	.LCFI3:
+ 172              		.cfi_def_cfa_offset 24
+ 173 003c 0190     		str	r0, [sp, #4]	@ count_nfork, count_nfork
+ 174 003e 0091     		str	r1, [sp]	@ circumference, circumference
+  92:code/main.c   ****   float route;
+  93:code/main.c   ****   int int_route;
+  94:code/main.c   ****   route = count_nfork * circumference /1000000 ;
+ 175              		.loc 1 94 0
+ 176 0040 0099     		ldr	r1, [sp]	@, circumference
+ 177 0042 0198     		ldr	r0, [sp, #4]	@, count_nfork
+ 178 0044 FFF7FEFF 		bl	__aeabi_fmul	@
+ 179 0048 031C     		adds	r3, r0, #0	@ tmp113,
+ 180 004a 1949     		ldr	r1, .L20	@,
+ 181 004c 181C     		adds	r0, r3, #0	@, D.5544
+ 182 004e FFF7FEFF 		bl	__aeabi_fdiv	@
+ 183 0052 031C     		adds	r3, r0, #0	@ tmp114,
+ 184 0054 0393     		str	r3, [sp, #12]	@ tmp114, route
+  95:code/main.c   **** 
+  96:code/main.c   ****   if(route <= 10){
+ 185              		.loc 1 96 0
+ 186 0056 1749     		ldr	r1, .L20+4	@,
+ 187 0058 0398     		ldr	r0, [sp, #12]	@, route
+ 188 005a FFF7FEFF 		bl	__aeabi_fcmple	@
+ 189 005e 031E     		subs	r3, r0, #0	@ tmp115,,
+ARM GAS  /tmp/ccCmPHmz.s 			page 6
+
+
+ 190 0060 09D0     		beq	.L18	@,
+  97:code/main.c   ****     route *=100;
+ 191              		.loc 1 97 0
+ 192 0062 1549     		ldr	r1, .L20+8	@,
+ 193 0064 0398     		ldr	r0, [sp, #12]	@, route
+ 194 0066 FFF7FEFF 		bl	__aeabi_fmul	@
+ 195 006a 031C     		adds	r3, r0, #0	@ tmp116,
+ 196 006c 0393     		str	r3, [sp, #12]	@ tmp116, route
+  98:code/main.c   ****     dp_location = 2; //
+ 197              		.loc 1 98 0
+ 198 006e 134B     		ldr	r3, .L20+12	@ tmp117,
+ 199 0070 0222     		movs	r2, #2	@ tmp118,
+ 200 0072 1A60     		str	r2, [r3]	@ tmp118, dp_location
+ 201 0074 12E0     		b	.L12	@
+ 202              	.L18:
+  99:code/main.c   ****   }else if(route <= 100){
+ 203              		.loc 1 99 0
+ 204 0076 1049     		ldr	r1, .L20+8	@,
+ 205 0078 0398     		ldr	r0, [sp, #12]	@, route
+ 206 007a FFF7FEFF 		bl	__aeabi_fcmple	@
+ 207 007e 031E     		subs	r3, r0, #0	@ tmp119,,
+ 208 0080 09D0     		beq	.L19	@,
+ 100:code/main.c   ****     route *=10;
+ 209              		.loc 1 100 0
+ 210 0082 0C49     		ldr	r1, .L20+4	@,
+ 211 0084 0398     		ldr	r0, [sp, #12]	@, route
+ 212 0086 FFF7FEFF 		bl	__aeabi_fmul	@
+ 213 008a 031C     		adds	r3, r0, #0	@ tmp120,
+ 214 008c 0393     		str	r3, [sp, #12]	@ tmp120, route
+ 101:code/main.c   ****     dp_location = 1;
+ 215              		.loc 1 101 0
+ 216 008e 0B4B     		ldr	r3, .L20+12	@ tmp121,
+ 217 0090 0122     		movs	r2, #1	@ tmp122,
+ 218 0092 1A60     		str	r2, [r3]	@ tmp122, dp_location
+ 219 0094 02E0     		b	.L12	@
+ 220              	.L19:
+ 102:code/main.c   ****   }else {
+ 103:code/main.c   ****     dp_location = 0;
+ 221              		.loc 1 103 0
+ 222 0096 094B     		ldr	r3, .L20+12	@ tmp123,
+ 223 0098 0022     		movs	r2, #0	@ tmp124,
+ 224 009a 1A60     		str	r2, [r3]	@ tmp124, dp_location
+ 225              	.L12:
+ 104:code/main.c   ****   }
+ 105:code/main.c   **** 
+ 106:code/main.c   ****   int_route = (int)route;
+ 226              		.loc 1 106 0
+ 227 009c 0398     		ldr	r0, [sp, #12]	@, route
+ 228 009e FFF7FEFF 		bl	__aeabi_f2iz	@
+ 229 00a2 0300     		movs	r3, r0	@ tmp125,
+ 230 00a4 0293     		str	r3, [sp, #8]	@ tmp125, int_route
+ 107:code/main.c   ****   //printf("int_route = %d\n",int_route);
+ 108:code/main.c   ****   return int_route;
+ 231              		.loc 1 108 0
+ 232 00a6 029B     		ldr	r3, [sp, #8]	@ D.5545, int_route
+ 109:code/main.c   **** }
+ 233              		.loc 1 109 0
+ARM GAS  /tmp/ccCmPHmz.s 			page 7
+
+
+ 234 00a8 1800     		movs	r0, r3	@, <retval>
+ 235 00aa 05B0     		add	sp, sp, #20	@,,
+ 236              		@ sp needed	@
+ 237 00ac 00BD     		pop	{pc}
+ 238              	.L21:
+ 239 00ae C046     		.align	2
+ 240              	.L20:
+ 241 00b0 00247449 		.word	1232348160
+ 242 00b4 00002041 		.word	1092616192
+ 243 00b8 0000C842 		.word	1120403456
+ 244 00bc 00000000 		.word	dp_location
+ 245              		.cfi_endproc
+ 246              	.LFE3:
+ 247              		.size	distance, .-distance
+ 248              		.global	__aeabi_idiv
+ 249              		.global	__aeabi_uidiv
+ 250              		.align	2
+ 251              		.global	timer
+ 252              		.code	16
+ 253              		.thumb_func
+ 254              		.type	timer, %function
+ 255              	timer:
+ 256              	.LFB4:
+ 110:code/main.c   **** 
+ 111:code/main.c   **** uint32_t timer (int count_time) { //the unit of time is second
+ 257              		.loc 1 111 0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 24
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261 00c0 10B5     		push	{r4, lr}	@
+ 262              	.LCFI4:
+ 263              		.cfi_def_cfa_offset 8
+ 264              		.cfi_offset 4, -8
+ 265              		.cfi_offset 14, -4
+ 266 00c2 86B0     		sub	sp, sp, #24	@,,
+ 267              	.LCFI5:
+ 268              		.cfi_def_cfa_offset 32
+ 269 00c4 0190     		str	r0, [sp, #4]	@ count_time, count_time
+ 112:code/main.c   ****   uint32_t time_h;
+ 113:code/main.c   ****   uint32_t time_m;
+ 114:code/main.c   ****   uint32_t time;
+ 115:code/main.c   ****   //write_out(count_time);
+ 116:code/main.c   ****   time_h = (count_time)/(3600*32768);
+ 270              		.loc 1 116 0
+ 271 00c6 019A     		ldr	r2, [sp, #4]	@ tmp119, count_time
+ 272 00c8 E123     		movs	r3, #225	@ tmp147,
+ 273 00ca D904     		lsls	r1, r3, #19	@, tmp147,
+ 274 00cc 1000     		movs	r0, r2	@, tmp119
+ 275 00ce FFF7FEFF 		bl	__aeabi_idiv	@
+ 276 00d2 0300     		movs	r3, r0	@ tmp122,
+ 277 00d4 0493     		str	r3, [sp, #16]	@ D.5546, time_h
+ 117:code/main.c   ****   time_m = (count_time-time_h*3600*32768)/(60*32768);
+ 278              		.loc 1 117 0
+ 279 00d6 019A     		ldr	r2, [sp, #4]	@ D.5547, count_time
+ 280 00d8 049B     		ldr	r3, [sp, #16]	@ tmp123, time_h
+ 281 00da E121     		movs	r1, #225	@ tmp148,
+ 282 00dc C904     		lsls	r1, r1, #19	@ tmp124, tmp148,
+ARM GAS  /tmp/ccCmPHmz.s 			page 8
+
+
+ 283 00de 4B43     		muls	r3, r1	@ D.5547, tmp124
+ 284 00e0 D21A     		subs	r2, r2, r3	@ D.5547, D.5547, D.5547
+ 285 00e2 F023     		movs	r3, #240	@ tmp149,
+ 286 00e4 5903     		lsls	r1, r3, #13	@, tmp149,
+ 287 00e6 1000     		movs	r0, r2	@, D.5547
+ 288 00e8 FFF7FEFF 		bl	__aeabi_uidiv	@
+ 289 00ec 0300     		movs	r3, r0	@ tmp127,
+ 290 00ee 0393     		str	r3, [sp, #12]	@ tmp127, time_m
+ 118:code/main.c   ****   //write_out(time_h);
+ 119:code/main.c   ****   //write_out(time_m);
+ 120:code/main.c   ****   if(time_h >=10){
+ 291              		.loc 1 120 0
+ 292 00f0 049B     		ldr	r3, [sp, #16]	@ tmp128, time_h
+ 293 00f2 092B     		cmp	r3, #9	@ tmp128,
+ 294 00f4 11D9     		bls	.L23	@,
+ 121:code/main.c   ****     time = time_h *10 + time_m/10;
+ 295              		.loc 1 121 0
+ 296 00f6 049A     		ldr	r2, [sp, #16]	@ tmp129, time_h
+ 297 00f8 1300     		movs	r3, r2	@ tmp130, tmp129
+ 298 00fa 9B00     		lsls	r3, r3, #2	@ tmp130, tmp130,
+ 299 00fc 9B18     		adds	r3, r3, r2	@ tmp130, tmp130, tmp129
+ 300 00fe 5B00     		lsls	r3, r3, #1	@ tmp131, tmp130,
+ 301 0100 1C00     		movs	r4, r3	@ D.5547, tmp130
+ 302 0102 039B     		ldr	r3, [sp, #12]	@ tmp132, time_m
+ 303 0104 0A21     		movs	r1, #10	@,
+ 304 0106 1800     		movs	r0, r3	@, tmp132
+ 305 0108 FFF7FEFF 		bl	__aeabi_uidiv	@
+ 306 010c 0300     		movs	r3, r0	@ tmp135,
+ 307 010e E318     		adds	r3, r4, r3	@ tmp136, D.5547, D.5547
+ 308 0110 0593     		str	r3, [sp, #20]	@ tmp136, time
+ 122:code/main.c   ****     dp_location = 1;
+ 309              		.loc 1 122 0
+ 310 0112 0A4B     		ldr	r3, .L26	@ tmp137,
+ 311 0114 0122     		movs	r2, #1	@ tmp138,
+ 312 0116 1A60     		str	r2, [r3]	@ tmp138, dp_location
+ 313 0118 0BE0     		b	.L24	@
+ 314              	.L23:
+ 123:code/main.c   ****   }else if(time_h <10) {
+ 315              		.loc 1 123 0
+ 316 011a 049B     		ldr	r3, [sp, #16]	@ tmp139, time_h
+ 317 011c 092B     		cmp	r3, #9	@ tmp139,
+ 318 011e 08D8     		bhi	.L24	@,
+ 124:code/main.c   ****     time = time_h*100 + time_m;
+ 319              		.loc 1 124 0
+ 320 0120 049B     		ldr	r3, [sp, #16]	@ tmp140, time_h
+ 321 0122 6422     		movs	r2, #100	@ tmp141,
+ 322 0124 5A43     		muls	r2, r3	@ D.5547, tmp140
+ 323 0126 039B     		ldr	r3, [sp, #12]	@ tmp143, time_m
+ 324 0128 D318     		adds	r3, r2, r3	@ tmp142, D.5547, tmp143
+ 325 012a 0593     		str	r3, [sp, #20]	@ tmp142, time
+ 125:code/main.c   ****     dp_location = 2;
+ 326              		.loc 1 125 0
+ 327 012c 034B     		ldr	r3, .L26	@ tmp144,
+ 328 012e 0222     		movs	r2, #2	@ tmp145,
+ 329 0130 1A60     		str	r2, [r3]	@ tmp145, dp_location
+ 330              	.L24:
+ 126:code/main.c   ****   }
+ARM GAS  /tmp/ccCmPHmz.s 			page 9
+
+
+ 127:code/main.c   ****   //printf("time = %d\n",time);
+ 128:code/main.c   ****   return(time);
+ 331              		.loc 1 128 0
+ 332 0132 059B     		ldr	r3, [sp, #20]	@ D.5548, time
+ 129:code/main.c   **** }
+ 333              		.loc 1 129 0
+ 334 0134 1800     		movs	r0, r3	@, <retval>
+ 335 0136 06B0     		add	sp, sp, #24	@,,
+ 336              		@ sp needed	@
+ 337 0138 10BD     		pop	{r4, pc}
+ 338              	.L27:
+ 339 013a C046     		.align	2
+ 340              	.L26:
+ 341 013c 00000000 		.word	dp_location
+ 342              		.cfi_endproc
+ 343              	.LFE4:
+ 344              		.size	timer, .-timer
+ 345              		.align	2
+ 346              		.global	cadence
+ 347              		.code	16
+ 348              		.thumb_func
+ 349              		.type	cadence, %function
+ 350              	cadence:
+ 351              	.LFB5:
+ 130:code/main.c   **** 
+ 131:code/main.c   **** uint32_t cadence (int count_average_nCrank) { //the unit of time is times of rotate/m
+ 352              		.loc 1 131 0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 16
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356 0140 00B5     		push	{lr}	@
+ 357              	.LCFI6:
+ 358              		.cfi_def_cfa_offset 4
+ 359              		.cfi_offset 14, -4
+ 360 0142 85B0     		sub	sp, sp, #20	@,,
+ 361              	.LCFI7:
+ 362              		.cfi_def_cfa_offset 24
+ 363 0144 0190     		str	r0, [sp, #4]	@ count_average_nCrank, count_average_nCrank
+ 132:code/main.c   **** 
+ 133:code/main.c   ****   int rpm;
+ 134:code/main.c   ****   if(count_average_nCrank == 0){
+ 364              		.loc 1 134 0
+ 365 0146 019B     		ldr	r3, [sp, #4]	@ tmp112, count_average_nCrank
+ 366 0148 002B     		cmp	r3, #0	@ tmp112,
+ 367 014a 02D1     		bne	.L29	@,
+ 135:code/main.c   ****   rpm = 0;
+ 368              		.loc 1 135 0
+ 369 014c 0023     		movs	r3, #0	@ tmp113,
+ 370 014e 0393     		str	r3, [sp, #12]	@ tmp113, rpm
+ 371 0150 06E0     		b	.L30	@
+ 372              	.L29:
+ 136:code/main.c   ****   }else{
+ 137:code/main.c   ****   rpm = (60*32768/count_average_nCrank);
+ 373              		.loc 1 137 0
+ 374 0152 0199     		ldr	r1, [sp, #4]	@, count_average_nCrank
+ 375 0154 F023     		movs	r3, #240	@ tmp121,
+ 376 0156 5803     		lsls	r0, r3, #13	@, tmp121,
+ARM GAS  /tmp/ccCmPHmz.s 			page 10
+
+
+ 377 0158 FFF7FEFF 		bl	__aeabi_idiv	@
+ 378 015c 0300     		movs	r3, r0	@ tmp117,
+ 379 015e 0393     		str	r3, [sp, #12]	@ tmp117, rpm
+ 380              	.L30:
+ 138:code/main.c   ****   }
+ 139:code/main.c   ****   dp_location = 0;
+ 381              		.loc 1 139 0
+ 382 0160 034B     		ldr	r3, .L32	@ tmp118,
+ 383 0162 0022     		movs	r2, #0	@ tmp119,
+ 384 0164 1A60     		str	r2, [r3]	@ tmp119, dp_location
+ 140:code/main.c   ****   //printf("cadence_rpm = %d\n",rpm);
+ 141:code/main.c   ****   return(rpm);
+ 385              		.loc 1 141 0
+ 386 0166 039B     		ldr	r3, [sp, #12]	@ D.5549, rpm
+ 142:code/main.c   **** }
+ 387              		.loc 1 142 0
+ 388 0168 1800     		movs	r0, r3	@, <retval>
+ 389 016a 05B0     		add	sp, sp, #20	@,,
+ 390              		@ sp needed	@
+ 391 016c 00BD     		pop	{pc}
+ 392              	.L33:
+ 393 016e C046     		.align	2
+ 394              	.L32:
+ 395 0170 00000000 		.word	dp_location
+ 396              		.cfi_endproc
+ 397              	.LFE5:
+ 398              		.size	cadence, .-cadence
+ 399              		.global	__aeabi_fcmpeq
+ 400              		.global	__aeabi_f2d
+ 401              		.global	__aeabi_dmul
+ 402              		.global	__aeabi_ddiv
+ 403              		.global	__aeabi_d2f
+ 404              		.align	2
+ 405              		.global	speed
+ 406              		.code	16
+ 407              		.thumb_func
+ 408              		.type	speed, %function
+ 409              	speed:
+ 410              	.LFB6:
+ 143:code/main.c   **** 
+ 144:code/main.c   **** 
+ 145:code/main.c   **** uint32_t speed (float count_average_nFork, float circumference) { //the unit of time is km/h
+ 411              		.loc 1 145 0
+ 412              		.cfi_startproc
+ 413              		@ args = 0, pretend = 0, frame = 16
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415 0174 30B5     		push	{r4, r5, lr}	@
+ 416              	.LCFI8:
+ 417              		.cfi_def_cfa_offset 12
+ 418              		.cfi_offset 4, -12
+ 419              		.cfi_offset 5, -8
+ 420              		.cfi_offset 14, -4
+ 421 0176 85B0     		sub	sp, sp, #20	@,,
+ 422              	.LCFI9:
+ 423              		.cfi_def_cfa_offset 32
+ 424 0178 0190     		str	r0, [sp, #4]	@ count_average_nFork, count_average_nFork
+ 425 017a 0091     		str	r1, [sp]	@ circumference, circumference
+ARM GAS  /tmp/ccCmPHmz.s 			page 11
+
+
+ 146:code/main.c   ****   float speed_value;
+ 147:code/main.c   ****   int int_speed;
+ 148:code/main.c   ****   
+ 149:code/main.c   ****   //write_out(count_average_nFork);
+ 150:code/main.c   ****   if(count_average_nFork == 0){
+ 426              		.loc 1 150 0
+ 427 017c 0021     		movs	r1, #0	@,
+ 428 017e 0198     		ldr	r0, [sp, #4]	@, count_average_nFork
+ 429 0180 FFF7FEFF 		bl	__aeabi_fcmpeq	@
+ 430 0184 031E     		subs	r3, r0, #0	@ tmp118,,
+ 431 0186 02D0     		beq	.L47	@,
+ 151:code/main.c   ****      speed_value = 0;
+ 432              		.loc 1 151 0
+ 433 0188 0023     		movs	r3, #0	@ tmp119,
+ 434 018a 0393     		str	r3, [sp, #12]	@ tmp119, speed_value
+ 435 018c 26E0     		b	.L37	@
+ 436              	.L47:
+ 152:code/main.c   ****   }else {
+ 153:code/main.c   ****      speed_value = ((circumference*32768*3.6)/(1000*count_average_nFork));
+ 437              		.loc 1 153 0
+ 438 018e 8E21     		movs	r1, #142	@,
+ 439 0190 C905     		lsls	r1, r1, #23	@,,
+ 440 0192 0098     		ldr	r0, [sp]	@, circumference
+ 441 0194 FFF7FEFF 		bl	__aeabi_fmul	@
+ 442 0198 031C     		adds	r3, r0, #0	@ tmp120,
+ 443 019a 181C     		adds	r0, r3, #0	@, D.5550
+ 444 019c FFF7FEFF 		bl	__aeabi_f2d	@
+ 445 01a0 244A     		ldr	r2, .L50	@,
+ 446 01a2 254B     		ldr	r3, .L50+4	@,
+ 447 01a4 FFF7FEFF 		bl	__aeabi_dmul	@
+ 448 01a8 0300     		movs	r3, r0	@ tmp121,
+ 449 01aa 0C00     		movs	r4, r1	@,
+ 450 01ac 2500     		movs	r5, r4	@ D.5551,
+ 451 01ae 1C00     		movs	r4, r3	@ D.5551, tmp121
+ 452 01b0 2249     		ldr	r1, .L50+8	@,
+ 453 01b2 0198     		ldr	r0, [sp, #4]	@, count_average_nFork
+ 454 01b4 FFF7FEFF 		bl	__aeabi_fmul	@
+ 455 01b8 031C     		adds	r3, r0, #0	@ tmp122,
+ 456 01ba 181C     		adds	r0, r3, #0	@, D.5550
+ 457 01bc FFF7FEFF 		bl	__aeabi_f2d	@
+ 458 01c0 0200     		movs	r2, r0	@ D.5551,
+ 459 01c2 0B00     		movs	r3, r1	@ D.5551,
+ 460 01c4 2000     		movs	r0, r4	@, D.5551
+ 461 01c6 2900     		movs	r1, r5	@, D.5551
+ 462 01c8 FFF7FEFF 		bl	__aeabi_ddiv	@
+ 463 01cc 0300     		movs	r3, r0	@ tmp123,
+ 464 01ce 0C00     		movs	r4, r1	@,
+ 465 01d0 1800     		movs	r0, r3	@, D.5551
+ 466 01d2 2100     		movs	r1, r4	@, D.5551
+ 467 01d4 FFF7FEFF 		bl	__aeabi_d2f	@
+ 468 01d8 031C     		adds	r3, r0, #0	@ tmp124,
+ 469 01da 0393     		str	r3, [sp, #12]	@ tmp124, speed_value
+ 470              	.L37:
+ 154:code/main.c   ****   }
+ 155:code/main.c   **** 
+ 156:code/main.c   ****   //write_out(speed_value);
+ 157:code/main.c   ****   //printf("speed_value212 = %f\n",speed_value);
+ARM GAS  /tmp/ccCmPHmz.s 			page 12
+
+
+ 158:code/main.c   ****   if(speed_value <= 10){
+ 471              		.loc 1 158 0
+ 472 01dc 1849     		ldr	r1, .L50+12	@,
+ 473 01de 0398     		ldr	r0, [sp, #12]	@, speed_value
+ 474 01e0 FFF7FEFF 		bl	__aeabi_fcmple	@
+ 475 01e4 031E     		subs	r3, r0, #0	@ tmp125,,
+ 476 01e6 09D0     		beq	.L48	@,
+ 159:code/main.c   ****     speed_value *=100;
+ 477              		.loc 1 159 0
+ 478 01e8 1649     		ldr	r1, .L50+16	@,
+ 479 01ea 0398     		ldr	r0, [sp, #12]	@, speed_value
+ 480 01ec FFF7FEFF 		bl	__aeabi_fmul	@
+ 481 01f0 031C     		adds	r3, r0, #0	@ tmp126,
+ 482 01f2 0393     		str	r3, [sp, #12]	@ tmp126, speed_value
+ 160:code/main.c   ****     dp_location = 2; //
+ 483              		.loc 1 160 0
+ 484 01f4 144B     		ldr	r3, .L50+20	@ tmp127,
+ 485 01f6 0222     		movs	r2, #2	@ tmp128,
+ 486 01f8 1A60     		str	r2, [r3]	@ tmp128, dp_location
+ 487 01fa 12E0     		b	.L40	@
+ 488              	.L48:
+ 161:code/main.c   ****   }else if(speed_value <= 100){
+ 489              		.loc 1 161 0
+ 490 01fc 1149     		ldr	r1, .L50+16	@,
+ 491 01fe 0398     		ldr	r0, [sp, #12]	@, speed_value
+ 492 0200 FFF7FEFF 		bl	__aeabi_fcmple	@
+ 493 0204 031E     		subs	r3, r0, #0	@ tmp129,,
+ 494 0206 09D0     		beq	.L49	@,
+ 162:code/main.c   ****     speed_value *=10;
+ 495              		.loc 1 162 0
+ 496 0208 0D49     		ldr	r1, .L50+12	@,
+ 497 020a 0398     		ldr	r0, [sp, #12]	@, speed_value
+ 498 020c FFF7FEFF 		bl	__aeabi_fmul	@
+ 499 0210 031C     		adds	r3, r0, #0	@ tmp130,
+ 500 0212 0393     		str	r3, [sp, #12]	@ tmp130, speed_value
+ 163:code/main.c   ****     dp_location = 1;
+ 501              		.loc 1 163 0
+ 502 0214 0C4B     		ldr	r3, .L50+20	@ tmp131,
+ 503 0216 0122     		movs	r2, #1	@ tmp132,
+ 504 0218 1A60     		str	r2, [r3]	@ tmp132, dp_location
+ 505 021a 02E0     		b	.L40	@
+ 506              	.L49:
+ 164:code/main.c   ****   }else {
+ 165:code/main.c   ****     dp_location = 0;
+ 507              		.loc 1 165 0
+ 508 021c 0A4B     		ldr	r3, .L50+20	@ tmp133,
+ 509 021e 0022     		movs	r2, #0	@ tmp134,
+ 510 0220 1A60     		str	r2, [r3]	@ tmp134, dp_location
+ 511              	.L40:
+ 166:code/main.c   ****   }
+ 167:code/main.c   **** 
+ 168:code/main.c   ****   int_speed = (int)speed_value;
+ 512              		.loc 1 168 0
+ 513 0222 0398     		ldr	r0, [sp, #12]	@, speed_value
+ 514 0224 FFF7FEFF 		bl	__aeabi_f2iz	@
+ 515 0228 0300     		movs	r3, r0	@ tmp135,
+ 516 022a 0293     		str	r3, [sp, #8]	@ tmp135, int_speed
+ARM GAS  /tmp/ccCmPHmz.s 			page 13
+
+
+ 169:code/main.c   ****   //printf("speed = %d\n",int_speed);
+ 170:code/main.c   ****   return int_speed;
+ 517              		.loc 1 170 0
+ 518 022c 029B     		ldr	r3, [sp, #8]	@ D.5552, int_speed
+ 171:code/main.c   **** }
+ 519              		.loc 1 171 0
+ 520 022e 1800     		movs	r0, r3	@, <retval>
+ 521 0230 05B0     		add	sp, sp, #20	@,,
+ 522              		@ sp needed	@
+ 523 0232 30BD     		pop	{r4, r5, pc}
+ 524              	.L51:
+ 525              		.align	2
+ 526              	.L50:
+ 527 0234 CDCCCCCC 		.word	-858993459
+ 528 0238 CCCC0C40 		.word	1074580684
+ 529 023c 00007A44 		.word	1148846080
+ 530 0240 00002041 		.word	1092616192
+ 531 0244 0000C842 		.word	1120403456
+ 532 0248 00000000 		.word	dp_location
+ 533              		.cfi_endproc
+ 534              	.LFE6:
+ 535              		.size	speed, .-speed
+ 536              		.align	2
+ 537              		.global	seg_code
+ 538              		.code	16
+ 539              		.thumb_func
+ 540              		.type	seg_code, %function
+ 541              	seg_code:
+ 542              	.LFB7:
+ 172:code/main.c   **** 
+ 173:code/main.c   **** 
+ 174:code/main.c   **** 
+ 175:code/main.c   **** /////////////////////////LED MODULE///////////////////////////
+ 176:code/main.c   **** uint32_t seg_code(int value){
+ 543              		.loc 1 176 0
+ 544              		.cfi_startproc
+ 545              		@ args = 0, pretend = 0, frame = 16
+ 546              		@ frame_needed = 0, uses_anonymous_args = 0
+ 547              		@ link register save eliminated.
+ 548 024c 84B0     		sub	sp, sp, #16	@,,
+ 549              	.LCFI10:
+ 550              		.cfi_def_cfa_offset 16
+ 551 024e 0190     		str	r0, [sp, #4]	@ value, value
+ 177:code/main.c   **** 
+ 178:code/main.c   ****   //printf("value = %d\n",value);
+ 179:code/main.c   ****   uint32_t display_value;
+ 180:code/main.c   ****   switch(value){
+ 552              		.loc 1 180 0
+ 553 0250 019B     		ldr	r3, [sp, #4]	@ tmp112, value
+ 554 0252 092B     		cmp	r3, #9	@ tmp112,
+ 555 0254 23D8     		bhi	.L53	@,
+ 556 0256 019B     		ldr	r3, [sp, #4]	@ tmp114, value
+ 557 0258 9A00     		lsls	r2, r3, #2	@ tmp113, tmp114,
+ 558 025a 144B     		ldr	r3, .L67	@ tmp116,
+ 559 025c D318     		adds	r3, r2, r3	@ tmp115, tmp113, tmp116
+ 560 025e 1B68     		ldr	r3, [r3]	@ tmp117,
+ 561 0260 9F46     		mov	pc, r3	@ tmp117
+ARM GAS  /tmp/ccCmPHmz.s 			page 14
+
+
+ 562              		.section	.rodata
+ 563              		.align	2
+ 564              	.L55:
+ 565 0000 62020000 		.word	.L54
+ 566 0004 68020000 		.word	.L56
+ 567 0008 6E020000 		.word	.L57
+ 568 000c 74020000 		.word	.L58
+ 569 0010 7A020000 		.word	.L59
+ 570 0014 80020000 		.word	.L60
+ 571 0018 86020000 		.word	.L61
+ 572 001c 8C020000 		.word	.L62
+ 573 0020 92020000 		.word	.L63
+ 574 0024 98020000 		.word	.L64
+ 575              		.text
+ 576              	.L54:
+ 181:code/main.c   **** 									   //i ogfe dcba
+ 182:code/main.c   ****   case 0: display_value = 0x0000003f  ;break; //0000_0000_0000_0000_0000_111 0_0011_1111
+ 577              		.loc 1 182 0
+ 578 0262 3F23     		movs	r3, #63	@ tmp118,
+ 579 0264 0393     		str	r3, [sp, #12]	@ tmp118, display_value
+ 580 0266 1DE0     		b	.L65	@
+ 581              	.L56:
+ 183:code/main.c   **** 
+ 184:code/main.c   ****   case 1: display_value = 0x00000006  ;break; //0000_0000_0000_0000_0000_111 0_0000_0110
+ 582              		.loc 1 184 0
+ 583 0268 0623     		movs	r3, #6	@ tmp119,
+ 584 026a 0393     		str	r3, [sp, #12]	@ tmp119, display_value
+ 585 026c 1AE0     		b	.L65	@
+ 586              	.L57:
+ 185:code/main.c   **** 
+ 186:code/main.c   ****   case 2: display_value = 0x0000005b  ;break; //0000_0000_0000_0000_0000_111 0_0101_1011
+ 587              		.loc 1 186 0
+ 588 026e 5B23     		movs	r3, #91	@ tmp120,
+ 589 0270 0393     		str	r3, [sp, #12]	@ tmp120, display_value
+ 590 0272 17E0     		b	.L65	@
+ 591              	.L58:
+ 187:code/main.c   **** 
+ 188:code/main.c   ****   case 3: display_value = 0x0000004f  ;break; //0000_0000_0000_0000_0000_111 0_0100_1111
+ 592              		.loc 1 188 0
+ 593 0274 4F23     		movs	r3, #79	@ tmp121,
+ 594 0276 0393     		str	r3, [sp, #12]	@ tmp121, display_value
+ 595 0278 14E0     		b	.L65	@
+ 596              	.L59:
+ 189:code/main.c   **** 
+ 190:code/main.c   ****   case 4: display_value = 0x00000066  ;break; //0000_0000_0000_0000_0000_111 0_0110_0110
+ 597              		.loc 1 190 0
+ 598 027a 6623     		movs	r3, #102	@ tmp122,
+ 599 027c 0393     		str	r3, [sp, #12]	@ tmp122, display_value
+ 600 027e 11E0     		b	.L65	@
+ 601              	.L60:
+ 191:code/main.c   **** 
+ 192:code/main.c   ****   case 5: display_value = 0x0000006d  ;break; //0000_0000_0000_0000_0000_111 0_0110_1101
+ 602              		.loc 1 192 0
+ 603 0280 6D23     		movs	r3, #109	@ tmp123,
+ 604 0282 0393     		str	r3, [sp, #12]	@ tmp123, display_value
+ 605 0284 0EE0     		b	.L65	@
+ 606              	.L61:
+ARM GAS  /tmp/ccCmPHmz.s 			page 15
+
+
+ 193:code/main.c   **** 
+ 194:code/main.c   ****   case 6: display_value = 0x0000007d  ;break; //0000_0000_0000_0000_0000_111 0_0111_1101
+ 607              		.loc 1 194 0
+ 608 0286 7D23     		movs	r3, #125	@ tmp124,
+ 609 0288 0393     		str	r3, [sp, #12]	@ tmp124, display_value
+ 610 028a 0BE0     		b	.L65	@
+ 611              	.L62:
+ 195:code/main.c   **** 
+ 196:code/main.c   ****   case 7: display_value = 0x00000007  ;break; //0000_0000_0000_0000_0000_111 0_0000_0111
+ 612              		.loc 1 196 0
+ 613 028c 0723     		movs	r3, #7	@ tmp125,
+ 614 028e 0393     		str	r3, [sp, #12]	@ tmp125, display_value
+ 615 0290 08E0     		b	.L65	@
+ 616              	.L63:
+ 197:code/main.c   **** 
+ 198:code/main.c   ****   case 8: display_value = 0x0000007f   ;break; //0000_0000_0000_0000_0000_111 0_0111_1111 
+ 617              		.loc 1 198 0
+ 618 0292 7F23     		movs	r3, #127	@ tmp126,
+ 619 0294 0393     		str	r3, [sp, #12]	@ tmp126, display_value
+ 620 0296 05E0     		b	.L65	@
+ 621              	.L64:
+ 199:code/main.c   ****   
+ 200:code/main.c   ****   case 9: display_value = 0x0000006f  ;break; //0000_0000_0000_0000_0000_111 0_0110_1111
+ 622              		.loc 1 200 0
+ 623 0298 6F23     		movs	r3, #111	@ tmp127,
+ 624 029a 0393     		str	r3, [sp, #12]	@ tmp127, display_value
+ 625 029c 02E0     		b	.L65	@
+ 626              	.L53:
+ 201:code/main.c   ****   //default: printf("there is an error in digital 1");break;
+ 202:code/main.c   ****   default: display_value = 0x00000000 ;break;
+ 627              		.loc 1 202 0
+ 628 029e 0023     		movs	r3, #0	@ tmp128,
+ 629 02a0 0393     		str	r3, [sp, #12]	@ tmp128, display_value
+ 630 02a2 C046     		nop
+ 631              	.L65:
+ 203:code/main.c   ****  }
+ 204:code/main.c   ****  //printf("display_value = %x\n",display_value);
+ 205:code/main.c   ****  return display_value;
+ 632              		.loc 1 205 0
+ 633 02a4 039B     		ldr	r3, [sp, #12]	@ D.5553, display_value
+ 206:code/main.c   **** }
+ 634              		.loc 1 206 0
+ 635 02a6 1800     		movs	r0, r3	@, <retval>
+ 636 02a8 04B0     		add	sp, sp, #16	@,,
+ 637              		@ sp needed	@
+ 638 02aa 7047     		bx	lr
+ 639              	.L68:
+ 640              		.align	2
+ 641              	.L67:
+ 642 02ac 00000000 		.word	.L55
+ 643              		.cfi_endproc
+ 644              	.LFE7:
+ 645              		.size	seg_code, .-seg_code
+ 646              		.align	2
+ 647              		.global	seg_mod
+ 648              		.code	16
+ 649              		.thumb_func
+ARM GAS  /tmp/ccCmPHmz.s 			page 16
+
+
+ 650              		.type	seg_mod, %function
+ 651              	seg_mod:
+ 652              	.LFB8:
+ 207:code/main.c   **** 
+ 208:code/main.c   **** 
+ 209:code/main.c   **** 
+ 210:code/main.c   **** uint32_t seg_mod(int mode){
+ 653              		.loc 1 210 0
+ 654              		.cfi_startproc
+ 655              		@ args = 0, pretend = 0, frame = 16
+ 656              		@ frame_needed = 0, uses_anonymous_args = 0
+ 657              		@ link register save eliminated.
+ 658 02b0 84B0     		sub	sp, sp, #16	@,,
+ 659              	.LCFI11:
+ 660              		.cfi_def_cfa_offset 16
+ 661 02b2 0190     		str	r0, [sp, #4]	@ mode, mode
+ 211:code/main.c   **** 
+ 212:code/main.c   **** 
+ 213:code/main.c   ****   uint32_t display_value; 
+ 214:code/main.c   ****   //write_out(wheel_size);
+ 215:code/main.c   ****   switch(mode){
+ 662              		.loc 1 215 0
+ 663 02b4 019B     		ldr	r3, [sp, #4]	@ tmp112, mode
+ 664 02b6 042B     		cmp	r3, #4	@ tmp112,
+ 665 02b8 14D8     		bhi	.L70	@,
+ 666 02ba 019B     		ldr	r3, [sp, #4]	@ tmp114, mode
+ 667 02bc 9A00     		lsls	r2, r3, #2	@ tmp113, tmp114,
+ 668 02be 0D4B     		ldr	r3, .L79	@ tmp116,
+ 669 02c0 D318     		adds	r3, r2, r3	@ tmp115, tmp113, tmp116
+ 670 02c2 1B68     		ldr	r3, [r3]	@ tmp117,
+ 671 02c4 9F46     		mov	pc, r3	@ tmp117
+ 672              		.section	.rodata
+ 673              		.align	2
+ 674              	.L72:
+ 675 0028 C6020000 		.word	.L71
+ 676 002c CC020000 		.word	.L73
+ 677 0030 D2020000 		.word	.L74
+ 678 0034 D8020000 		.word	.L75
+ 679 0038 DE020000 		.word	.L76
+ 680              		.text
+ 681              	.L71:
+ 216:code/main.c   **** 									   //i ogfe dcba
+ 217:code/main.c   ****   case 0: display_value = 0x0000005e  ;break; //0000_0000_0000_0000_0000_011 1_0101_1110  distance 
+ 682              		.loc 1 217 0
+ 683 02c6 5E23     		movs	r3, #94	@ tmp118,
+ 684 02c8 0393     		str	r3, [sp, #12]	@ tmp118, display_value
+ 685 02ca 0EE0     		b	.L77	@
+ 686              	.L73:
+ 218:code/main.c   **** 
+ 219:code/main.c   ****   case 1: display_value = 0x00000078  ;break; //0000_0000_0000_0000_0000_011 1_0111_1000  trip
+ 687              		.loc 1 219 0
+ 688 02cc 7823     		movs	r3, #120	@ tmp119,
+ 689 02ce 0393     		str	r3, [sp, #12]	@ tmp119, display_value
+ 690 02d0 0BE0     		b	.L77	@
+ 691              	.L74:
+ 220:code/main.c   **** 
+ 221:code/main.c   ****   case 2: display_value = 0x0000000c  ;break; //0000_0000_0000_0000_0000_011 1_0000_1100  speed
+ARM GAS  /tmp/ccCmPHmz.s 			page 17
+
+
+ 692              		.loc 1 221 0
+ 693 02d2 0C23     		movs	r3, #12	@ tmp120,
+ 694 02d4 0393     		str	r3, [sp, #12]	@ tmp120, display_value
+ 695 02d6 08E0     		b	.L77	@
+ 696              	.L75:
+ 222:code/main.c   **** 
+ 223:code/main.c   ****   case 3: display_value = 0x00000058  ;break; //0000_0000_0000_0000_0000_011 1_0101_1000  cadence
+ 697              		.loc 1 223 0
+ 698 02d8 5823     		movs	r3, #88	@ tmp121,
+ 699 02da 0393     		str	r3, [sp, #12]	@ tmp121, display_value
+ 700 02dc 05E0     		b	.L77	@
+ 701              	.L76:
+ 224:code/main.c   ****   
+ 225:code/main.c   ****   case 4: display_value = 0x00000039  ;break; //0000_0000_0000_0000_0000_011 1_0011_1001  wheel siz
+ 702              		.loc 1 225 0
+ 703 02de 3923     		movs	r3, #57	@ tmp122,
+ 704 02e0 0393     		str	r3, [sp, #12]	@ tmp122, display_value
+ 705 02e2 02E0     		b	.L77	@
+ 706              	.L70:
+ 226:code/main.c   **** 
+ 227:code/main.c   ****   //default: printf("there is an error in digital 4");break;
+ 228:code/main.c   ****   default: display_value = 0x00000000 ;break;
+ 707              		.loc 1 228 0
+ 708 02e4 0023     		movs	r3, #0	@ tmp123,
+ 709 02e6 0393     		str	r3, [sp, #12]	@ tmp123, display_value
+ 710 02e8 C046     		nop
+ 711              	.L77:
+ 229:code/main.c   ****  }
+ 230:code/main.c   ****  return display_value;
+ 712              		.loc 1 230 0
+ 713 02ea 039B     		ldr	r3, [sp, #12]	@ D.5555, display_value
+ 231:code/main.c   **** }
+ 714              		.loc 1 231 0
+ 715 02ec 1800     		movs	r0, r3	@, <retval>
+ 716 02ee 04B0     		add	sp, sp, #16	@,,
+ 717              		@ sp needed	@
+ 718 02f0 7047     		bx	lr
+ 719              	.L80:
+ 720 02f2 C046     		.align	2
+ 721              	.L79:
+ 722 02f4 28000000 		.word	.L72
+ 723              		.cfi_endproc
+ 724              	.LFE8:
+ 725              		.size	seg_mod, .-seg_mod
+ 726              		.align	2
+ 727              		.global	write_led
+ 728              		.code	16
+ 729              		.thumb_func
+ 730              		.type	write_led, %function
+ 731              	write_led:
+ 732              	.LFB9:
+ 232:code/main.c   **** 
+ 233:code/main.c   **** uint32_t write_led(uint32_t value1,uint32_t value2,uint32_t value3,uint32_t value4) {
+ 733              		.loc 1 233 0
+ 734              		.cfi_startproc
+ 735              		@ args = 0, pretend = 0, frame = 24
+ 736              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccCmPHmz.s 			page 18
+
+
+ 737              		@ link register save eliminated.
+ 738 02f8 86B0     		sub	sp, sp, #24	@,,
+ 739              	.LCFI12:
+ 740              		.cfi_def_cfa_offset 24
+ 741 02fa 0390     		str	r0, [sp, #12]	@ value1, value1
+ 742 02fc 0291     		str	r1, [sp, #8]	@ value2, value2
+ 743 02fe 0192     		str	r2, [sp, #4]	@ value3, value3
+ 744 0300 0093     		str	r3, [sp]	@ value4, value4
+ 234:code/main.c   ****   uint32_t value_total;
+ 235:code/main.c   **** 
+ 236:code/main.c   ****   //printf("value1 = %x ,value2 =%x,value3 = %x,value4 = %x \n",value1,value2,value3,value4);
+ 237:code/main.c   ****   value2 = value2 << 8 ;
+ 745              		.loc 1 237 0
+ 746 0302 029B     		ldr	r3, [sp, #8]	@ tmp115, value2
+ 747 0304 1B02     		lsls	r3, r3, #8	@ tmp114, tmp115,
+ 748 0306 0293     		str	r3, [sp, #8]	@ tmp114, value2
+ 238:code/main.c   ****   value3 = value3 << 16 ;
+ 749              		.loc 1 238 0
+ 750 0308 019B     		ldr	r3, [sp, #4]	@ tmp117, value3
+ 751 030a 1B04     		lsls	r3, r3, #16	@ tmp116, tmp117,
+ 752 030c 0193     		str	r3, [sp, #4]	@ tmp116, value3
+ 239:code/main.c   ****   value4 = value4 << 24 ;
+ 753              		.loc 1 239 0
+ 754 030e 009B     		ldr	r3, [sp]	@ tmp119, value4
+ 755 0310 1B06     		lsls	r3, r3, #24	@ tmp118, tmp119,
+ 756 0312 0093     		str	r3, [sp]	@ tmp118, value4
+ 240:code/main.c   ****   value_total = value1 + value2 + value3 + value4;
+ 757              		.loc 1 240 0
+ 758 0314 039A     		ldr	r2, [sp, #12]	@ tmp120, value1
+ 759 0316 029B     		ldr	r3, [sp, #8]	@ tmp121, value2
+ 760 0318 D218     		adds	r2, r2, r3	@ D.5557, tmp120, tmp121
+ 761 031a 019B     		ldr	r3, [sp, #4]	@ tmp122, value3
+ 762 031c D218     		adds	r2, r2, r3	@ D.5557, D.5557, tmp122
+ 763 031e 009B     		ldr	r3, [sp]	@ tmp124, value4
+ 764 0320 D318     		adds	r3, r2, r3	@ tmp123, D.5557, tmp124
+ 765 0322 0593     		str	r3, [sp, #20]	@ tmp123, value_total
+ 241:code/main.c   ****   //printf("value_total %x \n",value_total); 
+ 242:code/main.c   ****   return value_total;
+ 766              		.loc 1 242 0
+ 767 0324 059B     		ldr	r3, [sp, #20]	@ D.5558, value_total
+ 243:code/main.c   **** }
+ 768              		.loc 1 243 0
+ 769 0326 1800     		movs	r0, r3	@, <retval>
+ 770 0328 06B0     		add	sp, sp, #24	@,,
+ 771              		@ sp needed	@
+ 772 032a 7047     		bx	lr
+ 773              		.cfi_endproc
+ 774              	.LFE9:
+ 775              		.size	write_led, .-write_led
+ 776              		.global	__aeabi_idivmod
+ 777              		.align	2
+ 778              		.global	seg_decode
+ 779              		.code	16
+ 780              		.thumb_func
+ 781              		.type	seg_decode, %function
+ 782              	seg_decode:
+ 783              	.LFB10:
+ARM GAS  /tmp/ccCmPHmz.s 			page 19
+
+
+ 244:code/main.c   **** 
+ 245:code/main.c   **** void seg_decode(int mode,int value,uint32_t dp){
+ 784              		.loc 1 245 0
+ 785              		.cfi_startproc
+ 786              		@ args = 0, pretend = 0, frame = 40
+ 787              		@ frame_needed = 0, uses_anonymous_args = 0
+ 788 032c 70B5     		push	{r4, r5, r6, lr}	@
+ 789              	.LCFI13:
+ 790              		.cfi_def_cfa_offset 16
+ 791              		.cfi_offset 4, -16
+ 792              		.cfi_offset 5, -12
+ 793              		.cfi_offset 6, -8
+ 794              		.cfi_offset 14, -4
+ 795 032e 8AB0     		sub	sp, sp, #40	@,,
+ 796              	.LCFI14:
+ 797              		.cfi_def_cfa_offset 56
+ 798 0330 0390     		str	r0, [sp, #12]	@ mode, mode
+ 799 0332 0291     		str	r1, [sp, #8]	@ value, value
+ 800 0334 0192     		str	r2, [sp, #4]	@ dp, dp
+ 246:code/main.c   **** 
+ 247:code/main.c   ****   uint32_t bit_value ;
+ 248:code/main.c   ****   uint32_t ten_value ;
+ 249:code/main.c   ****   uint32_t hundrend_value;
+ 250:code/main.c   ****   //uint32_t mode_value;
+ 251:code/main.c   **** 
+ 252:code/main.c   ****   //uint32_t value_all;
+ 253:code/main.c   **** 
+ 254:code/main.c   ****   uint32_t add_value;
+ 255:code/main.c   **** 
+ 256:code/main.c   ****   uint32_t display_value;
+ 257:code/main.c   ****   //write_out(mode);
+ 258:code/main.c   ****   bit_value = value %10;        //fetch bit
+ 801              		.loc 1 258 0
+ 802 0336 029B     		ldr	r3, [sp, #8]	@ tmp123, value
+ 803 0338 0A21     		movs	r1, #10	@,
+ 804 033a 1800     		movs	r0, r3	@, tmp123
+ 805 033c FFF7FEFF 		bl	__aeabi_idivmod	@
+ 806 0340 0B00     		movs	r3, r1	@ tmp128,
+ 807 0342 0893     		str	r3, [sp, #32]	@ D.5559, bit_value
+ 259:code/main.c   ****   ten_value = value %100 /10;   //fetch ten
+ 808              		.loc 1 259 0
+ 809 0344 029B     		ldr	r3, [sp, #8]	@ tmp129, value
+ 810 0346 6421     		movs	r1, #100	@,
+ 811 0348 1800     		movs	r0, r3	@, tmp129
+ 812 034a FFF7FEFF 		bl	__aeabi_idivmod	@
+ 813 034e 0B00     		movs	r3, r1	@ tmp134,
+ 814 0350 0A21     		movs	r1, #10	@,
+ 815 0352 1800     		movs	r0, r3	@, D.5559
+ 816 0354 FFF7FEFF 		bl	__aeabi_idiv	@
+ 817 0358 0300     		movs	r3, r0	@ tmp137,
+ 818 035a 0793     		str	r3, [sp, #28]	@ D.5559, ten_value
+ 260:code/main.c   ****   hundrend_value = value /100;  // fetch hundrend
+ 819              		.loc 1 260 0
+ 820 035c 029B     		ldr	r3, [sp, #8]	@ tmp138, value
+ 821 035e 6421     		movs	r1, #100	@,
+ 822 0360 1800     		movs	r0, r3	@, tmp138
+ 823 0362 FFF7FEFF 		bl	__aeabi_idiv	@
+ARM GAS  /tmp/ccCmPHmz.s 			page 20
+
+
+ 824 0366 0300     		movs	r3, r0	@ tmp141,
+ 825 0368 0693     		str	r3, [sp, #24]	@ D.5559, hundrend_value
+ 261:code/main.c   ****   //printf("bit_value = %d ,ten_value = %d ,hundrend_value = %d\n",bit_value,ten_value,hundrend_val
+ 262:code/main.c   ****   //printf("seg_decode_dp = %x\n",dp);
+ 263:code/main.c   ****   if(dp == 1){
+ 826              		.loc 1 263 0
+ 827 036a 019B     		ldr	r3, [sp, #4]	@ tmp142, dp
+ 828 036c 012B     		cmp	r3, #1	@ tmp142,
+ 829 036e 03D1     		bne	.L84	@,
+ 264:code/main.c   ****     add_value = 0x00000080 <<8;
+ 830              		.loc 1 264 0
+ 831 0370 8023     		movs	r3, #128	@ tmp153,
+ 832 0372 1B02     		lsls	r3, r3, #8	@ tmp143, tmp153,
+ 833 0374 0993     		str	r3, [sp, #36]	@ tmp143, add_value
+ 834 0376 08E0     		b	.L85	@
+ 835              	.L84:
+ 265:code/main.c   ****   }else if(dp ==2){
+ 836              		.loc 1 265 0
+ 837 0378 019B     		ldr	r3, [sp, #4]	@ tmp144, dp
+ 838 037a 022B     		cmp	r3, #2	@ tmp144,
+ 839 037c 03D1     		bne	.L86	@,
+ 266:code/main.c   ****     add_value = 0x00000080 <<16;
+ 840              		.loc 1 266 0
+ 841 037e 8023     		movs	r3, #128	@ tmp152,
+ 842 0380 1B04     		lsls	r3, r3, #16	@ tmp145, tmp152,
+ 843 0382 0993     		str	r3, [sp, #36]	@ tmp145, add_value
+ 844 0384 01E0     		b	.L85	@
+ 845              	.L86:
+ 267:code/main.c   ****   }else 
+ 268:code/main.c   ****     add_value = 0x00000000;
+ 846              		.loc 1 268 0
+ 847 0386 0023     		movs	r3, #0	@ tmp146,
+ 848 0388 0993     		str	r3, [sp, #36]	@ tmp146, add_value
+ 849              	.L85:
+ 269:code/main.c   ****   //printf("seg_decode_add_value = %x\n",add_value);
+ 270:code/main.c   **** 
+ 271:code/main.c   ****   
+ 272:code/main.c   ****   // switch(mode){   //为什么不能直接变成 display_value = write_led(seg_code(bit_value),se
+ 273:code/main.c   **** 
+ 274:code/main.c   ****   // //odometer pattern
+ 275:code/main.c   ****   // case 0: display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_va
+ 276:code/main.c   **** 
+ 277:code/main.c   ****   // case 1: display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_va
+ 278:code/main.c   ****   
+ 279:code/main.c   ****   // case 2: display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_va
+ 280:code/main.c   **** 
+ 281:code/main.c   ****   // case 3: display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_va
+ 282:code/main.c   **** 
+ 283:code/main.c   ****   // case 4: display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_va
+ 284:code/main.c   **** 
+ 285:code/main.c   ****   // default : display_value = 0x00000000; break;
+ 286:code/main.c   **** 
+ 287:code/main.c   ****   // }
+ 288:code/main.c   ****   display_value = write_led(seg_code(bit_value),seg_code(ten_value),seg_code(hundrend_value),seg_mo
+ 850              		.loc 1 288 0
+ 851 038a 089B     		ldr	r3, [sp, #32]	@ D.5559, bit_value
+ 852 038c 1800     		movs	r0, r3	@, D.5559
+ARM GAS  /tmp/ccCmPHmz.s 			page 21
+
+
+ 853 038e FFF7FEFF 		bl	seg_code	@
+ 854 0392 0400     		movs	r4, r0	@ D.5560,
+ 855 0394 079B     		ldr	r3, [sp, #28]	@ D.5559, ten_value
+ 856 0396 1800     		movs	r0, r3	@, D.5559
+ 857 0398 FFF7FEFF 		bl	seg_code	@
+ 858 039c 0500     		movs	r5, r0	@ D.5560,
+ 859 039e 069B     		ldr	r3, [sp, #24]	@ D.5559, hundrend_value
+ 860 03a0 1800     		movs	r0, r3	@, D.5559
+ 861 03a2 FFF7FEFF 		bl	seg_code	@
+ 862 03a6 0600     		movs	r6, r0	@ D.5560,
+ 863 03a8 039B     		ldr	r3, [sp, #12]	@ tmp147, mode
+ 864 03aa 1800     		movs	r0, r3	@, tmp147
+ 865 03ac FFF7FEFF 		bl	seg_mod	@
+ 866 03b0 0300     		movs	r3, r0	@ D.5560,
+ 867 03b2 3200     		movs	r2, r6	@, D.5560
+ 868 03b4 2900     		movs	r1, r5	@, D.5560
+ 869 03b6 2000     		movs	r0, r4	@, D.5560
+ 870 03b8 FFF7FEFF 		bl	write_led	@
+ 871 03bc 0200     		movs	r2, r0	@ D.5560,
+ 872 03be 099B     		ldr	r3, [sp, #36]	@ tmp149, add_value
+ 873 03c0 D318     		adds	r3, r2, r3	@ tmp148, D.5560, tmp149
+ 874 03c2 0593     		str	r3, [sp, #20]	@ tmp148, display_value
+ 289:code/main.c   ****   //return display_value;
+ 290:code/main.c   ****   LED_REGS[0] = display_value;
+ 875              		.loc 1 290 0
+ 876 03c4 034B     		ldr	r3, .L87	@ tmp150,
+ 877 03c6 1B68     		ldr	r3, [r3]	@ D.5561, LED_REGS
+ 878 03c8 059A     		ldr	r2, [sp, #20]	@ tmp151, display_value
+ 879 03ca 1A60     		str	r2, [r3]	@ tmp151, *_30
+ 291:code/main.c   **** }
+ 880              		.loc 1 291 0
+ 881 03cc C046     		nop
+ 882 03ce 0AB0     		add	sp, sp, #40	@,,
+ 883              		@ sp needed	@
+ 884 03d0 70BD     		pop	{r4, r5, r6, pc}
+ 885              	.L88:
+ 886 03d2 C046     		.align	2
+ 887              	.L87:
+ 888 03d4 00000000 		.word	LED_REGS
+ 889              		.cfi_endproc
+ 890              	.LFE10:
+ 891              		.size	seg_decode, .-seg_decode
+ 892              		.align	2
+ 893              		.global	clear_all_register
+ 894              		.code	16
+ 895              		.thumb_func
+ 896              		.type	clear_all_register, %function
+ 897              	clear_all_register:
+ 898              	.LFB11:
+ 292:code/main.c   **** // clear the value of register 
+ 293:code/main.c   **** void clear_all_register(void){
+ 899              		.loc 1 293 0
+ 900              		.cfi_startproc
+ 901              		@ args = 0, pretend = 0, frame = 0
+ 902              		@ frame_needed = 0, uses_anonymous_args = 0
+ 903              		@ link register save eliminated.
+ 294:code/main.c   ****   SENSOR_REGS[0] = 0;
+ARM GAS  /tmp/ccCmPHmz.s 			page 22
+
+
+ 904              		.loc 1 294 0
+ 905 03d8 0D4B     		ldr	r3, .L93	@ tmp117,
+ 906 03da 1B68     		ldr	r3, [r3]	@ D.5562, SENSOR_REGS
+ 907 03dc 0022     		movs	r2, #0	@ tmp118,
+ 908 03de 1A60     		str	r2, [r3]	@ tmp118, *_3
+ 295:code/main.c   ****   //SENSOR_REGS[1] = 0;
+ 296:code/main.c   ****   //SENSOR_REGS[2] = 0;
+ 297:code/main.c   ****   SENSOR_REGS[3] = 0;
+ 909              		.loc 1 297 0
+ 910 03e0 0B4B     		ldr	r3, .L93	@ tmp119,
+ 911 03e2 1B68     		ldr	r3, [r3]	@ D.5562, SENSOR_REGS
+ 912 03e4 0C33     		adds	r3, r3, #12	@ D.5562,
+ 913 03e6 0022     		movs	r2, #0	@ tmp120,
+ 914 03e8 1A60     		str	r2, [r3]	@ tmp120, *_6
+ 298:code/main.c   ****   if(nMode_normal_times == 0){
+ 915              		.loc 1 298 0
+ 916 03ea 0A4B     		ldr	r3, .L93+4	@ tmp121,
+ 917 03ec 1B68     		ldr	r3, [r3]	@ D.5563, nMode_normal_times
+ 918 03ee 002B     		cmp	r3, #0	@ D.5563,
+ 919 03f0 04D1     		bne	.L90	@,
+ 299:code/main.c   ****   LED_REGS[0] = 0x5ebf3f3f;
+ 920              		.loc 1 299 0
+ 921 03f2 094B     		ldr	r3, .L93+8	@ tmp122,
+ 922 03f4 1B68     		ldr	r3, [r3]	@ D.5562, LED_REGS
+ 923 03f6 094A     		ldr	r2, .L93+12	@ tmp123,
+ 924 03f8 1A60     		str	r2, [r3]	@ tmp123, *_9
+ 300:code/main.c   ****   }else if(nMode_normal_times == 1){
+ 301:code/main.c   ****   LED_REGS[0] = 0x78bf3f3f;
+ 302:code/main.c   ****   }
+ 303:code/main.c   **** }
+ 925              		.loc 1 303 0
+ 926 03fa 07E0     		b	.L92	@
+ 927              	.L90:
+ 300:code/main.c   ****   }else if(nMode_normal_times == 1){
+ 928              		.loc 1 300 0
+ 929 03fc 054B     		ldr	r3, .L93+4	@ tmp124,
+ 930 03fe 1B68     		ldr	r3, [r3]	@ D.5563, nMode_normal_times
+ 931 0400 012B     		cmp	r3, #1	@ D.5563,
+ 932 0402 03D1     		bne	.L92	@,
+ 301:code/main.c   ****   }
+ 933              		.loc 1 301 0
+ 934 0404 044B     		ldr	r3, .L93+8	@ tmp125,
+ 935 0406 1B68     		ldr	r3, [r3]	@ D.5562, LED_REGS
+ 936 0408 054A     		ldr	r2, .L93+16	@ tmp126,
+ 937 040a 1A60     		str	r2, [r3]	@ tmp126, *_12
+ 938              	.L92:
+ 939              		.loc 1 303 0
+ 940 040c C046     		nop
+ 941              		@ sp needed	@
+ 942 040e 7047     		bx	lr
+ 943              	.L94:
+ 944              		.align	2
+ 945              	.L93:
+ 946 0410 00000000 		.word	SENSOR_REGS
+ 947 0414 00000000 		.word	nMode_normal_times
+ 948 0418 00000000 		.word	LED_REGS
+ 949 041c 3F3FBF5E 		.word	1589591871
+ARM GAS  /tmp/ccCmPHmz.s 			page 23
+
+
+ 950 0420 3F3FBF78 		.word	2025799487
+ 951              		.cfi_endproc
+ 952              	.LFE11:
+ 953              		.size	clear_all_register, .-clear_all_register
+ 954              		.align	2
+ 955              		.global	check_sensor
+ 956              		.code	16
+ 957              		.thumb_func
+ 958              		.type	check_sensor, %function
+ 959              	check_sensor:
+ 960              	.LFB12:
+ 304:code/main.c   **** 
+ 305:code/main.c   **** 
+ 306:code/main.c   **** ///////////////////////////////////
+ 307:code/main.c   **** 
+ 308:code/main.c   **** bool check_sensor(int addr) {
+ 961              		.loc 1 308 0
+ 962              		.cfi_startproc
+ 963              		@ args = 0, pretend = 0, frame = 16
+ 964              		@ frame_needed = 0, uses_anonymous_args = 0
+ 965              		@ link register save eliminated.
+ 966 0424 84B0     		sub	sp, sp, #16	@,,
+ 967              	.LCFI15:
+ 968              		.cfi_def_cfa_offset 16
+ 969 0426 0190     		str	r0, [sp, #4]	@ addr, addr
+ 309:code/main.c   **** 
+ 310:code/main.c   ****   int status, sensor_ready;
+ 311:code/main.c   ****   
+ 312:code/main.c   ****   status = SENSOR_REGS[4];
+ 970              		.loc 1 312 0
+ 971 0428 094B     		ldr	r3, .L97	@ tmp116,
+ 972 042a 1B68     		ldr	r3, [r3]	@ D.5564, SENSOR_REGS
+ 973 042c 1033     		adds	r3, r3, #16	@ D.5564,
+ 974 042e 1B68     		ldr	r3, [r3]	@ D.5565, *_3
+ 975 0430 0393     		str	r3, [sp, #12]	@ D.5565, status
+ 313:code/main.c   ****   //write_out(status);
+ 314:code/main.c   ****   // use the addr value to select one bit of the status register
+ 315:code/main.c   ****   sensor_ready = (status >> addr) & 1;
+ 976              		.loc 1 315 0
+ 977 0432 039A     		ldr	r2, [sp, #12]	@ tmp117, status
+ 978 0434 019B     		ldr	r3, [sp, #4]	@ tmp118, addr
+ 979 0436 1A41     		asrs	r2, r2, r3	@ tmp117, tmp117, tmp118
+ 980 0438 1300     		movs	r3, r2	@ D.5566, tmp117
+ 981 043a 0122     		movs	r2, #1	@ tmp120,
+ 982 043c 1340     		ands	r3, r2	@ tmp119, tmp120
+ 983 043e 0293     		str	r3, [sp, #8]	@ tmp119, sensor_ready
+ 316:code/main.c   ****   //write_out(sensor_ready);
+ 317:code/main.c   ****   return (sensor_ready == 1);
+ 984              		.loc 1 317 0
+ 985 0440 029B     		ldr	r3, [sp, #8]	@ tmp122, sensor_ready
+ 986 0442 013B     		subs	r3, r3, #1	@ tmp124,
+ 987 0444 5A42     		rsbs	r2, r3, #0	@ tmp125, tmp124
+ 988 0446 5341     		adcs	r3, r3, r2	@ tmp123, tmp124, tmp125
+ 989 0448 DBB2     		uxtb	r3, r3	@ D.5567, tmp121
+ 318:code/main.c   **** }
+ 990              		.loc 1 318 0
+ 991 044a 1800     		movs	r0, r3	@, <retval>
+ARM GAS  /tmp/ccCmPHmz.s 			page 24
+
+
+ 992 044c 04B0     		add	sp, sp, #16	@,,
+ 993              		@ sp needed	@
+ 994 044e 7047     		bx	lr
+ 995              	.L98:
+ 996              		.align	2
+ 997              	.L97:
+ 998 0450 00000000 		.word	SENSOR_REGS
+ 999              		.cfi_endproc
+ 1000              	.LFE12:
+ 1001              		.size	check_sensor, .-check_sensor
+ 1002              		.align	2
+ 1003              		.global	check_button
+ 1004              		.code	16
+ 1005              		.thumb_func
+ 1006              		.type	check_button, %function
+ 1007              	check_button:
+ 1008              	.LFB13:
+ 319:code/main.c   **** 
+ 320:code/main.c   **** bool check_button(int addr) {
+ 1009              		.loc 1 320 0
+ 1010              		.cfi_startproc
+ 1011              		@ args = 0, pretend = 0, frame = 16
+ 1012              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1013              		@ link register save eliminated.
+ 1014 0454 84B0     		sub	sp, sp, #16	@,,
+ 1015              	.LCFI16:
+ 1016              		.cfi_def_cfa_offset 16
+ 1017 0456 0190     		str	r0, [sp, #4]	@ addr, addr
+ 321:code/main.c   **** 
+ 322:code/main.c   ****   int status, button_ready;
+ 323:code/main.c   ****   
+ 324:code/main.c   ****   status = BUTTON_REGS[3];
+ 1018              		.loc 1 324 0
+ 1019 0458 094B     		ldr	r3, .L101	@ tmp116,
+ 1020 045a 1B68     		ldr	r3, [r3]	@ D.5568, BUTTON_REGS
+ 1021 045c 0C33     		adds	r3, r3, #12	@ D.5568,
+ 1022 045e 1B68     		ldr	r3, [r3]	@ D.5569, *_3
+ 1023 0460 0393     		str	r3, [sp, #12]	@ D.5569, status
+ 325:code/main.c   ****   
+ 326:code/main.c   ****   // use the addr value to select one bit of the status register
+ 327:code/main.c   ****   button_ready = (status >> addr) & 1;
+ 1024              		.loc 1 327 0
+ 1025 0462 039A     		ldr	r2, [sp, #12]	@ tmp117, status
+ 1026 0464 019B     		ldr	r3, [sp, #4]	@ tmp118, addr
+ 1027 0466 1A41     		asrs	r2, r2, r3	@ tmp117, tmp117, tmp118
+ 1028 0468 1300     		movs	r3, r2	@ D.5570, tmp117
+ 1029 046a 0122     		movs	r2, #1	@ tmp120,
+ 1030 046c 1340     		ands	r3, r2	@ tmp119, tmp120
+ 1031 046e 0293     		str	r3, [sp, #8]	@ tmp119, button_ready
+ 328:code/main.c   ****   
+ 329:code/main.c   ****   return (button_ready == 1);
+ 1032              		.loc 1 329 0
+ 1033 0470 029B     		ldr	r3, [sp, #8]	@ tmp122, button_ready
+ 1034 0472 013B     		subs	r3, r3, #1	@ tmp124,
+ 1035 0474 5A42     		rsbs	r2, r3, #0	@ tmp125, tmp124
+ 1036 0476 5341     		adcs	r3, r3, r2	@ tmp123, tmp124, tmp125
+ 1037 0478 DBB2     		uxtb	r3, r3	@ D.5571, tmp121
+ARM GAS  /tmp/ccCmPHmz.s 			page 25
+
+
+ 330:code/main.c   **** }
+ 1038              		.loc 1 330 0
+ 1039 047a 1800     		movs	r0, r3	@, <retval>
+ 1040 047c 04B0     		add	sp, sp, #16	@,,
+ 1041              		@ sp needed	@
+ 1042 047e 7047     		bx	lr
+ 1043              	.L102:
+ 1044              		.align	2
+ 1045              	.L101:
+ 1046 0480 00000000 		.word	BUTTON_REGS
+ 1047              		.cfi_endproc
+ 1048              	.LFE13:
+ 1049              		.size	check_button, .-check_button
+ 1050              		.align	2
+ 1051              		.global	wait_for_any_BUTTON_data
+ 1052              		.code	16
+ 1053              		.thumb_func
+ 1054              		.type	wait_for_any_BUTTON_data, %function
+ 1055              	wait_for_any_BUTTON_data:
+ 1056              	.LFB14:
+ 331:code/main.c   **** 
+ 332:code/main.c   **** /////////////////////////////////////////////wait_for_button//////////
+ 333:code/main.c   **** 
+ 334:code/main.c   **** 
+ 335:code/main.c   **** 
+ 336:code/main.c   **** 
+ 337:code/main.c   **** void wait_for_any_BUTTON_data(void){
+ 1057              		.loc 1 337 0
+ 1058              		.cfi_startproc
+ 1059              		@ args = 0, pretend = 0, frame = 8
+ 1060              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1061 0484 00B5     		push	{lr}	@
+ 1062              	.LCFI17:
+ 1063              		.cfi_def_cfa_offset 4
+ 1064              		.cfi_offset 14, -4
+ 1065 0486 83B0     		sub	sp, sp, #12	@,,
+ 1066              	.LCFI18:
+ 1067              		.cfi_def_cfa_offset 16
+ 338:code/main.c   ****   bool button_Mode, button_nTrip,button_both;
+ 339:code/main.c   ****   
+ 340:code/main.c   ****     button_both = false;
+ 1068              		.loc 1 340 0
+ 1069 0488 6B46     		mov	r3, sp	@ tmp244,
+ 1070 048a 0533     		adds	r3, r3, #5	@ tmp143,
+ 1071 048c 0022     		movs	r2, #0	@ tmp144,
+ 1072 048e 1A70     		strb	r2, [r3]	@ tmp145, button_both
+ 341:code/main.c   ****     button_nTrip = false;
+ 1073              		.loc 1 341 0
+ 1074 0490 6B46     		mov	r3, sp	@ tmp245,
+ 1075 0492 0633     		adds	r3, r3, #6	@ tmp146,
+ 1076 0494 0022     		movs	r2, #0	@ tmp147,
+ 1077 0496 1A70     		strb	r2, [r3]	@ tmp148, button_nTrip
+ 342:code/main.c   ****     button_Mode = false;
+ 1078              		.loc 1 342 0
+ 1079 0498 6B46     		mov	r3, sp	@ tmp246,
+ 1080 049a 0733     		adds	r3, r3, #7	@ tmp149,
+ 1081 049c 0022     		movs	r2, #0	@ tmp150,
+ARM GAS  /tmp/ccCmPHmz.s 			page 26
+
+
+ 1082 049e 1A70     		strb	r2, [r3]	@ tmp151, button_Mode
+ 343:code/main.c   ****     uint32_t wheel_size_tmp;
+ 344:code/main.c   ****     // button_Mode = BUTTON_REG[0];
+ 345:code/main.c   ****     // button_nTrip =  BUTTON_REG[1];
+ 346:code/main.c   ****     // button_both = BUTTON_REG[2];
+ 347:code/main.c   ****     if(check_button(2)){
+ 1083              		.loc 1 347 0
+ 1084 04a0 0220     		movs	r0, #2	@,
+ 1085 04a2 FFF7FEFF 		bl	check_button	@
+ 1086 04a6 031E     		subs	r3, r0, #0	@ tmp152,,
+ 1087 04a8 09D0     		beq	.L104	@,
+ 348:code/main.c   ****     button_both = read_BUTTON(2);
+ 1088              		.loc 1 348 0
+ 1089 04aa 0220     		movs	r0, #2	@,
+ 1090 04ac FFF7FEFF 		bl	read_BUTTON	@
+ 1091 04b0 0200     		movs	r2, r0	@ D.5573,
+ 1092 04b2 6B46     		mov	r3, sp	@ tmp247,
+ 1093 04b4 0533     		adds	r3, r3, #5	@ tmp154,
+ 1094 04b6 511E     		subs	r1, r2, #1	@ tmp156, D.5573
+ 1095 04b8 8A41     		sbcs	r2, r2, r1	@ tmp155, D.5573, tmp156
+ 1096 04ba 1A70     		strb	r2, [r3]	@ tmp157, button_both
+ 1097 04bc 29E0     		b	.L105	@
+ 1098              	.L104:
+ 349:code/main.c   ****     }
+ 350:code/main.c   ****     else if(check_button(1)){
+ 1099              		.loc 1 350 0
+ 1100 04be 0120     		movs	r0, #1	@,
+ 1101 04c0 FFF7FEFF 		bl	check_button	@
+ 1102 04c4 031E     		subs	r3, r0, #0	@ tmp158,,
+ 1103 04c6 09D0     		beq	.L106	@,
+ 351:code/main.c   ****     button_nTrip = read_BUTTON(1);    
+ 1104              		.loc 1 351 0
+ 1105 04c8 0120     		movs	r0, #1	@,
+ 1106 04ca FFF7FEFF 		bl	read_BUTTON	@
+ 1107 04ce 0200     		movs	r2, r0	@ D.5573,
+ 1108 04d0 6B46     		mov	r3, sp	@ tmp248,
+ 1109 04d2 0633     		adds	r3, r3, #6	@ tmp160,
+ 1110 04d4 511E     		subs	r1, r2, #1	@ tmp162, D.5573
+ 1111 04d6 8A41     		sbcs	r2, r2, r1	@ tmp161, D.5573, tmp162
+ 1112 04d8 1A70     		strb	r2, [r3]	@ tmp163, button_nTrip
+ 1113 04da 1AE0     		b	.L105	@
+ 1114              	.L106:
+ 352:code/main.c   ****     }
+ 353:code/main.c   ****     else if(check_button(0)){
+ 1115              		.loc 1 353 0
+ 1116 04dc 0020     		movs	r0, #0	@,
+ 1117 04de FFF7FEFF 		bl	check_button	@
+ 1118 04e2 031E     		subs	r3, r0, #0	@ tmp164,,
+ 1119 04e4 09D0     		beq	.L107	@,
+ 354:code/main.c   ****     button_Mode = read_BUTTON(0);    
+ 1120              		.loc 1 354 0
+ 1121 04e6 0020     		movs	r0, #0	@,
+ 1122 04e8 FFF7FEFF 		bl	read_BUTTON	@
+ 1123 04ec 0200     		movs	r2, r0	@ D.5573,
+ 1124 04ee 6B46     		mov	r3, sp	@ tmp249,
+ 1125 04f0 0733     		adds	r3, r3, #7	@ tmp166,
+ 1126 04f2 511E     		subs	r1, r2, #1	@ tmp168, D.5573
+ARM GAS  /tmp/ccCmPHmz.s 			page 27
+
+
+ 1127 04f4 8A41     		sbcs	r2, r2, r1	@ tmp167, D.5573, tmp168
+ 1128 04f6 1A70     		strb	r2, [r3]	@ tmp169, button_Mode
+ 1129 04f8 0BE0     		b	.L105	@
+ 1130              	.L107:
+ 355:code/main.c   ****     }
+ 356:code/main.c   ****     else {
+ 357:code/main.c   ****     button_both = false;
+ 1131              		.loc 1 357 0
+ 1132 04fa 6B46     		mov	r3, sp	@ tmp250,
+ 1133 04fc 0533     		adds	r3, r3, #5	@ tmp170,
+ 1134 04fe 0022     		movs	r2, #0	@ tmp171,
+ 1135 0500 1A70     		strb	r2, [r3]	@ tmp172, button_both
+ 358:code/main.c   ****     button_nTrip = false;
+ 1136              		.loc 1 358 0
+ 1137 0502 6B46     		mov	r3, sp	@ tmp251,
+ 1138 0504 0633     		adds	r3, r3, #6	@ tmp173,
+ 1139 0506 0022     		movs	r2, #0	@ tmp174,
+ 1140 0508 1A70     		strb	r2, [r3]	@ tmp175, button_nTrip
+ 359:code/main.c   ****     button_Mode = false;
+ 1141              		.loc 1 359 0
+ 1142 050a 6B46     		mov	r3, sp	@ tmp252,
+ 1143 050c 0733     		adds	r3, r3, #7	@ tmp176,
+ 1144 050e 0022     		movs	r2, #0	@ tmp177,
+ 1145 0510 1A70     		strb	r2, [r3]	@ tmp178, button_Mode
+ 1146              	.L105:
+ 360:code/main.c   ****     }
+ 361:code/main.c   **** 
+ 362:code/main.c   **** 
+ 363:code/main.c   **** 
+ 364:code/main.c   ****     //write_out(button_both);
+ 365:code/main.c   ****   
+ 366:code/main.c   ****   //write_out(button_Mode);
+ 367:code/main.c   ****   if(singal_wheel == 0){
+ 1147              		.loc 1 367 0
+ 1148 0512 554B     		ldr	r3, .L126	@ tmp179,
+ 1149 0514 1B78     		ldrb	r3, [r3]	@ D.5572, singal_wheel
+ 1150 0516 0122     		movs	r2, #1	@ tmp181,
+ 1151 0518 5340     		eors	r3, r2	@ tmp180, tmp181
+ 1152 051a DBB2     		uxtb	r3, r3	@ D.5572, tmp180
+ 1153 051c 002B     		cmp	r3, #0	@ D.5572,
+ 1154 051e 17D0     		beq	.L108	@,
+ 368:code/main.c   ****     if(button_Mode){
+ 1155              		.loc 1 368 0
+ 1156 0520 6B46     		mov	r3, sp	@ tmp253,
+ 1157 0522 0733     		adds	r3, r3, #7	@ tmp182,
+ 1158 0524 1B78     		ldrb	r3, [r3]	@ tmp183, button_Mode
+ 1159 0526 002B     		cmp	r3, #0	@ tmp183,
+ 1160 0528 0BD0     		beq	.L109	@,
+ 369:code/main.c   ****       nMode_normal_times += 1;
+ 1161              		.loc 1 369 0
+ 1162 052a 504B     		ldr	r3, .L126+4	@ tmp184,
+ 1163 052c 1B68     		ldr	r3, [r3]	@ D.5573, nMode_normal_times
+ 1164 052e 5A1C     		adds	r2, r3, #1	@ D.5573, D.5573,
+ 1165 0530 4E4B     		ldr	r3, .L126+4	@ tmp185,
+ 1166 0532 1A60     		str	r2, [r3]	@ D.5573, nMode_normal_times
+ 370:code/main.c   ****       if(nMode_normal_times == 4){
+ 1167              		.loc 1 370 0
+ARM GAS  /tmp/ccCmPHmz.s 			page 28
+
+
+ 1168 0534 4D4B     		ldr	r3, .L126+4	@ tmp186,
+ 1169 0536 1B68     		ldr	r3, [r3]	@ D.5573, nMode_normal_times
+ 1170 0538 042B     		cmp	r3, #4	@ D.5573,
+ 1171 053a 02D1     		bne	.L109	@,
+ 371:code/main.c   ****       nMode_normal_times = 0;
+ 1172              		.loc 1 371 0
+ 1173 053c 4B4B     		ldr	r3, .L126+4	@ tmp187,
+ 1174 053e 0022     		movs	r2, #0	@ tmp188,
+ 1175 0540 1A60     		str	r2, [r3]	@ tmp188, nMode_normal_times
+ 1176              	.L109:
+ 372:code/main.c   ****       }
+ 373:code/main.c   ****     }
+ 374:code/main.c   ****     if(button_nTrip){
+ 1177              		.loc 1 374 0
+ 1178 0542 6B46     		mov	r3, sp	@ tmp254,
+ 1179 0544 0633     		adds	r3, r3, #6	@ tmp189,
+ 1180 0546 1B78     		ldrb	r3, [r3]	@ tmp190, button_nTrip
+ 1181 0548 002B     		cmp	r3, #0	@ tmp190,
+ 1182 054a 01D0     		beq	.L108	@,
+ 375:code/main.c   ****       clear_all_register();
+ 1183              		.loc 1 375 0
+ 1184 054c FFF7FEFF 		bl	clear_all_register	@
+ 1185              	.L108:
+ 376:code/main.c   ****     }
+ 377:code/main.c   ****   }
+ 378:code/main.c   **** 
+ 379:code/main.c   **** 
+ 380:code/main.c   ****   if(button_both){
+ 1186              		.loc 1 380 0
+ 1187 0550 6B46     		mov	r3, sp	@ tmp255,
+ 1188 0552 0533     		adds	r3, r3, #5	@ tmp191,
+ 1189 0554 1B78     		ldrb	r3, [r3]	@ tmp192, button_both
+ 1190 0556 002B     		cmp	r3, #0	@ tmp192,
+ 1191 0558 02D0     		beq	.L110	@,
+ 381:code/main.c   ****     singal_wheel = 1;
+ 1192              		.loc 1 381 0
+ 1193 055a 434B     		ldr	r3, .L126	@ tmp193,
+ 1194 055c 0122     		movs	r2, #1	@ tmp194,
+ 1195 055e 1A70     		strb	r2, [r3]	@ tmp195, singal_wheel
+ 1196              	.L110:
+ 382:code/main.c   ****     //wheel_size = 0;
+ 383:code/main.c   ****     //bit_wheel_size = 0;
+ 384:code/main.c   ****     //ten_wheel_size = 0;
+ 385:code/main.c   ****     //hundrend_wheel_size = 0;
+ 386:code/main.c   ****   }
+ 387:code/main.c   ****   
+ 388:code/main.c   ****   if(singal_wheel){
+ 1197              		.loc 1 388 0
+ 1198 0560 414B     		ldr	r3, .L126	@ tmp196,
+ 1199 0562 1B78     		ldrb	r3, [r3]	@ D.5572, singal_wheel
+ 1200 0564 002B     		cmp	r3, #0	@ D.5572,
+ 1201 0566 00D1     		bne	.LCB1000	@
+ 1202 0568 7AE0     		b	.L122	@long jump	@
+ 1203              	.LCB1000:
+ 389:code/main.c   ****     if(button_Mode){
+ 1204              		.loc 1 389 0
+ 1205 056a 6B46     		mov	r3, sp	@ tmp256,
+ARM GAS  /tmp/ccCmPHmz.s 			page 29
+
+
+ 1206 056c 0733     		adds	r3, r3, #7	@ tmp197,
+ 1207 056e 1B78     		ldrb	r3, [r3]	@ tmp198, button_Mode
+ 1208 0570 002B     		cmp	r3, #0	@ tmp198,
+ 1209 0572 04D0     		beq	.L112	@,
+ 390:code/main.c   ****       nMode_wheel_times += 1; 
+ 1210              		.loc 1 390 0
+ 1211 0574 3E4B     		ldr	r3, .L126+8	@ tmp199,
+ 1212 0576 1B68     		ldr	r3, [r3]	@ D.5573, nMode_wheel_times
+ 1213 0578 5A1C     		adds	r2, r3, #1	@ D.5573, D.5573,
+ 1214 057a 3D4B     		ldr	r3, .L126+8	@ tmp200,
+ 1215 057c 1A60     		str	r2, [r3]	@ D.5573, nMode_wheel_times
+ 1216              	.L112:
+ 391:code/main.c   ****     }
+ 392:code/main.c   ****     switch(nMode_wheel_times){
+ 1217              		.loc 1 392 0
+ 1218 057e 3C4B     		ldr	r3, .L126+8	@ tmp201,
+ 1219 0580 1B68     		ldr	r3, [r3]	@ D.5573, nMode_wheel_times
+ 1220 0582 012B     		cmp	r3, #1	@ D.5573,
+ 1221 0584 17D0     		beq	.L114	@,
+ 1222 0586 04D3     		bcc	.L115	@,
+ 1223 0588 022B     		cmp	r3, #2	@ D.5573,
+ 1224 058a 26D0     		beq	.L116	@,
+ 1225 058c 032B     		cmp	r3, #3	@ D.5573,
+ 1226 058e 36D0     		beq	.L117	@,
+ 393:code/main.c   ****     
+ 394:code/main.c   ****     case 0: if(button_nTrip){
+ 395:code/main.c   **** 	      
+ 396:code/main.c   ****               bit_wheel_size = bit_wheel_size + 1;
+ 397:code/main.c   ****               if(bit_wheel_size>9){
+ 398:code/main.c   ****                 bit_wheel_size = 0;
+ 399:code/main.c   ****               }
+ 400:code/main.c   ****             }
+ 401:code/main.c   ****             break;
+ 402:code/main.c   **** 
+ 403:code/main.c   ****     case 1: if(button_nTrip){
+ 404:code/main.c   ****               //write_out(0x55555555);
+ 405:code/main.c   ****               ten_wheel_size = ten_wheel_size + 1;
+ 406:code/main.c   ****               if(ten_wheel_size >9){
+ 407:code/main.c   ****                 ten_wheel_size = 0;
+ 408:code/main.c   ****               }
+ 409:code/main.c   ****             }
+ 410:code/main.c   ****             break;
+ 411:code/main.c   **** 
+ 412:code/main.c   ****     case 2:if(button_nTrip){
+ 413:code/main.c   ****               hundrend_wheel_size = hundrend_wheel_size + 1;
+ 414:code/main.c   ****               if(hundrend_wheel_size >=3){
+ 415:code/main.c   ****                 hundrend_wheel_size = 0;
+ 416:code/main.c   ****               }
+ 417:code/main.c   ****             }
+ 418:code/main.c   ****             break;
+ 419:code/main.c   **** 
+ 420:code/main.c   ****     case 3: singal_wheel = 0;nMode_wheel_times = 0;nMode_normal_times = 0;break;
+ 421:code/main.c   **** 
+ 422:code/main.c   ****     default:;break;
+ 1227              		.loc 1 422 0
+ 1228 0590 44E0     		b	.L119	@
+ 1229              	.L115:
+ARM GAS  /tmp/ccCmPHmz.s 			page 30
+
+
+ 394:code/main.c   **** 	      
+ 1230              		.loc 1 394 0
+ 1231 0592 6B46     		mov	r3, sp	@ tmp257,
+ 1232 0594 0633     		adds	r3, r3, #6	@ tmp202,
+ 1233 0596 1B78     		ldrb	r3, [r3]	@ tmp203, button_nTrip
+ 1234 0598 002B     		cmp	r3, #0	@ tmp203,
+ 1235 059a 3AD0     		beq	.L123	@,
+ 396:code/main.c   ****               if(bit_wheel_size>9){
+ 1236              		.loc 1 396 0
+ 1237 059c 354B     		ldr	r3, .L126+12	@ tmp204,
+ 1238 059e 1B68     		ldr	r3, [r3]	@ D.5573, bit_wheel_size
+ 1239 05a0 5A1C     		adds	r2, r3, #1	@ D.5573, D.5573,
+ 1240 05a2 344B     		ldr	r3, .L126+12	@ tmp205,
+ 1241 05a4 1A60     		str	r2, [r3]	@ D.5573, bit_wheel_size
+ 397:code/main.c   ****                 bit_wheel_size = 0;
+ 1242              		.loc 1 397 0
+ 1243 05a6 334B     		ldr	r3, .L126+12	@ tmp206,
+ 1244 05a8 1B68     		ldr	r3, [r3]	@ D.5573, bit_wheel_size
+ 1245 05aa 092B     		cmp	r3, #9	@ D.5573,
+ 1246 05ac 31D9     		bls	.L123	@,
+ 398:code/main.c   ****               }
+ 1247              		.loc 1 398 0
+ 1248 05ae 314B     		ldr	r3, .L126+12	@ tmp207,
+ 1249 05b0 0022     		movs	r2, #0	@ tmp208,
+ 1250 05b2 1A60     		str	r2, [r3]	@ tmp208, bit_wheel_size
+ 401:code/main.c   **** 
+ 1251              		.loc 1 401 0
+ 1252 05b4 2DE0     		b	.L123	@
+ 1253              	.L114:
+ 403:code/main.c   ****               //write_out(0x55555555);
+ 1254              		.loc 1 403 0
+ 1255 05b6 6B46     		mov	r3, sp	@ tmp258,
+ 1256 05b8 0633     		adds	r3, r3, #6	@ tmp209,
+ 1257 05ba 1B78     		ldrb	r3, [r3]	@ tmp210, button_nTrip
+ 1258 05bc 002B     		cmp	r3, #0	@ tmp210,
+ 1259 05be 2AD0     		beq	.L124	@,
+ 405:code/main.c   ****               if(ten_wheel_size >9){
+ 1260              		.loc 1 405 0
+ 1261 05c0 2D4B     		ldr	r3, .L126+16	@ tmp211,
+ 1262 05c2 1B68     		ldr	r3, [r3]	@ D.5573, ten_wheel_size
+ 1263 05c4 5A1C     		adds	r2, r3, #1	@ D.5573, D.5573,
+ 1264 05c6 2C4B     		ldr	r3, .L126+16	@ tmp212,
+ 1265 05c8 1A60     		str	r2, [r3]	@ D.5573, ten_wheel_size
+ 406:code/main.c   ****                 ten_wheel_size = 0;
+ 1266              		.loc 1 406 0
+ 1267 05ca 2B4B     		ldr	r3, .L126+16	@ tmp213,
+ 1268 05cc 1B68     		ldr	r3, [r3]	@ D.5573, ten_wheel_size
+ 1269 05ce 092B     		cmp	r3, #9	@ D.5573,
+ 1270 05d0 21D9     		bls	.L124	@,
+ 407:code/main.c   ****               }
+ 1271              		.loc 1 407 0
+ 1272 05d2 294B     		ldr	r3, .L126+16	@ tmp214,
+ 1273 05d4 0022     		movs	r2, #0	@ tmp215,
+ 1274 05d6 1A60     		str	r2, [r3]	@ tmp215, ten_wheel_size
+ 410:code/main.c   **** 
+ 1275              		.loc 1 410 0
+ 1276 05d8 1DE0     		b	.L124	@
+ARM GAS  /tmp/ccCmPHmz.s 			page 31
+
+
+ 1277              	.L116:
+ 412:code/main.c   ****               hundrend_wheel_size = hundrend_wheel_size + 1;
+ 1278              		.loc 1 412 0
+ 1279 05da 6B46     		mov	r3, sp	@ tmp259,
+ 1280 05dc 0633     		adds	r3, r3, #6	@ tmp216,
+ 1281 05de 1B78     		ldrb	r3, [r3]	@ tmp217, button_nTrip
+ 1282 05e0 002B     		cmp	r3, #0	@ tmp217,
+ 1283 05e2 1AD0     		beq	.L125	@,
+ 413:code/main.c   ****               if(hundrend_wheel_size >=3){
+ 1284              		.loc 1 413 0
+ 1285 05e4 254B     		ldr	r3, .L126+20	@ tmp218,
+ 1286 05e6 1B68     		ldr	r3, [r3]	@ D.5573, hundrend_wheel_size
+ 1287 05e8 5A1C     		adds	r2, r3, #1	@ D.5573, D.5573,
+ 1288 05ea 244B     		ldr	r3, .L126+20	@ tmp219,
+ 1289 05ec 1A60     		str	r2, [r3]	@ D.5573, hundrend_wheel_size
+ 414:code/main.c   ****                 hundrend_wheel_size = 0;
+ 1290              		.loc 1 414 0
+ 1291 05ee 234B     		ldr	r3, .L126+20	@ tmp220,
+ 1292 05f0 1B68     		ldr	r3, [r3]	@ D.5573, hundrend_wheel_size
+ 1293 05f2 022B     		cmp	r3, #2	@ D.5573,
+ 1294 05f4 11D9     		bls	.L125	@,
+ 415:code/main.c   ****               }
+ 1295              		.loc 1 415 0
+ 1296 05f6 214B     		ldr	r3, .L126+20	@ tmp221,
+ 1297 05f8 0022     		movs	r2, #0	@ tmp222,
+ 1298 05fa 1A60     		str	r2, [r3]	@ tmp222, hundrend_wheel_size
+ 418:code/main.c   **** 
+ 1299              		.loc 1 418 0
+ 1300 05fc 0DE0     		b	.L125	@
+ 1301              	.L117:
+ 420:code/main.c   **** 
+ 1302              		.loc 1 420 0
+ 1303 05fe 1A4B     		ldr	r3, .L126	@ tmp223,
+ 1304 0600 0022     		movs	r2, #0	@ tmp224,
+ 1305 0602 1A70     		strb	r2, [r3]	@ tmp225, singal_wheel
+ 1306 0604 1A4B     		ldr	r3, .L126+8	@ tmp226,
+ 1307 0606 0022     		movs	r2, #0	@ tmp227,
+ 1308 0608 1A60     		str	r2, [r3]	@ tmp227, nMode_wheel_times
+ 1309 060a 184B     		ldr	r3, .L126+4	@ tmp228,
+ 1310 060c 0022     		movs	r2, #0	@ tmp229,
+ 1311 060e 1A60     		str	r2, [r3]	@ tmp229, nMode_normal_times
+ 1312 0610 04E0     		b	.L119	@
+ 1313              	.L123:
+ 401:code/main.c   **** 
+ 1314              		.loc 1 401 0
+ 1315 0612 C046     		nop
+ 1316 0614 02E0     		b	.L119	@
+ 1317              	.L124:
+ 410:code/main.c   **** 
+ 1318              		.loc 1 410 0
+ 1319 0616 C046     		nop
+ 1320 0618 00E0     		b	.L119	@
+ 1321              	.L125:
+ 418:code/main.c   **** 
+ 1322              		.loc 1 418 0
+ 1323 061a C046     		nop
+ 1324              	.L119:
+ARM GAS  /tmp/ccCmPHmz.s 			page 32
+
+
+ 423:code/main.c   ****     }
+ 424:code/main.c   ****     wheel_size_tmp = (bit_wheel_size + ten_wheel_size*10 + hundrend_wheel_size *100);
+ 1325              		.loc 1 424 0
+ 1326 061c 164B     		ldr	r3, .L126+16	@ tmp230,
+ 1327 061e 1A68     		ldr	r2, [r3]	@ D.5573, ten_wheel_size
+ 1328 0620 1300     		movs	r3, r2	@ tmp231, D.5573
+ 1329 0622 9B00     		lsls	r3, r3, #2	@ tmp231, tmp231,
+ 1330 0624 9B18     		adds	r3, r3, r2	@ tmp231, tmp231, D.5573
+ 1331 0626 5B00     		lsls	r3, r3, #1	@ tmp232, tmp231,
+ 1332 0628 1900     		movs	r1, r3	@ D.5573, tmp231
+ 1333 062a 144B     		ldr	r3, .L126+20	@ tmp233,
+ 1334 062c 1B68     		ldr	r3, [r3]	@ D.5573, hundrend_wheel_size
+ 1335 062e 6422     		movs	r2, #100	@ tmp234,
+ 1336 0630 5343     		muls	r3, r2	@ D.5573, tmp234
+ 1337 0632 CA18     		adds	r2, r1, r3	@ D.5573, D.5573, D.5573
+ 1338 0634 0F4B     		ldr	r3, .L126+12	@ tmp235,
+ 1339 0636 1B68     		ldr	r3, [r3]	@ D.5573, bit_wheel_size
+ 1340 0638 D318     		adds	r3, r2, r3	@ tmp236, D.5573, D.5573
+ 1341 063a 0093     		str	r3, [sp]	@ tmp236, wheel_size_tmp
+ 425:code/main.c   ****     wheel_size = wheel_size_tmp *10;
+ 1342              		.loc 1 425 0
+ 1343 063c 009A     		ldr	r2, [sp]	@ tmp237, wheel_size_tmp
+ 1344 063e 1300     		movs	r3, r2	@ tmp238, tmp237
+ 1345 0640 9B00     		lsls	r3, r3, #2	@ tmp238, tmp238,
+ 1346 0642 9B18     		adds	r3, r3, r2	@ tmp238, tmp238, tmp237
+ 1347 0644 5B00     		lsls	r3, r3, #1	@ tmp239, tmp238,
+ 1348 0646 1A00     		movs	r2, r3	@ D.5573, tmp238
+ 1349 0648 0D4B     		ldr	r3, .L126+24	@ tmp240,
+ 1350 064a 1A60     		str	r2, [r3]	@ D.5573, wheel_size
+ 426:code/main.c   ****     //write_out(wheel_size_tmp);
+ 427:code/main.c   ****     dp_location = 0;
+ 1351              		.loc 1 427 0
+ 1352 064c 0D4B     		ldr	r3, .L126+28	@ tmp241,
+ 1353 064e 0022     		movs	r2, #0	@ tmp242,
+ 1354 0650 1A60     		str	r2, [r3]	@ tmp242, dp_location
+ 428:code/main.c   ****     seg_decode(4,wheel_size_tmp,dp_location);
+ 1355              		.loc 1 428 0
+ 1356 0652 0099     		ldr	r1, [sp]	@ D.5574, wheel_size_tmp
+ 1357 0654 0B4B     		ldr	r3, .L126+28	@ tmp243,
+ 1358 0656 1B68     		ldr	r3, [r3]	@ D.5573, dp_location
+ 1359 0658 1A00     		movs	r2, r3	@, D.5573
+ 1360 065a 0420     		movs	r0, #4	@,
+ 1361 065c FFF7FEFF 		bl	seg_decode	@
+ 1362              	.L122:
+ 429:code/main.c   ****     //write_out(0x000000002);
+ 430:code/main.c   ****   }
+ 431:code/main.c   ****   
+ 432:code/main.c   **** 
+ 433:code/main.c   **** }
+ 1363              		.loc 1 433 0
+ 1364 0660 C046     		nop
+ 1365 0662 03B0     		add	sp, sp, #12	@,,
+ 1366              		@ sp needed	@
+ 1367 0664 00BD     		pop	{pc}
+ 1368              	.L127:
+ 1369 0666 C046     		.align	2
+ 1370              	.L126:
+ARM GAS  /tmp/ccCmPHmz.s 			page 33
+
+
+ 1371 0668 00000000 		.word	singal_wheel
+ 1372 066c 00000000 		.word	nMode_normal_times
+ 1373 0670 00000000 		.word	nMode_wheel_times
+ 1374 0674 00000000 		.word	bit_wheel_size
+ 1375 0678 00000000 		.word	ten_wheel_size
+ 1376 067c 00000000 		.word	hundrend_wheel_size
+ 1377 0680 00000000 		.word	wheel_size
+ 1378 0684 00000000 		.word	dp_location
+ 1379              		.cfi_endproc
+ 1380              	.LFE14:
+ 1381              		.size	wait_for_any_BUTTON_data, .-wait_for_any_BUTTON_data
+ 1382              		.align	2
+ 1383              		.global	delay
+ 1384              		.code	16
+ 1385              		.thumb_func
+ 1386              		.type	delay, %function
+ 1387              	delay:
+ 1388              	.LFB15:
+ 434:code/main.c   **** 
+ 435:code/main.c   **** 
+ 436:code/main.c   **** /////////////////////////other function///////////////////////////////
+ 437:code/main.c   **** void delay(void){
+ 1389              		.loc 1 437 0
+ 1390              		.cfi_startproc
+ 1391              		@ args = 0, pretend = 0, frame = 8
+ 1392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1393              		@ link register save eliminated.
+ 1394 0688 82B0     		sub	sp, sp, #8	@,,
+ 1395              	.LCFI19:
+ 1396              		.cfi_def_cfa_offset 8
+ 1397              	.LBB2:
+ 438:code/main.c   **** 
+ 439:code/main.c   ****  for(int i=0;i<20000;i++);
+ 1398              		.loc 1 439 0
+ 1399 068a 0023     		movs	r3, #0	@ tmp110,
+ 1400 068c 0193     		str	r3, [sp, #4]	@ tmp110, i
+ 1401 068e 02E0     		b	.L129	@
+ 1402              	.L130:
+ 1403              		.loc 1 439 0 is_stmt 0 discriminator 3
+ 1404 0690 019B     		ldr	r3, [sp, #4]	@ tmp112, i
+ 1405 0692 0133     		adds	r3, r3, #1	@ tmp111,
+ 1406 0694 0193     		str	r3, [sp, #4]	@ tmp111, i
+ 1407              	.L129:
+ 1408              		.loc 1 439 0 discriminator 1
+ 1409 0696 019B     		ldr	r3, [sp, #4]	@ tmp113, i
+ 1410 0698 024A     		ldr	r2, .L131	@ tmp114,
+ 1411 069a 9342     		cmp	r3, r2	@ tmp113, tmp114
+ 1412 069c F8DD     		ble	.L130	@,
+ 1413              	.LBE2:
+ 440:code/main.c   ****  }
+ 1414              		.loc 1 440 0 is_stmt 1
+ 1415 069e C046     		nop
+ 1416 06a0 02B0     		add	sp, sp, #8	@,,
+ 1417              		@ sp needed	@
+ 1418 06a2 7047     		bx	lr
+ 1419              	.L132:
+ 1420              		.align	2
+ARM GAS  /tmp/ccCmPHmz.s 			page 34
+
+
+ 1421              	.L131:
+ 1422 06a4 1F4E0000 		.word	19999
+ 1423              		.cfi_endproc
+ 1424              	.LFE15:
+ 1425              		.size	delay, .-delay
+ 1426              		.global	__aeabi_ui2f
+ 1427              		.align	2
+ 1428              		.global	main
+ 1429              		.code	16
+ 1430              		.thumb_func
+ 1431              		.type	main, %function
+ 1432              	main:
+ 1433              	.LFB16:
+ 441:code/main.c   **** 
+ 442:code/main.c   **** 
+ 443:code/main.c   **** //////////////////////////////////////////////////////////////////
+ 444:code/main.c   **** // Main Function
+ 445:code/main.c   **** //////////////////////////////////////////////////////////////////
+ 446:code/main.c   **** 
+ 447:code/main.c   **** 
+ 448:code/main.c   **** int main(void){
+ 1434              		.loc 1 448 0
+ 1435              		.cfi_startproc
+ 1436              		@ args = 0, pretend = 0, frame = 16
+ 1437              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1438 06a8 10B5     		push	{r4, lr}	@
+ 1439              	.LCFI20:
+ 1440              		.cfi_def_cfa_offset 8
+ 1441              		.cfi_offset 4, -8
+ 1442              		.cfi_offset 14, -4
+ 1443 06aa 84B0     		sub	sp, sp, #16	@,,
+ 1444              	.LCFI21:
+ 1445              		.cfi_def_cfa_offset 24
+ 449:code/main.c   ****   uint32_t route;
+ 450:code/main.c   ****   uint32_t fast;
+ 451:code/main.c   ****   uint32_t rpm;
+ 452:code/main.c   ****   uint32_t time;
+ 453:code/main.c   ****   wheel_size = 2136; 
+ 1446              		.loc 1 453 0
+ 1447 06ac 454B     		ldr	r3, .L149	@ tmp138,
+ 1448 06ae 464A     		ldr	r2, .L149+4	@ tmp139,
+ 1449 06b0 1A60     		str	r2, [r3]	@ tmp139, wheel_size
+ 1450              	.L144:
+ 454:code/main.c   ****   while(1){
+ 455:code/main.c   ****     wait_for_any_BUTTON_data();
+ 1451              		.loc 1 455 0
+ 1452 06b2 FFF7FEFF 		bl	wait_for_any_BUTTON_data	@
+ 456:code/main.c   ****     //write_out(wheel_size);
+ 457:code/main.c   ****     if(singal_wheel == 0){
+ 1453              		.loc 1 457 0
+ 1454 06b6 454B     		ldr	r3, .L149+8	@ tmp140,
+ 1455 06b8 1B78     		ldrb	r3, [r3]	@ D.5575, singal_wheel
+ 1456 06ba 0122     		movs	r2, #1	@ tmp142,
+ 1457 06bc 5340     		eors	r3, r2	@ tmp141, tmp142
+ 1458 06be DBB2     		uxtb	r3, r3	@ D.5575, tmp141
+ 1459 06c0 002B     		cmp	r3, #0	@ D.5575,
+ 1460 06c2 F6D0     		beq	.L144	@,
+ARM GAS  /tmp/ccCmPHmz.s 			page 35
+
+
+ 458:code/main.c   ****     //write_out(nMode_normal_times);
+ 459:code/main.c   ****     switch(nMode_normal_times){
+ 1461              		.loc 1 459 0
+ 1462 06c4 424B     		ldr	r3, .L149+12	@ tmp143,
+ 1463 06c6 1B68     		ldr	r3, [r3]	@ D.5576, nMode_normal_times
+ 1464 06c8 012B     		cmp	r3, #1	@ D.5576,
+ 1465 06ca 26D0     		beq	.L136	@,
+ 1466 06cc 04D3     		bcc	.L137	@,
+ 1467 06ce 022B     		cmp	r3, #2	@ D.5576,
+ 1468 06d0 39D0     		beq	.L138	@,
+ 1469 06d2 032B     		cmp	r3, #3	@ D.5576,
+ 1470 06d4 58D0     		beq	.L139	@,
+ 460:code/main.c   ****       case 0:
+ 461:code/main.c   **** 	    //write_out(0x55555555);
+ 462:code/main.c   **** 	    if(check_sensor(0)){
+ 463:code/main.c   ****             route = distance(read_SENSOR(0),wheel_size);
+ 464:code/main.c   ****             seg_decode(0,route,dp_location);
+ 465:code/main.c   **** 	    }
+ 466:code/main.c   ****             break;
+ 467:code/main.c   **** 	
+ 468:code/main.c   ****       case 1:
+ 469:code/main.c   **** 	    //write_out(0x44444444);	
+ 470:code/main.c   **** 	    if(check_sensor(3)){
+ 471:code/main.c   ****             time = timer(read_SENSOR(3));
+ 472:code/main.c   ****             seg_decode(1,time,dp_location);
+ 473:code/main.c   **** 	    }
+ 474:code/main.c   **** 	    //write_out(time);	
+ 475:code/main.c   **** 	    break;
+ 476:code/main.c   ****       case 2:
+ 477:code/main.c   **** 	    if(check_sensor(1)){
+ 478:code/main.c   ****             fast = speed(read_SENSOR(1),wheel_size);
+ 479:code/main.c   ****             seg_decode(2,fast,dp_location);	    
+ 480:code/main.c   **** 	    }
+ 481:code/main.c   **** 	    break;
+ 482:code/main.c   ****             //write_out(0x000000003);     
+ 483:code/main.c   ****           
+ 484:code/main.c   ****       case 3:
+ 485:code/main.c   ****             if(check_sensor(2)){
+ 486:code/main.c   ****             rpm = cadence(read_SENSOR(2));
+ 487:code/main.c   ****             seg_decode(3,rpm,dp_location);
+ 488:code/main.c   **** 	    }
+ 489:code/main.c   **** 	    break;
+ 490:code/main.c   **** 	    //write_out(0x000000004);	
+ 491:code/main.c   ****       default: ;break;
+ 1471              		.loc 1 491 0
+ 1472 06d6 74E0     		b	.L134	@
+ 1473              	.L137:
+ 462:code/main.c   ****             route = distance(read_SENSOR(0),wheel_size);
+ 1474              		.loc 1 462 0
+ 1475 06d8 0020     		movs	r0, #0	@,
+ 1476 06da FFF7FEFF 		bl	check_sensor	@
+ 1477 06de 031E     		subs	r3, r0, #0	@ tmp144,,
+ 1478 06e0 68D0     		beq	.L145	@,
+ 463:code/main.c   ****             seg_decode(0,route,dp_location);
+ 1479              		.loc 1 463 0
+ 1480 06e2 0020     		movs	r0, #0	@,
+ 1481 06e4 FFF7FEFF 		bl	read_SENSOR	@
+ARM GAS  /tmp/ccCmPHmz.s 			page 36
+
+
+ 1482 06e8 0300     		movs	r3, r0	@ D.5576,
+ 1483 06ea 1800     		movs	r0, r3	@, D.5576
+ 1484 06ec FFF7FEFF 		bl	__aeabi_ui2f	@
+ 1485 06f0 041C     		adds	r4, r0, #0	@ D.5577,
+ 1486 06f2 344B     		ldr	r3, .L149	@ tmp146,
+ 1487 06f4 1B68     		ldr	r3, [r3]	@ D.5576, wheel_size
+ 1488 06f6 1800     		movs	r0, r3	@, D.5576
+ 1489 06f8 FFF7FEFF 		bl	__aeabi_ui2f	@
+ 1490 06fc 031C     		adds	r3, r0, #0	@ D.5577,
+ 1491 06fe 191C     		adds	r1, r3, #0	@, D.5577
+ 1492 0700 201C     		adds	r0, r4, #0	@, D.5577
+ 1493 0702 FFF7FEFF 		bl	distance	@
+ 1494 0706 0300     		movs	r3, r0	@ tmp147,
+ 1495 0708 0393     		str	r3, [sp, #12]	@ tmp147, route
+ 464:code/main.c   **** 	    }
+ 1496              		.loc 1 464 0
+ 1497 070a 0399     		ldr	r1, [sp, #12]	@ D.5578, route
+ 1498 070c 314B     		ldr	r3, .L149+16	@ tmp148,
+ 1499 070e 1B68     		ldr	r3, [r3]	@ D.5576, dp_location
+ 1500 0710 1A00     		movs	r2, r3	@, D.5576
+ 1501 0712 0020     		movs	r0, #0	@,
+ 1502 0714 FFF7FEFF 		bl	seg_decode	@
+ 466:code/main.c   **** 	
+ 1503              		.loc 1 466 0
+ 1504 0718 4CE0     		b	.L145	@
+ 1505              	.L136:
+ 470:code/main.c   ****             time = timer(read_SENSOR(3));
+ 1506              		.loc 1 470 0
+ 1507 071a 0320     		movs	r0, #3	@,
+ 1508 071c FFF7FEFF 		bl	check_sensor	@
+ 1509 0720 031E     		subs	r3, r0, #0	@ tmp149,,
+ 1510 0722 49D0     		beq	.L146	@,
+ 471:code/main.c   ****             seg_decode(1,time,dp_location);
+ 1511              		.loc 1 471 0
+ 1512 0724 0320     		movs	r0, #3	@,
+ 1513 0726 FFF7FEFF 		bl	read_SENSOR	@
+ 1514 072a 0300     		movs	r3, r0	@ D.5576,
+ 1515 072c 1800     		movs	r0, r3	@, D.5578
+ 1516 072e FFF7FEFF 		bl	timer	@
+ 1517 0732 0300     		movs	r3, r0	@ tmp151,
+ 1518 0734 0293     		str	r3, [sp, #8]	@ tmp151, time
+ 472:code/main.c   **** 	    }
+ 1519              		.loc 1 472 0
+ 1520 0736 0299     		ldr	r1, [sp, #8]	@ D.5578, time
+ 1521 0738 264B     		ldr	r3, .L149+16	@ tmp152,
+ 1522 073a 1B68     		ldr	r3, [r3]	@ D.5576, dp_location
+ 1523 073c 1A00     		movs	r2, r3	@, D.5576
+ 1524 073e 0120     		movs	r0, #1	@,
+ 1525 0740 FFF7FEFF 		bl	seg_decode	@
+ 475:code/main.c   ****       case 2:
+ 1526              		.loc 1 475 0
+ 1527 0744 38E0     		b	.L146	@
+ 1528              	.L138:
+ 477:code/main.c   ****             fast = speed(read_SENSOR(1),wheel_size);
+ 1529              		.loc 1 477 0
+ 1530 0746 0120     		movs	r0, #1	@,
+ 1531 0748 FFF7FEFF 		bl	check_sensor	@
+ARM GAS  /tmp/ccCmPHmz.s 			page 37
+
+
+ 1532 074c 031E     		subs	r3, r0, #0	@ tmp153,,
+ 1533 074e 35D0     		beq	.L147	@,
+ 478:code/main.c   ****             seg_decode(2,fast,dp_location);	    
+ 1534              		.loc 1 478 0
+ 1535 0750 0120     		movs	r0, #1	@,
+ 1536 0752 FFF7FEFF 		bl	read_SENSOR	@
+ 1537 0756 0300     		movs	r3, r0	@ D.5576,
+ 1538 0758 1800     		movs	r0, r3	@, D.5576
+ 1539 075a FFF7FEFF 		bl	__aeabi_ui2f	@
+ 1540 075e 041C     		adds	r4, r0, #0	@ D.5577,
+ 1541 0760 184B     		ldr	r3, .L149	@ tmp155,
+ 1542 0762 1B68     		ldr	r3, [r3]	@ D.5576, wheel_size
+ 1543 0764 1800     		movs	r0, r3	@, D.5576
+ 1544 0766 FFF7FEFF 		bl	__aeabi_ui2f	@
+ 1545 076a 031C     		adds	r3, r0, #0	@ D.5577,
+ 1546 076c 191C     		adds	r1, r3, #0	@, D.5577
+ 1547 076e 201C     		adds	r0, r4, #0	@, D.5577
+ 1548 0770 FFF7FEFF 		bl	speed	@
+ 1549 0774 0300     		movs	r3, r0	@ tmp156,
+ 1550 0776 0193     		str	r3, [sp, #4]	@ tmp156, fast
+ 479:code/main.c   **** 	    }
+ 1551              		.loc 1 479 0
+ 1552 0778 0199     		ldr	r1, [sp, #4]	@ D.5578, fast
+ 1553 077a 164B     		ldr	r3, .L149+16	@ tmp157,
+ 1554 077c 1B68     		ldr	r3, [r3]	@ D.5576, dp_location
+ 1555 077e 1A00     		movs	r2, r3	@, D.5576
+ 1556 0780 0220     		movs	r0, #2	@,
+ 1557 0782 FFF7FEFF 		bl	seg_decode	@
+ 481:code/main.c   ****             //write_out(0x000000003);     
+ 1558              		.loc 1 481 0
+ 1559 0786 19E0     		b	.L147	@
+ 1560              	.L139:
+ 485:code/main.c   ****             rpm = cadence(read_SENSOR(2));
+ 1561              		.loc 1 485 0
+ 1562 0788 0220     		movs	r0, #2	@,
+ 1563 078a FFF7FEFF 		bl	check_sensor	@
+ 1564 078e 031E     		subs	r3, r0, #0	@ tmp158,,
+ 1565 0790 16D0     		beq	.L148	@,
+ 486:code/main.c   ****             seg_decode(3,rpm,dp_location);
+ 1566              		.loc 1 486 0
+ 1567 0792 0220     		movs	r0, #2	@,
+ 1568 0794 FFF7FEFF 		bl	read_SENSOR	@
+ 1569 0798 0300     		movs	r3, r0	@ D.5576,
+ 1570 079a 1800     		movs	r0, r3	@, D.5578
+ 1571 079c FFF7FEFF 		bl	cadence	@
+ 1572 07a0 0300     		movs	r3, r0	@ tmp160,
+ 1573 07a2 0093     		str	r3, [sp]	@ tmp160, rpm
+ 487:code/main.c   **** 	    }
+ 1574              		.loc 1 487 0
+ 1575 07a4 0099     		ldr	r1, [sp]	@ D.5578, rpm
+ 1576 07a6 0B4B     		ldr	r3, .L149+16	@ tmp161,
+ 1577 07a8 1B68     		ldr	r3, [r3]	@ D.5576, dp_location
+ 1578 07aa 1A00     		movs	r2, r3	@, D.5576
+ 1579 07ac 0320     		movs	r0, #3	@,
+ 1580 07ae FFF7FEFF 		bl	seg_decode	@
+ 489:code/main.c   **** 	    //write_out(0x000000004);	
+ 1581              		.loc 1 489 0
+ARM GAS  /tmp/ccCmPHmz.s 			page 38
+
+
+ 1582 07b2 05E0     		b	.L148	@
+ 1583              	.L145:
+ 466:code/main.c   **** 	
+ 1584              		.loc 1 466 0
+ 1585 07b4 C046     		nop
+ 1586 07b6 7CE7     		b	.L144	@
+ 1587              	.L146:
+ 475:code/main.c   ****       case 2:
+ 1588              		.loc 1 475 0
+ 1589 07b8 C046     		nop
+ 1590 07ba 7AE7     		b	.L144	@
+ 1591              	.L147:
+ 481:code/main.c   ****             //write_out(0x000000003);     
+ 1592              		.loc 1 481 0
+ 1593 07bc C046     		nop
+ 1594 07be 78E7     		b	.L144	@
+ 1595              	.L148:
+ 489:code/main.c   **** 	    //write_out(0x000000004);	
+ 1596              		.loc 1 489 0
+ 1597 07c0 C046     		nop
+ 1598              	.L134:
+ 492:code/main.c   ****     }
+ 493:code/main.c   ****    }
+ 494:code/main.c   ****   }
+ 1599              		.loc 1 494 0 discriminator 1
+ 1600 07c2 76E7     		b	.L144	@
+ 1601              	.L150:
+ 1602              		.align	2
+ 1603              	.L149:
+ 1604 07c4 00000000 		.word	wheel_size
+ 1605 07c8 58080000 		.word	2136
+ 1606 07cc 00000000 		.word	singal_wheel
+ 1607 07d0 00000000 		.word	nMode_normal_times
+ 1608 07d4 00000000 		.word	dp_location
+ 1609              		.cfi_endproc
+ 1610              	.LFE16:
+ 1611              		.size	main, .-main
+ 1612              	.Letext0:
+ 1613              		.file 2 "/srv/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/machine/_default_types.h"
+ 1614              		.file 3 "/srv/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/sys/_stdint.h"
+ 1615              		.section	.debug_info,"",%progbits
+ 1616              	.Ldebug_info0:
+ 1617 0000 09060000 		.4byte	0x609
+ 1618 0004 0200     		.2byte	0x2
+ 1619 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1620 000a 04       		.byte	0x4
+ 1621 000b 01       		.uleb128 0x1
+ 1622 000c 83020000 		.4byte	.LASF75
+ 1623 0010 0C       		.byte	0xc
+ 1624 0011 5B000000 		.4byte	.LASF76
+ 1625 0015 AD010000 		.4byte	.LASF77
+ 1626 0019 00000000 		.4byte	.Ltext0
+ 1627 001d D8070000 		.4byte	.Letext0
+ 1628 0021 00000000 		.4byte	.Ldebug_line0
+ 1629 0025 02       		.uleb128 0x2
+ 1630 0026 01       		.byte	0x1
+ 1631 0027 06       		.byte	0x6
+ARM GAS  /tmp/ccCmPHmz.s 			page 39
+
+
+ 1632 0028 75000000 		.4byte	.LASF0
+ 1633 002c 02       		.uleb128 0x2
+ 1634 002d 01       		.byte	0x1
+ 1635 002e 08       		.byte	0x8
+ 1636 002f 11020000 		.4byte	.LASF1
+ 1637 0033 02       		.uleb128 0x2
+ 1638 0034 02       		.byte	0x2
+ 1639 0035 05       		.byte	0x5
+ 1640 0036 25020000 		.4byte	.LASF2
+ 1641 003a 02       		.uleb128 0x2
+ 1642 003b 02       		.byte	0x2
+ 1643 003c 07       		.byte	0x7
+ 1644 003d 2D010000 		.4byte	.LASF3
+ 1645 0041 02       		.uleb128 0x2
+ 1646 0042 04       		.byte	0x4
+ 1647 0043 05       		.byte	0x5
+ 1648 0044 99000000 		.4byte	.LASF4
+ 1649 0048 03       		.uleb128 0x3
+ 1650 0049 DC000000 		.4byte	.LASF9
+ 1651 004d 02       		.byte	0x2
+ 1652 004e 41       		.byte	0x41
+ 1653 004f 53000000 		.4byte	0x53
+ 1654 0053 02       		.uleb128 0x2
+ 1655 0054 04       		.byte	0x4
+ 1656 0055 07       		.byte	0x7
+ 1657 0056 0E010000 		.4byte	.LASF5
+ 1658 005a 02       		.uleb128 0x2
+ 1659 005b 08       		.byte	0x8
+ 1660 005c 05       		.byte	0x5
+ 1661 005d 67000000 		.4byte	.LASF6
+ 1662 0061 02       		.uleb128 0x2
+ 1663 0062 08       		.byte	0x8
+ 1664 0063 07       		.byte	0x7
+ 1665 0064 28000000 		.4byte	.LASF7
+ 1666 0068 04       		.uleb128 0x4
+ 1667 0069 04       		.byte	0x4
+ 1668 006a 05       		.byte	0x5
+ 1669 006b 696E7400 		.ascii	"int\000"
+ 1670 006f 02       		.uleb128 0x2
+ 1671 0070 04       		.byte	0x4
+ 1672 0071 07       		.byte	0x7
+ 1673 0072 01010000 		.4byte	.LASF8
+ 1674 0076 03       		.uleb128 0x3
+ 1675 0077 6E020000 		.4byte	.LASF10
+ 1676 007b 03       		.byte	0x3
+ 1677 007c 30       		.byte	0x30
+ 1678 007d 48000000 		.4byte	0x48
+ 1679 0081 02       		.uleb128 0x2
+ 1680 0082 08       		.byte	0x8
+ 1681 0083 04       		.byte	0x4
+ 1682 0084 90010000 		.4byte	.LASF11
+ 1683 0088 02       		.uleb128 0x2
+ 1684 0089 04       		.byte	0x4
+ 1685 008a 07       		.byte	0x7
+ 1686 008b 87010000 		.4byte	.LASF12
+ 1687 008f 02       		.uleb128 0x2
+ 1688 0090 01       		.byte	0x1
+ARM GAS  /tmp/ccCmPHmz.s 			page 40
+
+
+ 1689 0091 08       		.byte	0x8
+ 1690 0092 17030000 		.4byte	.LASF13
+ 1691 0096 05       		.uleb128 0x5
+ 1692 0097 01       		.byte	0x1
+ 1693 0098 2D030000 		.4byte	.LASF14
+ 1694 009c 01       		.byte	0x1
+ 1695 009d 49       		.byte	0x49
+ 1696 009e 01       		.byte	0x1
+ 1697 009f 76000000 		.4byte	0x76
+ 1698 00a3 00000000 		.4byte	.LFB1
+ 1699 00a7 1C000000 		.4byte	.LFE1
+ 1700 00ab 00000000 		.4byte	.LLST0
+ 1701 00af 01       		.byte	0x1
+ 1702 00b0 C3000000 		.4byte	0xc3
+ 1703 00b4 06       		.uleb128 0x6
+ 1704 00b5 4B000000 		.4byte	.LASF16
+ 1705 00b9 01       		.byte	0x1
+ 1706 00ba 49       		.byte	0x49
+ 1707 00bb 68000000 		.4byte	0x68
+ 1708 00bf 02       		.byte	0x2
+ 1709 00c0 91       		.byte	0x91
+ 1710 00c1 7C       		.sleb128 -4
+ 1711 00c2 00       		.byte	0
+ 1712 00c3 05       		.uleb128 0x5
+ 1713 00c4 01       		.byte	0x1
+ 1714 00c5 3F000000 		.4byte	.LASF15
+ 1715 00c9 01       		.byte	0x1
+ 1716 00ca 52       		.byte	0x52
+ 1717 00cb 01       		.byte	0x1
+ 1718 00cc 76000000 		.4byte	0x76
+ 1719 00d0 1C000000 		.4byte	.LFB2
+ 1720 00d4 38000000 		.4byte	.LFE2
+ 1721 00d8 20000000 		.4byte	.LLST1
+ 1722 00dc 01       		.byte	0x1
+ 1723 00dd F0000000 		.4byte	0xf0
+ 1724 00e1 06       		.uleb128 0x6
+ 1725 00e2 4B000000 		.4byte	.LASF16
+ 1726 00e6 01       		.byte	0x1
+ 1727 00e7 52       		.byte	0x52
+ 1728 00e8 68000000 		.4byte	0x68
+ 1729 00ec 02       		.byte	0x2
+ 1730 00ed 91       		.byte	0x91
+ 1731 00ee 7C       		.sleb128 -4
+ 1732 00ef 00       		.byte	0
+ 1733 00f0 07       		.uleb128 0x7
+ 1734 00f1 01       		.byte	0x1
+ 1735 00f2 39030000 		.4byte	.LASF17
+ 1736 00f6 01       		.byte	0x1
+ 1737 00f7 5B       		.byte	0x5b
+ 1738 00f8 01       		.byte	0x1
+ 1739 00f9 76000000 		.4byte	0x76
+ 1740 00fd 38000000 		.4byte	.LFB3
+ 1741 0101 C0000000 		.4byte	.LFE3
+ 1742 0105 40000000 		.4byte	.LLST2
+ 1743 0109 01       		.byte	0x1
+ 1744 010a 47010000 		.4byte	0x147
+ 1745 010e 06       		.uleb128 0x6
+ARM GAS  /tmp/ccCmPHmz.s 			page 41
+
+
+ 1746 010f 0C000000 		.4byte	.LASF18
+ 1747 0113 01       		.byte	0x1
+ 1748 0114 5B       		.byte	0x5b
+ 1749 0115 47010000 		.4byte	0x147
+ 1750 0119 02       		.byte	0x2
+ 1751 011a 91       		.byte	0x91
+ 1752 011b 6C       		.sleb128 -20
+ 1753 011c 06       		.uleb128 0x6
+ 1754 011d 81000000 		.4byte	.LASF19
+ 1755 0121 01       		.byte	0x1
+ 1756 0122 5B       		.byte	0x5b
+ 1757 0123 47010000 		.4byte	0x147
+ 1758 0127 02       		.byte	0x2
+ 1759 0128 91       		.byte	0x91
+ 1760 0129 68       		.sleb128 -24
+ 1761 012a 08       		.uleb128 0x8
+ 1762 012b 81010000 		.4byte	.LASF20
+ 1763 012f 01       		.byte	0x1
+ 1764 0130 5C       		.byte	0x5c
+ 1765 0131 47010000 		.4byte	0x147
+ 1766 0135 02       		.byte	0x2
+ 1767 0136 91       		.byte	0x91
+ 1768 0137 74       		.sleb128 -12
+ 1769 0138 08       		.uleb128 0x8
+ 1770 0139 07030000 		.4byte	.LASF21
+ 1771 013d 01       		.byte	0x1
+ 1772 013e 5D       		.byte	0x5d
+ 1773 013f 68000000 		.4byte	0x68
+ 1774 0143 02       		.byte	0x2
+ 1775 0144 91       		.byte	0x91
+ 1776 0145 70       		.sleb128 -16
+ 1777 0146 00       		.byte	0
+ 1778 0147 02       		.uleb128 0x2
+ 1779 0148 04       		.byte	0x4
+ 1780 0149 04       		.byte	0x4
+ 1781 014a E5010000 		.4byte	.LASF22
+ 1782 014e 07       		.uleb128 0x7
+ 1783 014f 01       		.byte	0x1
+ 1784 0150 BF030000 		.4byte	.LASF23
+ 1785 0154 01       		.byte	0x1
+ 1786 0155 6F       		.byte	0x6f
+ 1787 0156 01       		.byte	0x1
+ 1788 0157 76000000 		.4byte	0x76
+ 1789 015b C0000000 		.4byte	.LFB4
+ 1790 015f 40010000 		.4byte	.LFE4
+ 1791 0163 6C000000 		.4byte	.LLST3
+ 1792 0167 01       		.byte	0x1
+ 1793 0168 A5010000 		.4byte	0x1a5
+ 1794 016c 06       		.uleb128 0x6
+ 1795 016d 50000000 		.4byte	.LASF24
+ 1796 0171 01       		.byte	0x1
+ 1797 0172 6F       		.byte	0x6f
+ 1798 0173 68000000 		.4byte	0x68
+ 1799 0177 02       		.byte	0x2
+ 1800 0178 91       		.byte	0x91
+ 1801 0179 64       		.sleb128 -28
+ 1802 017a 08       		.uleb128 0x8
+ARM GAS  /tmp/ccCmPHmz.s 			page 42
+
+
+ 1803 017b A6010000 		.4byte	.LASF25
+ 1804 017f 01       		.byte	0x1
+ 1805 0180 70       		.byte	0x70
+ 1806 0181 76000000 		.4byte	0x76
+ 1807 0185 02       		.byte	0x2
+ 1808 0186 91       		.byte	0x91
+ 1809 0187 70       		.sleb128 -16
+ 1810 0188 08       		.uleb128 0x8
+ 1811 0189 D4010000 		.4byte	.LASF26
+ 1812 018d 01       		.byte	0x1
+ 1813 018e 71       		.byte	0x71
+ 1814 018f 76000000 		.4byte	0x76
+ 1815 0193 02       		.byte	0x2
+ 1816 0194 91       		.byte	0x91
+ 1817 0195 6C       		.sleb128 -20
+ 1818 0196 08       		.uleb128 0x8
+ 1819 0197 CF010000 		.4byte	.LASF27
+ 1820 019b 01       		.byte	0x1
+ 1821 019c 72       		.byte	0x72
+ 1822 019d 76000000 		.4byte	0x76
+ 1823 01a1 02       		.byte	0x2
+ 1824 01a2 91       		.byte	0x91
+ 1825 01a3 74       		.sleb128 -12
+ 1826 01a4 00       		.byte	0
+ 1827 01a5 07       		.uleb128 0x7
+ 1828 01a6 01       		.byte	0x1
+ 1829 01a7 8F030000 		.4byte	.LASF28
+ 1830 01ab 01       		.byte	0x1
+ 1831 01ac 83       		.byte	0x83
+ 1832 01ad 01       		.byte	0x1
+ 1833 01ae 76000000 		.4byte	0x76
+ 1834 01b2 40010000 		.4byte	.LFB5
+ 1835 01b6 74010000 		.4byte	.LFE5
+ 1836 01ba 98000000 		.4byte	.LLST4
+ 1837 01be 01       		.byte	0x1
+ 1838 01bf E0010000 		.4byte	0x1e0
+ 1839 01c3 06       		.uleb128 0x6
+ 1840 01c4 C7000000 		.4byte	.LASF29
+ 1841 01c8 01       		.byte	0x1
+ 1842 01c9 83       		.byte	0x83
+ 1843 01ca 68000000 		.4byte	0x68
+ 1844 01ce 02       		.byte	0x2
+ 1845 01cf 91       		.byte	0x91
+ 1846 01d0 6C       		.sleb128 -20
+ 1847 01d1 09       		.uleb128 0x9
+ 1848 01d2 72706D00 		.ascii	"rpm\000"
+ 1849 01d6 01       		.byte	0x1
+ 1850 01d7 85       		.byte	0x85
+ 1851 01d8 68000000 		.4byte	0x68
+ 1852 01dc 02       		.byte	0x2
+ 1853 01dd 91       		.byte	0x91
+ 1854 01de 74       		.sleb128 -12
+ 1855 01df 00       		.byte	0
+ 1856 01e0 07       		.uleb128 0x7
+ 1857 01e1 01       		.byte	0x1
+ 1858 01e2 C5030000 		.4byte	.LASF30
+ 1859 01e6 01       		.byte	0x1
+ARM GAS  /tmp/ccCmPHmz.s 			page 43
+
+
+ 1860 01e7 91       		.byte	0x91
+ 1861 01e8 01       		.byte	0x1
+ 1862 01e9 76000000 		.4byte	0x76
+ 1863 01ed 74010000 		.4byte	.LFB6
+ 1864 01f1 4C020000 		.4byte	.LFE6
+ 1865 01f5 C4000000 		.4byte	.LLST5
+ 1866 01f9 01       		.byte	0x1
+ 1867 01fa 37020000 		.4byte	0x237
+ 1868 01fe 06       		.uleb128 0x6
+ 1869 01ff 4F030000 		.4byte	.LASF31
+ 1870 0203 01       		.byte	0x1
+ 1871 0204 91       		.byte	0x91
+ 1872 0205 47010000 		.4byte	0x147
+ 1873 0209 02       		.byte	0x2
+ 1874 020a 91       		.byte	0x91
+ 1875 020b 64       		.sleb128 -28
+ 1876 020c 06       		.uleb128 0x6
+ 1877 020d 81000000 		.4byte	.LASF19
+ 1878 0211 01       		.byte	0x1
+ 1879 0212 91       		.byte	0x91
+ 1880 0213 47010000 		.4byte	0x147
+ 1881 0217 02       		.byte	0x2
+ 1882 0218 91       		.byte	0x91
+ 1883 0219 60       		.sleb128 -32
+ 1884 021a 08       		.uleb128 0x8
+ 1885 021b 77020000 		.4byte	.LASF32
+ 1886 021f 01       		.byte	0x1
+ 1887 0220 92       		.byte	0x92
+ 1888 0221 47010000 		.4byte	0x147
+ 1889 0225 02       		.byte	0x2
+ 1890 0226 91       		.byte	0x91
+ 1891 0227 6C       		.sleb128 -20
+ 1892 0228 08       		.uleb128 0x8
+ 1893 0229 8F000000 		.4byte	.LASF33
+ 1894 022d 01       		.byte	0x1
+ 1895 022e 93       		.byte	0x93
+ 1896 022f 68000000 		.4byte	0x68
+ 1897 0233 02       		.byte	0x2
+ 1898 0234 91       		.byte	0x91
+ 1899 0235 68       		.sleb128 -24
+ 1900 0236 00       		.byte	0
+ 1901 0237 05       		.uleb128 0x5
+ 1902 0238 01       		.byte	0x1
+ 1903 0239 08020000 		.4byte	.LASF34
+ 1904 023d 01       		.byte	0x1
+ 1905 023e B0       		.byte	0xb0
+ 1906 023f 01       		.byte	0x1
+ 1907 0240 76000000 		.4byte	0x76
+ 1908 0244 4C020000 		.4byte	.LFB7
+ 1909 0248 B0020000 		.4byte	.LFE7
+ 1910 024c F0000000 		.4byte	.LLST6
+ 1911 0250 01       		.byte	0x1
+ 1912 0251 72020000 		.4byte	0x272
+ 1913 0255 06       		.uleb128 0x6
+ 1914 0256 FB000000 		.4byte	.LASF35
+ 1915 025a 01       		.byte	0x1
+ 1916 025b B0       		.byte	0xb0
+ARM GAS  /tmp/ccCmPHmz.s 			page 44
+
+
+ 1917 025c 68000000 		.4byte	0x68
+ 1918 0260 02       		.byte	0x2
+ 1919 0261 91       		.byte	0x91
+ 1920 0262 74       		.sleb128 -12
+ 1921 0263 08       		.uleb128 0x8
+ 1922 0264 EB010000 		.4byte	.LASF36
+ 1923 0268 01       		.byte	0x1
+ 1924 0269 B3       		.byte	0xb3
+ 1925 026a 76000000 		.4byte	0x76
+ 1926 026e 02       		.byte	0x2
+ 1927 026f 91       		.byte	0x91
+ 1928 0270 7C       		.sleb128 -4
+ 1929 0271 00       		.byte	0
+ 1930 0272 05       		.uleb128 0x5
+ 1931 0273 01       		.byte	0x1
+ 1932 0274 79010000 		.4byte	.LASF37
+ 1933 0278 01       		.byte	0x1
+ 1934 0279 D2       		.byte	0xd2
+ 1935 027a 01       		.byte	0x1
+ 1936 027b 76000000 		.4byte	0x76
+ 1937 027f B0020000 		.4byte	.LFB8
+ 1938 0283 F8020000 		.4byte	.LFE8
+ 1939 0287 10010000 		.4byte	.LLST7
+ 1940 028b 01       		.byte	0x1
+ 1941 028c AD020000 		.4byte	0x2ad
+ 1942 0290 06       		.uleb128 0x6
+ 1943 0291 1C030000 		.4byte	.LASF38
+ 1944 0295 01       		.byte	0x1
+ 1945 0296 D2       		.byte	0xd2
+ 1946 0297 68000000 		.4byte	0x68
+ 1947 029b 02       		.byte	0x2
+ 1948 029c 91       		.byte	0x91
+ 1949 029d 74       		.sleb128 -12
+ 1950 029e 08       		.uleb128 0x8
+ 1951 029f EB010000 		.4byte	.LASF36
+ 1952 02a3 01       		.byte	0x1
+ 1953 02a4 D5       		.byte	0xd5
+ 1954 02a5 76000000 		.4byte	0x76
+ 1955 02a9 02       		.byte	0x2
+ 1956 02aa 91       		.byte	0x91
+ 1957 02ab 7C       		.sleb128 -4
+ 1958 02ac 00       		.byte	0
+ 1959 02ad 05       		.uleb128 0x5
+ 1960 02ae 01       		.byte	0x1
+ 1961 02af DB010000 		.4byte	.LASF39
+ 1962 02b3 01       		.byte	0x1
+ 1963 02b4 E9       		.byte	0xe9
+ 1964 02b5 01       		.byte	0x1
+ 1965 02b6 76000000 		.4byte	0x76
+ 1966 02ba F8020000 		.4byte	.LFB9
+ 1967 02be 2C030000 		.4byte	.LFE9
+ 1968 02c2 30010000 		.4byte	.LLST8
+ 1969 02c6 01       		.byte	0x1
+ 1970 02c7 12030000 		.4byte	0x312
+ 1971 02cb 06       		.uleb128 0x6
+ 1972 02cc E3030000 		.4byte	.LASF40
+ 1973 02d0 01       		.byte	0x1
+ARM GAS  /tmp/ccCmPHmz.s 			page 45
+
+
+ 1974 02d1 E9       		.byte	0xe9
+ 1975 02d2 76000000 		.4byte	0x76
+ 1976 02d6 02       		.byte	0x2
+ 1977 02d7 91       		.byte	0x91
+ 1978 02d8 74       		.sleb128 -12
+ 1979 02d9 06       		.uleb128 0x6
+ 1980 02da EA030000 		.4byte	.LASF41
+ 1981 02de 01       		.byte	0x1
+ 1982 02df E9       		.byte	0xe9
+ 1983 02e0 76000000 		.4byte	0x76
+ 1984 02e4 02       		.byte	0x2
+ 1985 02e5 91       		.byte	0x91
+ 1986 02e6 70       		.sleb128 -16
+ 1987 02e7 06       		.uleb128 0x6
+ 1988 02e8 F1030000 		.4byte	.LASF42
+ 1989 02ec 01       		.byte	0x1
+ 1990 02ed E9       		.byte	0xe9
+ 1991 02ee 76000000 		.4byte	0x76
+ 1992 02f2 02       		.byte	0x2
+ 1993 02f3 91       		.byte	0x91
+ 1994 02f4 6C       		.sleb128 -20
+ 1995 02f5 06       		.uleb128 0x6
+ 1996 02f6 F8030000 		.4byte	.LASF43
+ 1997 02fa 01       		.byte	0x1
+ 1998 02fb E9       		.byte	0xe9
+ 1999 02fc 76000000 		.4byte	0x76
+ 2000 0300 02       		.byte	0x2
+ 2001 0301 91       		.byte	0x91
+ 2002 0302 68       		.sleb128 -24
+ 2003 0303 08       		.uleb128 0x8
+ 2004 0304 40010000 		.4byte	.LASF44
+ 2005 0308 01       		.byte	0x1
+ 2006 0309 EA       		.byte	0xea
+ 2007 030a 76000000 		.4byte	0x76
+ 2008 030e 02       		.byte	0x2
+ 2009 030f 91       		.byte	0x91
+ 2010 0310 7C       		.sleb128 -4
+ 2011 0311 00       		.byte	0
+ 2012 0312 0A       		.uleb128 0xa
+ 2013 0313 01       		.byte	0x1
+ 2014 0314 B4030000 		.4byte	.LASF55
+ 2015 0318 01       		.byte	0x1
+ 2016 0319 F5       		.byte	0xf5
+ 2017 031a 01       		.byte	0x1
+ 2018 031b 2C030000 		.4byte	.LFB10
+ 2019 031f D8030000 		.4byte	.LFE10
+ 2020 0323 50010000 		.4byte	.LLST9
+ 2021 0327 01       		.byte	0x1
+ 2022 0328 9D030000 		.4byte	0x39d
+ 2023 032c 06       		.uleb128 0x6
+ 2024 032d 1C030000 		.4byte	.LASF38
+ 2025 0331 01       		.byte	0x1
+ 2026 0332 F5       		.byte	0xf5
+ 2027 0333 68000000 		.4byte	0x68
+ 2028 0337 02       		.byte	0x2
+ 2029 0338 91       		.byte	0x91
+ 2030 0339 54       		.sleb128 -44
+ARM GAS  /tmp/ccCmPHmz.s 			page 46
+
+
+ 2031 033a 06       		.uleb128 0x6
+ 2032 033b FB000000 		.4byte	.LASF35
+ 2033 033f 01       		.byte	0x1
+ 2034 0340 F5       		.byte	0xf5
+ 2035 0341 68000000 		.4byte	0x68
+ 2036 0345 02       		.byte	0x2
+ 2037 0346 91       		.byte	0x91
+ 2038 0347 50       		.sleb128 -48
+ 2039 0348 0B       		.uleb128 0xb
+ 2040 0349 647000   		.ascii	"dp\000"
+ 2041 034c 01       		.byte	0x1
+ 2042 034d F5       		.byte	0xf5
+ 2043 034e 76000000 		.4byte	0x76
+ 2044 0352 02       		.byte	0x2
+ 2045 0353 91       		.byte	0x91
+ 2046 0354 4C       		.sleb128 -52
+ 2047 0355 08       		.uleb128 0x8
+ 2048 0356 57020000 		.4byte	.LASF45
+ 2049 035a 01       		.byte	0x1
+ 2050 035b F7       		.byte	0xf7
+ 2051 035c 76000000 		.4byte	0x76
+ 2052 0360 02       		.byte	0x2
+ 2053 0361 91       		.byte	0x91
+ 2054 0362 68       		.sleb128 -24
+ 2055 0363 08       		.uleb128 0x8
+ 2056 0364 BD000000 		.4byte	.LASF46
+ 2057 0368 01       		.byte	0x1
+ 2058 0369 F8       		.byte	0xf8
+ 2059 036a 76000000 		.4byte	0x76
+ 2060 036e 02       		.byte	0x2
+ 2061 036f 91       		.byte	0x91
+ 2062 0370 64       		.sleb128 -28
+ 2063 0371 08       		.uleb128 0x8
+ 2064 0372 48020000 		.4byte	.LASF47
+ 2065 0376 01       		.byte	0x1
+ 2066 0377 F9       		.byte	0xf9
+ 2067 0378 76000000 		.4byte	0x76
+ 2068 037c 02       		.byte	0x2
+ 2069 037d 91       		.byte	0x91
+ 2070 037e 60       		.sleb128 -32
+ 2071 037f 08       		.uleb128 0x8
+ 2072 0380 9C010000 		.4byte	.LASF48
+ 2073 0384 01       		.byte	0x1
+ 2074 0385 FE       		.byte	0xfe
+ 2075 0386 76000000 		.4byte	0x76
+ 2076 038a 02       		.byte	0x2
+ 2077 038b 91       		.byte	0x91
+ 2078 038c 6C       		.sleb128 -20
+ 2079 038d 0C       		.uleb128 0xc
+ 2080 038e EB010000 		.4byte	.LASF36
+ 2081 0392 01       		.byte	0x1
+ 2082 0393 0001     		.2byte	0x100
+ 2083 0395 76000000 		.4byte	0x76
+ 2084 0399 02       		.byte	0x2
+ 2085 039a 91       		.byte	0x91
+ 2086 039b 5C       		.sleb128 -36
+ 2087 039c 00       		.byte	0
+ARM GAS  /tmp/ccCmPHmz.s 			page 47
+
+
+ 2088 039d 0D       		.uleb128 0xd
+ 2089 039e 01       		.byte	0x1
+ 2090 039f D0030000 		.4byte	.LASF78
+ 2091 03a3 01       		.byte	0x1
+ 2092 03a4 2501     		.2byte	0x125
+ 2093 03a6 01       		.byte	0x1
+ 2094 03a7 D8030000 		.4byte	.LFB11
+ 2095 03ab 24040000 		.4byte	.LFE11
+ 2096 03af 02       		.byte	0x2
+ 2097 03b0 7D       		.byte	0x7d
+ 2098 03b1 00       		.sleb128 0
+ 2099 03b2 01       		.byte	0x1
+ 2100 03b3 0E       		.uleb128 0xe
+ 2101 03b4 01       		.byte	0x1
+ 2102 03b5 20010000 		.4byte	.LASF49
+ 2103 03b9 01       		.byte	0x1
+ 2104 03ba 3401     		.2byte	0x134
+ 2105 03bc 01       		.byte	0x1
+ 2106 03bd 00040000 		.4byte	0x400
+ 2107 03c1 24040000 		.4byte	.LFB12
+ 2108 03c5 54040000 		.4byte	.LFE12
+ 2109 03c9 7C010000 		.4byte	.LLST10
+ 2110 03cd 01       		.byte	0x1
+ 2111 03ce 00040000 		.4byte	0x400
+ 2112 03d2 0F       		.uleb128 0xf
+ 2113 03d3 4B000000 		.4byte	.LASF16
+ 2114 03d7 01       		.byte	0x1
+ 2115 03d8 3401     		.2byte	0x134
+ 2116 03da 68000000 		.4byte	0x68
+ 2117 03de 02       		.byte	0x2
+ 2118 03df 91       		.byte	0x91
+ 2119 03e0 74       		.sleb128 -12
+ 2120 03e1 0C       		.uleb128 0xc
+ 2121 03e2 AD030000 		.4byte	.LASF50
+ 2122 03e6 01       		.byte	0x1
+ 2123 03e7 3601     		.2byte	0x136
+ 2124 03e9 68000000 		.4byte	0x68
+ 2125 03ed 02       		.byte	0x2
+ 2126 03ee 91       		.byte	0x91
+ 2127 03ef 7C       		.sleb128 -4
+ 2128 03f0 0C       		.uleb128 0xc
+ 2129 03f1 2F020000 		.4byte	.LASF51
+ 2130 03f5 01       		.byte	0x1
+ 2131 03f6 3601     		.2byte	0x136
+ 2132 03f8 68000000 		.4byte	0x68
+ 2133 03fc 02       		.byte	0x2
+ 2134 03fd 91       		.byte	0x91
+ 2135 03fe 78       		.sleb128 -8
+ 2136 03ff 00       		.byte	0
+ 2137 0400 02       		.uleb128 0x2
+ 2138 0401 01       		.byte	0x1
+ 2139 0402 02       		.byte	0x2
+ 2140 0403 11030000 		.4byte	.LASF52
+ 2141 0407 0E       		.uleb128 0xe
+ 2142 0408 01       		.byte	0x1
+ 2143 0409 FF030000 		.4byte	.LASF53
+ 2144 040d 01       		.byte	0x1
+ARM GAS  /tmp/ccCmPHmz.s 			page 48
+
+
+ 2145 040e 4001     		.2byte	0x140
+ 2146 0410 01       		.byte	0x1
+ 2147 0411 00040000 		.4byte	0x400
+ 2148 0415 54040000 		.4byte	.LFB13
+ 2149 0419 84040000 		.4byte	.LFE13
+ 2150 041d 9C010000 		.4byte	.LLST11
+ 2151 0421 01       		.byte	0x1
+ 2152 0422 54040000 		.4byte	0x454
+ 2153 0426 0F       		.uleb128 0xf
+ 2154 0427 4B000000 		.4byte	.LASF16
+ 2155 042b 01       		.byte	0x1
+ 2156 042c 4001     		.2byte	0x140
+ 2157 042e 68000000 		.4byte	0x68
+ 2158 0432 02       		.byte	0x2
+ 2159 0433 91       		.byte	0x91
+ 2160 0434 74       		.sleb128 -12
+ 2161 0435 0C       		.uleb128 0xc
+ 2162 0436 AD030000 		.4byte	.LASF50
+ 2163 043a 01       		.byte	0x1
+ 2164 043b 4201     		.2byte	0x142
+ 2165 043d 68000000 		.4byte	0x68
+ 2166 0441 02       		.byte	0x2
+ 2167 0442 91       		.byte	0x91
+ 2168 0443 7C       		.sleb128 -4
+ 2169 0444 0C       		.uleb128 0xc
+ 2170 0445 A0030000 		.4byte	.LASF54
+ 2171 0449 01       		.byte	0x1
+ 2172 044a 4201     		.2byte	0x142
+ 2173 044c 68000000 		.4byte	0x68
+ 2174 0450 02       		.byte	0x2
+ 2175 0451 91       		.byte	0x91
+ 2176 0452 78       		.sleb128 -8
+ 2177 0453 00       		.byte	0
+ 2178 0454 10       		.uleb128 0x10
+ 2179 0455 01       		.byte	0x1
+ 2180 0456 63030000 		.4byte	.LASF56
+ 2181 045a 01       		.byte	0x1
+ 2182 045b 5101     		.2byte	0x151
+ 2183 045d 01       		.byte	0x1
+ 2184 045e 84040000 		.4byte	.LFB14
+ 2185 0462 88060000 		.4byte	.LFE14
+ 2186 0466 BC010000 		.4byte	.LLST12
+ 2187 046a 01       		.byte	0x1
+ 2188 046b AC040000 		.4byte	0x4ac
+ 2189 046f 0C       		.uleb128 0xc
+ 2190 0470 4C010000 		.4byte	.LASF57
+ 2191 0474 01       		.byte	0x1
+ 2192 0475 5201     		.2byte	0x152
+ 2193 0477 00040000 		.4byte	0x400
+ 2194 047b 02       		.byte	0x2
+ 2195 047c 91       		.byte	0x91
+ 2196 047d 77       		.sleb128 -9
+ 2197 047e 0C       		.uleb128 0xc
+ 2198 047f 42030000 		.4byte	.LASF58
+ 2199 0483 01       		.byte	0x1
+ 2200 0484 5201     		.2byte	0x152
+ 2201 0486 00040000 		.4byte	0x400
+ARM GAS  /tmp/ccCmPHmz.s 			page 49
+
+
+ 2202 048a 02       		.byte	0x2
+ 2203 048b 91       		.byte	0x91
+ 2204 048c 76       		.sleb128 -10
+ 2205 048d 0C       		.uleb128 0xc
+ 2206 048e 3C020000 		.4byte	.LASF59
+ 2207 0492 01       		.byte	0x1
+ 2208 0493 5201     		.2byte	0x152
+ 2209 0495 00040000 		.4byte	0x400
+ 2210 0499 02       		.byte	0x2
+ 2211 049a 91       		.byte	0x91
+ 2212 049b 75       		.sleb128 -11
+ 2213 049c 0C       		.uleb128 0xc
+ 2214 049d AE000000 		.4byte	.LASF60
+ 2215 04a1 01       		.byte	0x1
+ 2216 04a2 5701     		.2byte	0x157
+ 2217 04a4 76000000 		.4byte	0x76
+ 2218 04a8 02       		.byte	0x2
+ 2219 04a9 91       		.byte	0x91
+ 2220 04aa 70       		.sleb128 -16
+ 2221 04ab 00       		.byte	0
+ 2222 04ac 11       		.uleb128 0x11
+ 2223 04ad 01       		.byte	0x1
+ 2224 04ae 1F020000 		.4byte	.LASF61
+ 2225 04b2 01       		.byte	0x1
+ 2226 04b3 B501     		.2byte	0x1b5
+ 2227 04b5 01       		.byte	0x1
+ 2228 04b6 88060000 		.4byte	.LFB15
+ 2229 04ba A8060000 		.4byte	.LFE15
+ 2230 04be E8010000 		.4byte	.LLST13
+ 2231 04c2 01       		.byte	0x1
+ 2232 04c3 DF040000 		.4byte	0x4df
+ 2233 04c7 12       		.uleb128 0x12
+ 2234 04c8 8A060000 		.4byte	.LBB2
+ 2235 04cc 9E060000 		.4byte	.LBE2
+ 2236 04d0 13       		.uleb128 0x13
+ 2237 04d1 6900     		.ascii	"i\000"
+ 2238 04d3 01       		.byte	0x1
+ 2239 04d4 B701     		.2byte	0x1b7
+ 2240 04d6 68000000 		.4byte	0x68
+ 2241 04da 02       		.byte	0x2
+ 2242 04db 91       		.byte	0x91
+ 2243 04dc 7C       		.sleb128 -4
+ 2244 04dd 00       		.byte	0
+ 2245 04de 00       		.byte	0
+ 2246 04df 14       		.uleb128 0x14
+ 2247 04e0 01       		.byte	0x1
+ 2248 04e1 CB030000 		.4byte	.LASF62
+ 2249 04e5 01       		.byte	0x1
+ 2250 04e6 C001     		.2byte	0x1c0
+ 2251 04e8 01       		.byte	0x1
+ 2252 04e9 68000000 		.4byte	0x68
+ 2253 04ed A8060000 		.4byte	.LFB16
+ 2254 04f1 D8070000 		.4byte	.LFE16
+ 2255 04f5 08020000 		.4byte	.LLST14
+ 2256 04f9 01       		.byte	0x1
+ 2257 04fa 3B050000 		.4byte	0x53b
+ 2258 04fe 0C       		.uleb128 0xc
+ARM GAS  /tmp/ccCmPHmz.s 			page 50
+
+
+ 2259 04ff 81010000 		.4byte	.LASF20
+ 2260 0503 01       		.byte	0x1
+ 2261 0504 C101     		.2byte	0x1c1
+ 2262 0506 76000000 		.4byte	0x76
+ 2263 050a 02       		.byte	0x2
+ 2264 050b 91       		.byte	0x91
+ 2265 050c 74       		.sleb128 -12
+ 2266 050d 0C       		.uleb128 0xc
+ 2267 050e 18000000 		.4byte	.LASF63
+ 2268 0512 01       		.byte	0x1
+ 2269 0513 C201     		.2byte	0x1c2
+ 2270 0515 76000000 		.4byte	0x76
+ 2271 0519 02       		.byte	0x2
+ 2272 051a 91       		.byte	0x91
+ 2273 051b 6C       		.sleb128 -20
+ 2274 051c 13       		.uleb128 0x13
+ 2275 051d 72706D00 		.ascii	"rpm\000"
+ 2276 0521 01       		.byte	0x1
+ 2277 0522 C301     		.2byte	0x1c3
+ 2278 0524 76000000 		.4byte	0x76
+ 2279 0528 02       		.byte	0x2
+ 2280 0529 91       		.byte	0x91
+ 2281 052a 68       		.sleb128 -24
+ 2282 052b 0C       		.uleb128 0xc
+ 2283 052c CF010000 		.4byte	.LASF27
+ 2284 0530 01       		.byte	0x1
+ 2285 0531 C401     		.2byte	0x1c4
+ 2286 0533 76000000 		.4byte	0x76
+ 2287 0537 02       		.byte	0x2
+ 2288 0538 91       		.byte	0x91
+ 2289 0539 70       		.sleb128 -16
+ 2290 053a 00       		.byte	0
+ 2291 053b 15       		.uleb128 0x15
+ 2292 053c 21030000 		.4byte	.LASF64
+ 2293 0540 01       		.byte	0x1
+ 2294 0541 20       		.byte	0x20
+ 2295 0542 4D050000 		.4byte	0x54d
+ 2296 0546 01       		.byte	0x1
+ 2297 0547 05       		.byte	0x5
+ 2298 0548 03       		.byte	0x3
+ 2299 0549 00000000 		.4byte	SENSOR_REGS
+ 2300 054d 16       		.uleb128 0x16
+ 2301 054e 04       		.byte	0x4
+ 2302 054f 53050000 		.4byte	0x553
+ 2303 0553 17       		.uleb128 0x17
+ 2304 0554 76000000 		.4byte	0x76
+ 2305 0558 15       		.uleb128 0x15
+ 2306 0559 A2000000 		.4byte	.LASF65
+ 2307 055d 01       		.byte	0x1
+ 2308 055e 21       		.byte	0x21
+ 2309 055f 4D050000 		.4byte	0x54d
+ 2310 0563 01       		.byte	0x1
+ 2311 0564 05       		.byte	0x5
+ 2312 0565 03       		.byte	0x3
+ 2313 0566 00000000 		.4byte	BUTTON_REGS
+ 2314 056a 15       		.uleb128 0x15
+ 2315 056b 97030000 		.4byte	.LASF66
+ARM GAS  /tmp/ccCmPHmz.s 			page 51
+
+
+ 2316 056f 01       		.byte	0x1
+ 2317 0570 22       		.byte	0x22
+ 2318 0571 4D050000 		.4byte	0x54d
+ 2319 0575 01       		.byte	0x1
+ 2320 0576 05       		.byte	0x5
+ 2321 0577 03       		.byte	0x3
+ 2322 0578 00000000 		.4byte	LED_REGS
+ 2323 057c 15       		.uleb128 0x15
+ 2324 057d 00000000 		.4byte	.LASF67
+ 2325 0581 01       		.byte	0x1
+ 2326 0582 31       		.byte	0x31
+ 2327 0583 76000000 		.4byte	0x76
+ 2328 0587 01       		.byte	0x1
+ 2329 0588 05       		.byte	0x5
+ 2330 0589 03       		.byte	0x3
+ 2331 058a 00000000 		.4byte	dp_location
+ 2332 058e 15       		.uleb128 0x15
+ 2333 058f 7C030000 		.4byte	.LASF68
+ 2334 0593 01       		.byte	0x1
+ 2335 0594 32       		.byte	0x32
+ 2336 0595 76000000 		.4byte	0x76
+ 2337 0599 01       		.byte	0x1
+ 2338 059a 05       		.byte	0x5
+ 2339 059b 03       		.byte	0x3
+ 2340 059c 00000000 		.4byte	nMode_normal_times
+ 2341 05a0 15       		.uleb128 0x15
+ 2342 05a1 58010000 		.4byte	.LASF69
+ 2343 05a5 01       		.byte	0x1
+ 2344 05a6 34       		.byte	0x34
+ 2345 05a7 76000000 		.4byte	0x76
+ 2346 05ab 01       		.byte	0x1
+ 2347 05ac 05       		.byte	0x5
+ 2348 05ad 03       		.byte	0x3
+ 2349 05ae 00000000 		.4byte	nMode_wheel_times
+ 2350 05b2 15       		.uleb128 0x15
+ 2351 05b3 61020000 		.4byte	.LASF70
+ 2352 05b7 01       		.byte	0x1
+ 2353 05b8 36       		.byte	0x36
+ 2354 05b9 00040000 		.4byte	0x400
+ 2355 05bd 01       		.byte	0x1
+ 2356 05be 05       		.byte	0x5
+ 2357 05bf 03       		.byte	0x3
+ 2358 05c0 00000000 		.4byte	singal_wheel
+ 2359 05c4 15       		.uleb128 0x15
+ 2360 05c5 1D000000 		.4byte	.LASF71
+ 2361 05c9 01       		.byte	0x1
+ 2362 05ca 37       		.byte	0x37
+ 2363 05cb 76000000 		.4byte	0x76
+ 2364 05cf 01       		.byte	0x1
+ 2365 05d0 05       		.byte	0x5
+ 2366 05d1 03       		.byte	0x3
+ 2367 05d2 00000000 		.4byte	wheel_size
+ 2368 05d6 15       		.uleb128 0x15
+ 2369 05d7 F9010000 		.4byte	.LASF72
+ 2370 05db 01       		.byte	0x1
+ 2371 05dc 38       		.byte	0x38
+ 2372 05dd 76000000 		.4byte	0x76
+ARM GAS  /tmp/ccCmPHmz.s 			page 52
+
+
+ 2373 05e1 01       		.byte	0x1
+ 2374 05e2 05       		.byte	0x5
+ 2375 05e3 03       		.byte	0x3
+ 2376 05e4 00000000 		.4byte	bit_wheel_size
+ 2377 05e8 15       		.uleb128 0x15
+ 2378 05e9 6A010000 		.4byte	.LASF73
+ 2379 05ed 01       		.byte	0x1
+ 2380 05ee 39       		.byte	0x39
+ 2381 05ef 76000000 		.4byte	0x76
+ 2382 05f3 01       		.byte	0x1
+ 2383 05f4 05       		.byte	0x5
+ 2384 05f5 03       		.byte	0x3
+ 2385 05f6 00000000 		.4byte	ten_wheel_size
+ 2386 05fa 15       		.uleb128 0x15
+ 2387 05fb E7000000 		.4byte	.LASF74
+ 2388 05ff 01       		.byte	0x1
+ 2389 0600 3A       		.byte	0x3a
+ 2390 0601 76000000 		.4byte	0x76
+ 2391 0605 01       		.byte	0x1
+ 2392 0606 05       		.byte	0x5
+ 2393 0607 03       		.byte	0x3
+ 2394 0608 00000000 		.4byte	hundrend_wheel_size
+ 2395 060c 00       		.byte	0
+ 2396              		.section	.debug_abbrev,"",%progbits
+ 2397              	.Ldebug_abbrev0:
+ 2398 0000 01       		.uleb128 0x1
+ 2399 0001 11       		.uleb128 0x11
+ 2400 0002 01       		.byte	0x1
+ 2401 0003 25       		.uleb128 0x25
+ 2402 0004 0E       		.uleb128 0xe
+ 2403 0005 13       		.uleb128 0x13
+ 2404 0006 0B       		.uleb128 0xb
+ 2405 0007 03       		.uleb128 0x3
+ 2406 0008 0E       		.uleb128 0xe
+ 2407 0009 1B       		.uleb128 0x1b
+ 2408 000a 0E       		.uleb128 0xe
+ 2409 000b 11       		.uleb128 0x11
+ 2410 000c 01       		.uleb128 0x1
+ 2411 000d 12       		.uleb128 0x12
+ 2412 000e 01       		.uleb128 0x1
+ 2413 000f 10       		.uleb128 0x10
+ 2414 0010 06       		.uleb128 0x6
+ 2415 0011 00       		.byte	0
+ 2416 0012 00       		.byte	0
+ 2417 0013 02       		.uleb128 0x2
+ 2418 0014 24       		.uleb128 0x24
+ 2419 0015 00       		.byte	0
+ 2420 0016 0B       		.uleb128 0xb
+ 2421 0017 0B       		.uleb128 0xb
+ 2422 0018 3E       		.uleb128 0x3e
+ 2423 0019 0B       		.uleb128 0xb
+ 2424 001a 03       		.uleb128 0x3
+ 2425 001b 0E       		.uleb128 0xe
+ 2426 001c 00       		.byte	0
+ 2427 001d 00       		.byte	0
+ 2428 001e 03       		.uleb128 0x3
+ 2429 001f 16       		.uleb128 0x16
+ARM GAS  /tmp/ccCmPHmz.s 			page 53
+
+
+ 2430 0020 00       		.byte	0
+ 2431 0021 03       		.uleb128 0x3
+ 2432 0022 0E       		.uleb128 0xe
+ 2433 0023 3A       		.uleb128 0x3a
+ 2434 0024 0B       		.uleb128 0xb
+ 2435 0025 3B       		.uleb128 0x3b
+ 2436 0026 0B       		.uleb128 0xb
+ 2437 0027 49       		.uleb128 0x49
+ 2438 0028 13       		.uleb128 0x13
+ 2439 0029 00       		.byte	0
+ 2440 002a 00       		.byte	0
+ 2441 002b 04       		.uleb128 0x4
+ 2442 002c 24       		.uleb128 0x24
+ 2443 002d 00       		.byte	0
+ 2444 002e 0B       		.uleb128 0xb
+ 2445 002f 0B       		.uleb128 0xb
+ 2446 0030 3E       		.uleb128 0x3e
+ 2447 0031 0B       		.uleb128 0xb
+ 2448 0032 03       		.uleb128 0x3
+ 2449 0033 08       		.uleb128 0x8
+ 2450 0034 00       		.byte	0
+ 2451 0035 00       		.byte	0
+ 2452 0036 05       		.uleb128 0x5
+ 2453 0037 2E       		.uleb128 0x2e
+ 2454 0038 01       		.byte	0x1
+ 2455 0039 3F       		.uleb128 0x3f
+ 2456 003a 0C       		.uleb128 0xc
+ 2457 003b 03       		.uleb128 0x3
+ 2458 003c 0E       		.uleb128 0xe
+ 2459 003d 3A       		.uleb128 0x3a
+ 2460 003e 0B       		.uleb128 0xb
+ 2461 003f 3B       		.uleb128 0x3b
+ 2462 0040 0B       		.uleb128 0xb
+ 2463 0041 27       		.uleb128 0x27
+ 2464 0042 0C       		.uleb128 0xc
+ 2465 0043 49       		.uleb128 0x49
+ 2466 0044 13       		.uleb128 0x13
+ 2467 0045 11       		.uleb128 0x11
+ 2468 0046 01       		.uleb128 0x1
+ 2469 0047 12       		.uleb128 0x12
+ 2470 0048 01       		.uleb128 0x1
+ 2471 0049 40       		.uleb128 0x40
+ 2472 004a 06       		.uleb128 0x6
+ 2473 004b 9742     		.uleb128 0x2117
+ 2474 004d 0C       		.uleb128 0xc
+ 2475 004e 01       		.uleb128 0x1
+ 2476 004f 13       		.uleb128 0x13
+ 2477 0050 00       		.byte	0
+ 2478 0051 00       		.byte	0
+ 2479 0052 06       		.uleb128 0x6
+ 2480 0053 05       		.uleb128 0x5
+ 2481 0054 00       		.byte	0
+ 2482 0055 03       		.uleb128 0x3
+ 2483 0056 0E       		.uleb128 0xe
+ 2484 0057 3A       		.uleb128 0x3a
+ 2485 0058 0B       		.uleb128 0xb
+ 2486 0059 3B       		.uleb128 0x3b
+ARM GAS  /tmp/ccCmPHmz.s 			page 54
+
+
+ 2487 005a 0B       		.uleb128 0xb
+ 2488 005b 49       		.uleb128 0x49
+ 2489 005c 13       		.uleb128 0x13
+ 2490 005d 02       		.uleb128 0x2
+ 2491 005e 0A       		.uleb128 0xa
+ 2492 005f 00       		.byte	0
+ 2493 0060 00       		.byte	0
+ 2494 0061 07       		.uleb128 0x7
+ 2495 0062 2E       		.uleb128 0x2e
+ 2496 0063 01       		.byte	0x1
+ 2497 0064 3F       		.uleb128 0x3f
+ 2498 0065 0C       		.uleb128 0xc
+ 2499 0066 03       		.uleb128 0x3
+ 2500 0067 0E       		.uleb128 0xe
+ 2501 0068 3A       		.uleb128 0x3a
+ 2502 0069 0B       		.uleb128 0xb
+ 2503 006a 3B       		.uleb128 0x3b
+ 2504 006b 0B       		.uleb128 0xb
+ 2505 006c 27       		.uleb128 0x27
+ 2506 006d 0C       		.uleb128 0xc
+ 2507 006e 49       		.uleb128 0x49
+ 2508 006f 13       		.uleb128 0x13
+ 2509 0070 11       		.uleb128 0x11
+ 2510 0071 01       		.uleb128 0x1
+ 2511 0072 12       		.uleb128 0x12
+ 2512 0073 01       		.uleb128 0x1
+ 2513 0074 40       		.uleb128 0x40
+ 2514 0075 06       		.uleb128 0x6
+ 2515 0076 9642     		.uleb128 0x2116
+ 2516 0078 0C       		.uleb128 0xc
+ 2517 0079 01       		.uleb128 0x1
+ 2518 007a 13       		.uleb128 0x13
+ 2519 007b 00       		.byte	0
+ 2520 007c 00       		.byte	0
+ 2521 007d 08       		.uleb128 0x8
+ 2522 007e 34       		.uleb128 0x34
+ 2523 007f 00       		.byte	0
+ 2524 0080 03       		.uleb128 0x3
+ 2525 0081 0E       		.uleb128 0xe
+ 2526 0082 3A       		.uleb128 0x3a
+ 2527 0083 0B       		.uleb128 0xb
+ 2528 0084 3B       		.uleb128 0x3b
+ 2529 0085 0B       		.uleb128 0xb
+ 2530 0086 49       		.uleb128 0x49
+ 2531 0087 13       		.uleb128 0x13
+ 2532 0088 02       		.uleb128 0x2
+ 2533 0089 0A       		.uleb128 0xa
+ 2534 008a 00       		.byte	0
+ 2535 008b 00       		.byte	0
+ 2536 008c 09       		.uleb128 0x9
+ 2537 008d 34       		.uleb128 0x34
+ 2538 008e 00       		.byte	0
+ 2539 008f 03       		.uleb128 0x3
+ 2540 0090 08       		.uleb128 0x8
+ 2541 0091 3A       		.uleb128 0x3a
+ 2542 0092 0B       		.uleb128 0xb
+ 2543 0093 3B       		.uleb128 0x3b
+ARM GAS  /tmp/ccCmPHmz.s 			page 55
+
+
+ 2544 0094 0B       		.uleb128 0xb
+ 2545 0095 49       		.uleb128 0x49
+ 2546 0096 13       		.uleb128 0x13
+ 2547 0097 02       		.uleb128 0x2
+ 2548 0098 0A       		.uleb128 0xa
+ 2549 0099 00       		.byte	0
+ 2550 009a 00       		.byte	0
+ 2551 009b 0A       		.uleb128 0xa
+ 2552 009c 2E       		.uleb128 0x2e
+ 2553 009d 01       		.byte	0x1
+ 2554 009e 3F       		.uleb128 0x3f
+ 2555 009f 0C       		.uleb128 0xc
+ 2556 00a0 03       		.uleb128 0x3
+ 2557 00a1 0E       		.uleb128 0xe
+ 2558 00a2 3A       		.uleb128 0x3a
+ 2559 00a3 0B       		.uleb128 0xb
+ 2560 00a4 3B       		.uleb128 0x3b
+ 2561 00a5 0B       		.uleb128 0xb
+ 2562 00a6 27       		.uleb128 0x27
+ 2563 00a7 0C       		.uleb128 0xc
+ 2564 00a8 11       		.uleb128 0x11
+ 2565 00a9 01       		.uleb128 0x1
+ 2566 00aa 12       		.uleb128 0x12
+ 2567 00ab 01       		.uleb128 0x1
+ 2568 00ac 40       		.uleb128 0x40
+ 2569 00ad 06       		.uleb128 0x6
+ 2570 00ae 9642     		.uleb128 0x2116
+ 2571 00b0 0C       		.uleb128 0xc
+ 2572 00b1 01       		.uleb128 0x1
+ 2573 00b2 13       		.uleb128 0x13
+ 2574 00b3 00       		.byte	0
+ 2575 00b4 00       		.byte	0
+ 2576 00b5 0B       		.uleb128 0xb
+ 2577 00b6 05       		.uleb128 0x5
+ 2578 00b7 00       		.byte	0
+ 2579 00b8 03       		.uleb128 0x3
+ 2580 00b9 08       		.uleb128 0x8
+ 2581 00ba 3A       		.uleb128 0x3a
+ 2582 00bb 0B       		.uleb128 0xb
+ 2583 00bc 3B       		.uleb128 0x3b
+ 2584 00bd 0B       		.uleb128 0xb
+ 2585 00be 49       		.uleb128 0x49
+ 2586 00bf 13       		.uleb128 0x13
+ 2587 00c0 02       		.uleb128 0x2
+ 2588 00c1 0A       		.uleb128 0xa
+ 2589 00c2 00       		.byte	0
+ 2590 00c3 00       		.byte	0
+ 2591 00c4 0C       		.uleb128 0xc
+ 2592 00c5 34       		.uleb128 0x34
+ 2593 00c6 00       		.byte	0
+ 2594 00c7 03       		.uleb128 0x3
+ 2595 00c8 0E       		.uleb128 0xe
+ 2596 00c9 3A       		.uleb128 0x3a
+ 2597 00ca 0B       		.uleb128 0xb
+ 2598 00cb 3B       		.uleb128 0x3b
+ 2599 00cc 05       		.uleb128 0x5
+ 2600 00cd 49       		.uleb128 0x49
+ARM GAS  /tmp/ccCmPHmz.s 			page 56
+
+
+ 2601 00ce 13       		.uleb128 0x13
+ 2602 00cf 02       		.uleb128 0x2
+ 2603 00d0 0A       		.uleb128 0xa
+ 2604 00d1 00       		.byte	0
+ 2605 00d2 00       		.byte	0
+ 2606 00d3 0D       		.uleb128 0xd
+ 2607 00d4 2E       		.uleb128 0x2e
+ 2608 00d5 00       		.byte	0
+ 2609 00d6 3F       		.uleb128 0x3f
+ 2610 00d7 0C       		.uleb128 0xc
+ 2611 00d8 03       		.uleb128 0x3
+ 2612 00d9 0E       		.uleb128 0xe
+ 2613 00da 3A       		.uleb128 0x3a
+ 2614 00db 0B       		.uleb128 0xb
+ 2615 00dc 3B       		.uleb128 0x3b
+ 2616 00dd 05       		.uleb128 0x5
+ 2617 00de 27       		.uleb128 0x27
+ 2618 00df 0C       		.uleb128 0xc
+ 2619 00e0 11       		.uleb128 0x11
+ 2620 00e1 01       		.uleb128 0x1
+ 2621 00e2 12       		.uleb128 0x12
+ 2622 00e3 01       		.uleb128 0x1
+ 2623 00e4 40       		.uleb128 0x40
+ 2624 00e5 0A       		.uleb128 0xa
+ 2625 00e6 9742     		.uleb128 0x2117
+ 2626 00e8 0C       		.uleb128 0xc
+ 2627 00e9 00       		.byte	0
+ 2628 00ea 00       		.byte	0
+ 2629 00eb 0E       		.uleb128 0xe
+ 2630 00ec 2E       		.uleb128 0x2e
+ 2631 00ed 01       		.byte	0x1
+ 2632 00ee 3F       		.uleb128 0x3f
+ 2633 00ef 0C       		.uleb128 0xc
+ 2634 00f0 03       		.uleb128 0x3
+ 2635 00f1 0E       		.uleb128 0xe
+ 2636 00f2 3A       		.uleb128 0x3a
+ 2637 00f3 0B       		.uleb128 0xb
+ 2638 00f4 3B       		.uleb128 0x3b
+ 2639 00f5 05       		.uleb128 0x5
+ 2640 00f6 27       		.uleb128 0x27
+ 2641 00f7 0C       		.uleb128 0xc
+ 2642 00f8 49       		.uleb128 0x49
+ 2643 00f9 13       		.uleb128 0x13
+ 2644 00fa 11       		.uleb128 0x11
+ 2645 00fb 01       		.uleb128 0x1
+ 2646 00fc 12       		.uleb128 0x12
+ 2647 00fd 01       		.uleb128 0x1
+ 2648 00fe 40       		.uleb128 0x40
+ 2649 00ff 06       		.uleb128 0x6
+ 2650 0100 9742     		.uleb128 0x2117
+ 2651 0102 0C       		.uleb128 0xc
+ 2652 0103 01       		.uleb128 0x1
+ 2653 0104 13       		.uleb128 0x13
+ 2654 0105 00       		.byte	0
+ 2655 0106 00       		.byte	0
+ 2656 0107 0F       		.uleb128 0xf
+ 2657 0108 05       		.uleb128 0x5
+ARM GAS  /tmp/ccCmPHmz.s 			page 57
+
+
+ 2658 0109 00       		.byte	0
+ 2659 010a 03       		.uleb128 0x3
+ 2660 010b 0E       		.uleb128 0xe
+ 2661 010c 3A       		.uleb128 0x3a
+ 2662 010d 0B       		.uleb128 0xb
+ 2663 010e 3B       		.uleb128 0x3b
+ 2664 010f 05       		.uleb128 0x5
+ 2665 0110 49       		.uleb128 0x49
+ 2666 0111 13       		.uleb128 0x13
+ 2667 0112 02       		.uleb128 0x2
+ 2668 0113 0A       		.uleb128 0xa
+ 2669 0114 00       		.byte	0
+ 2670 0115 00       		.byte	0
+ 2671 0116 10       		.uleb128 0x10
+ 2672 0117 2E       		.uleb128 0x2e
+ 2673 0118 01       		.byte	0x1
+ 2674 0119 3F       		.uleb128 0x3f
+ 2675 011a 0C       		.uleb128 0xc
+ 2676 011b 03       		.uleb128 0x3
+ 2677 011c 0E       		.uleb128 0xe
+ 2678 011d 3A       		.uleb128 0x3a
+ 2679 011e 0B       		.uleb128 0xb
+ 2680 011f 3B       		.uleb128 0x3b
+ 2681 0120 05       		.uleb128 0x5
+ 2682 0121 27       		.uleb128 0x27
+ 2683 0122 0C       		.uleb128 0xc
+ 2684 0123 11       		.uleb128 0x11
+ 2685 0124 01       		.uleb128 0x1
+ 2686 0125 12       		.uleb128 0x12
+ 2687 0126 01       		.uleb128 0x1
+ 2688 0127 40       		.uleb128 0x40
+ 2689 0128 06       		.uleb128 0x6
+ 2690 0129 9642     		.uleb128 0x2116
+ 2691 012b 0C       		.uleb128 0xc
+ 2692 012c 01       		.uleb128 0x1
+ 2693 012d 13       		.uleb128 0x13
+ 2694 012e 00       		.byte	0
+ 2695 012f 00       		.byte	0
+ 2696 0130 11       		.uleb128 0x11
+ 2697 0131 2E       		.uleb128 0x2e
+ 2698 0132 01       		.byte	0x1
+ 2699 0133 3F       		.uleb128 0x3f
+ 2700 0134 0C       		.uleb128 0xc
+ 2701 0135 03       		.uleb128 0x3
+ 2702 0136 0E       		.uleb128 0xe
+ 2703 0137 3A       		.uleb128 0x3a
+ 2704 0138 0B       		.uleb128 0xb
+ 2705 0139 3B       		.uleb128 0x3b
+ 2706 013a 05       		.uleb128 0x5
+ 2707 013b 27       		.uleb128 0x27
+ 2708 013c 0C       		.uleb128 0xc
+ 2709 013d 11       		.uleb128 0x11
+ 2710 013e 01       		.uleb128 0x1
+ 2711 013f 12       		.uleb128 0x12
+ 2712 0140 01       		.uleb128 0x1
+ 2713 0141 40       		.uleb128 0x40
+ 2714 0142 06       		.uleb128 0x6
+ARM GAS  /tmp/ccCmPHmz.s 			page 58
+
+
+ 2715 0143 9742     		.uleb128 0x2117
+ 2716 0145 0C       		.uleb128 0xc
+ 2717 0146 01       		.uleb128 0x1
+ 2718 0147 13       		.uleb128 0x13
+ 2719 0148 00       		.byte	0
+ 2720 0149 00       		.byte	0
+ 2721 014a 12       		.uleb128 0x12
+ 2722 014b 0B       		.uleb128 0xb
+ 2723 014c 01       		.byte	0x1
+ 2724 014d 11       		.uleb128 0x11
+ 2725 014e 01       		.uleb128 0x1
+ 2726 014f 12       		.uleb128 0x12
+ 2727 0150 01       		.uleb128 0x1
+ 2728 0151 00       		.byte	0
+ 2729 0152 00       		.byte	0
+ 2730 0153 13       		.uleb128 0x13
+ 2731 0154 34       		.uleb128 0x34
+ 2732 0155 00       		.byte	0
+ 2733 0156 03       		.uleb128 0x3
+ 2734 0157 08       		.uleb128 0x8
+ 2735 0158 3A       		.uleb128 0x3a
+ 2736 0159 0B       		.uleb128 0xb
+ 2737 015a 3B       		.uleb128 0x3b
+ 2738 015b 05       		.uleb128 0x5
+ 2739 015c 49       		.uleb128 0x49
+ 2740 015d 13       		.uleb128 0x13
+ 2741 015e 02       		.uleb128 0x2
+ 2742 015f 0A       		.uleb128 0xa
+ 2743 0160 00       		.byte	0
+ 2744 0161 00       		.byte	0
+ 2745 0162 14       		.uleb128 0x14
+ 2746 0163 2E       		.uleb128 0x2e
+ 2747 0164 01       		.byte	0x1
+ 2748 0165 3F       		.uleb128 0x3f
+ 2749 0166 0C       		.uleb128 0xc
+ 2750 0167 03       		.uleb128 0x3
+ 2751 0168 0E       		.uleb128 0xe
+ 2752 0169 3A       		.uleb128 0x3a
+ 2753 016a 0B       		.uleb128 0xb
+ 2754 016b 3B       		.uleb128 0x3b
+ 2755 016c 05       		.uleb128 0x5
+ 2756 016d 27       		.uleb128 0x27
+ 2757 016e 0C       		.uleb128 0xc
+ 2758 016f 49       		.uleb128 0x49
+ 2759 0170 13       		.uleb128 0x13
+ 2760 0171 11       		.uleb128 0x11
+ 2761 0172 01       		.uleb128 0x1
+ 2762 0173 12       		.uleb128 0x12
+ 2763 0174 01       		.uleb128 0x1
+ 2764 0175 40       		.uleb128 0x40
+ 2765 0176 06       		.uleb128 0x6
+ 2766 0177 9642     		.uleb128 0x2116
+ 2767 0179 0C       		.uleb128 0xc
+ 2768 017a 01       		.uleb128 0x1
+ 2769 017b 13       		.uleb128 0x13
+ 2770 017c 00       		.byte	0
+ 2771 017d 00       		.byte	0
+ARM GAS  /tmp/ccCmPHmz.s 			page 59
+
+
+ 2772 017e 15       		.uleb128 0x15
+ 2773 017f 34       		.uleb128 0x34
+ 2774 0180 00       		.byte	0
+ 2775 0181 03       		.uleb128 0x3
+ 2776 0182 0E       		.uleb128 0xe
+ 2777 0183 3A       		.uleb128 0x3a
+ 2778 0184 0B       		.uleb128 0xb
+ 2779 0185 3B       		.uleb128 0x3b
+ 2780 0186 0B       		.uleb128 0xb
+ 2781 0187 49       		.uleb128 0x49
+ 2782 0188 13       		.uleb128 0x13
+ 2783 0189 3F       		.uleb128 0x3f
+ 2784 018a 0C       		.uleb128 0xc
+ 2785 018b 02       		.uleb128 0x2
+ 2786 018c 0A       		.uleb128 0xa
+ 2787 018d 00       		.byte	0
+ 2788 018e 00       		.byte	0
+ 2789 018f 16       		.uleb128 0x16
+ 2790 0190 0F       		.uleb128 0xf
+ 2791 0191 00       		.byte	0
+ 2792 0192 0B       		.uleb128 0xb
+ 2793 0193 0B       		.uleb128 0xb
+ 2794 0194 49       		.uleb128 0x49
+ 2795 0195 13       		.uleb128 0x13
+ 2796 0196 00       		.byte	0
+ 2797 0197 00       		.byte	0
+ 2798 0198 17       		.uleb128 0x17
+ 2799 0199 35       		.uleb128 0x35
+ 2800 019a 00       		.byte	0
+ 2801 019b 49       		.uleb128 0x49
+ 2802 019c 13       		.uleb128 0x13
+ 2803 019d 00       		.byte	0
+ 2804 019e 00       		.byte	0
+ 2805 019f 00       		.byte	0
+ 2806              		.section	.debug_loc,"",%progbits
+ 2807              	.Ldebug_loc0:
+ 2808              	.LLST0:
+ 2809 0000 00000000 		.4byte	.LFB1-.Ltext0
+ 2810 0004 02000000 		.4byte	.LCFI0-.Ltext0
+ 2811 0008 0200     		.2byte	0x2
+ 2812 000a 7D       		.byte	0x7d
+ 2813 000b 00       		.sleb128 0
+ 2814 000c 02000000 		.4byte	.LCFI0-.Ltext0
+ 2815 0010 1C000000 		.4byte	.LFE1-.Ltext0
+ 2816 0014 0200     		.2byte	0x2
+ 2817 0016 7D       		.byte	0x7d
+ 2818 0017 08       		.sleb128 8
+ 2819 0018 00000000 		.4byte	0
+ 2820 001c 00000000 		.4byte	0
+ 2821              	.LLST1:
+ 2822 0020 1C000000 		.4byte	.LFB2-.Ltext0
+ 2823 0024 1E000000 		.4byte	.LCFI1-.Ltext0
+ 2824 0028 0200     		.2byte	0x2
+ 2825 002a 7D       		.byte	0x7d
+ 2826 002b 00       		.sleb128 0
+ 2827 002c 1E000000 		.4byte	.LCFI1-.Ltext0
+ 2828 0030 38000000 		.4byte	.LFE2-.Ltext0
+ARM GAS  /tmp/ccCmPHmz.s 			page 60
+
+
+ 2829 0034 0200     		.2byte	0x2
+ 2830 0036 7D       		.byte	0x7d
+ 2831 0037 08       		.sleb128 8
+ 2832 0038 00000000 		.4byte	0
+ 2833 003c 00000000 		.4byte	0
+ 2834              	.LLST2:
+ 2835 0040 38000000 		.4byte	.LFB3-.Ltext0
+ 2836 0044 3A000000 		.4byte	.LCFI2-.Ltext0
+ 2837 0048 0200     		.2byte	0x2
+ 2838 004a 7D       		.byte	0x7d
+ 2839 004b 00       		.sleb128 0
+ 2840 004c 3A000000 		.4byte	.LCFI2-.Ltext0
+ 2841 0050 3C000000 		.4byte	.LCFI3-.Ltext0
+ 2842 0054 0200     		.2byte	0x2
+ 2843 0056 7D       		.byte	0x7d
+ 2844 0057 04       		.sleb128 4
+ 2845 0058 3C000000 		.4byte	.LCFI3-.Ltext0
+ 2846 005c C0000000 		.4byte	.LFE3-.Ltext0
+ 2847 0060 0200     		.2byte	0x2
+ 2848 0062 7D       		.byte	0x7d
+ 2849 0063 18       		.sleb128 24
+ 2850 0064 00000000 		.4byte	0
+ 2851 0068 00000000 		.4byte	0
+ 2852              	.LLST3:
+ 2853 006c C0000000 		.4byte	.LFB4-.Ltext0
+ 2854 0070 C2000000 		.4byte	.LCFI4-.Ltext0
+ 2855 0074 0200     		.2byte	0x2
+ 2856 0076 7D       		.byte	0x7d
+ 2857 0077 00       		.sleb128 0
+ 2858 0078 C2000000 		.4byte	.LCFI4-.Ltext0
+ 2859 007c C4000000 		.4byte	.LCFI5-.Ltext0
+ 2860 0080 0200     		.2byte	0x2
+ 2861 0082 7D       		.byte	0x7d
+ 2862 0083 08       		.sleb128 8
+ 2863 0084 C4000000 		.4byte	.LCFI5-.Ltext0
+ 2864 0088 40010000 		.4byte	.LFE4-.Ltext0
+ 2865 008c 0200     		.2byte	0x2
+ 2866 008e 7D       		.byte	0x7d
+ 2867 008f 20       		.sleb128 32
+ 2868 0090 00000000 		.4byte	0
+ 2869 0094 00000000 		.4byte	0
+ 2870              	.LLST4:
+ 2871 0098 40010000 		.4byte	.LFB5-.Ltext0
+ 2872 009c 42010000 		.4byte	.LCFI6-.Ltext0
+ 2873 00a0 0200     		.2byte	0x2
+ 2874 00a2 7D       		.byte	0x7d
+ 2875 00a3 00       		.sleb128 0
+ 2876 00a4 42010000 		.4byte	.LCFI6-.Ltext0
+ 2877 00a8 44010000 		.4byte	.LCFI7-.Ltext0
+ 2878 00ac 0200     		.2byte	0x2
+ 2879 00ae 7D       		.byte	0x7d
+ 2880 00af 04       		.sleb128 4
+ 2881 00b0 44010000 		.4byte	.LCFI7-.Ltext0
+ 2882 00b4 74010000 		.4byte	.LFE5-.Ltext0
+ 2883 00b8 0200     		.2byte	0x2
+ 2884 00ba 7D       		.byte	0x7d
+ 2885 00bb 18       		.sleb128 24
+ARM GAS  /tmp/ccCmPHmz.s 			page 61
+
+
+ 2886 00bc 00000000 		.4byte	0
+ 2887 00c0 00000000 		.4byte	0
+ 2888              	.LLST5:
+ 2889 00c4 74010000 		.4byte	.LFB6-.Ltext0
+ 2890 00c8 76010000 		.4byte	.LCFI8-.Ltext0
+ 2891 00cc 0200     		.2byte	0x2
+ 2892 00ce 7D       		.byte	0x7d
+ 2893 00cf 00       		.sleb128 0
+ 2894 00d0 76010000 		.4byte	.LCFI8-.Ltext0
+ 2895 00d4 78010000 		.4byte	.LCFI9-.Ltext0
+ 2896 00d8 0200     		.2byte	0x2
+ 2897 00da 7D       		.byte	0x7d
+ 2898 00db 0C       		.sleb128 12
+ 2899 00dc 78010000 		.4byte	.LCFI9-.Ltext0
+ 2900 00e0 4C020000 		.4byte	.LFE6-.Ltext0
+ 2901 00e4 0200     		.2byte	0x2
+ 2902 00e6 7D       		.byte	0x7d
+ 2903 00e7 20       		.sleb128 32
+ 2904 00e8 00000000 		.4byte	0
+ 2905 00ec 00000000 		.4byte	0
+ 2906              	.LLST6:
+ 2907 00f0 4C020000 		.4byte	.LFB7-.Ltext0
+ 2908 00f4 4E020000 		.4byte	.LCFI10-.Ltext0
+ 2909 00f8 0200     		.2byte	0x2
+ 2910 00fa 7D       		.byte	0x7d
+ 2911 00fb 00       		.sleb128 0
+ 2912 00fc 4E020000 		.4byte	.LCFI10-.Ltext0
+ 2913 0100 B0020000 		.4byte	.LFE7-.Ltext0
+ 2914 0104 0200     		.2byte	0x2
+ 2915 0106 7D       		.byte	0x7d
+ 2916 0107 10       		.sleb128 16
+ 2917 0108 00000000 		.4byte	0
+ 2918 010c 00000000 		.4byte	0
+ 2919              	.LLST7:
+ 2920 0110 B0020000 		.4byte	.LFB8-.Ltext0
+ 2921 0114 B2020000 		.4byte	.LCFI11-.Ltext0
+ 2922 0118 0200     		.2byte	0x2
+ 2923 011a 7D       		.byte	0x7d
+ 2924 011b 00       		.sleb128 0
+ 2925 011c B2020000 		.4byte	.LCFI11-.Ltext0
+ 2926 0120 F8020000 		.4byte	.LFE8-.Ltext0
+ 2927 0124 0200     		.2byte	0x2
+ 2928 0126 7D       		.byte	0x7d
+ 2929 0127 10       		.sleb128 16
+ 2930 0128 00000000 		.4byte	0
+ 2931 012c 00000000 		.4byte	0
+ 2932              	.LLST8:
+ 2933 0130 F8020000 		.4byte	.LFB9-.Ltext0
+ 2934 0134 FA020000 		.4byte	.LCFI12-.Ltext0
+ 2935 0138 0200     		.2byte	0x2
+ 2936 013a 7D       		.byte	0x7d
+ 2937 013b 00       		.sleb128 0
+ 2938 013c FA020000 		.4byte	.LCFI12-.Ltext0
+ 2939 0140 2C030000 		.4byte	.LFE9-.Ltext0
+ 2940 0144 0200     		.2byte	0x2
+ 2941 0146 7D       		.byte	0x7d
+ 2942 0147 18       		.sleb128 24
+ARM GAS  /tmp/ccCmPHmz.s 			page 62
+
+
+ 2943 0148 00000000 		.4byte	0
+ 2944 014c 00000000 		.4byte	0
+ 2945              	.LLST9:
+ 2946 0150 2C030000 		.4byte	.LFB10-.Ltext0
+ 2947 0154 2E030000 		.4byte	.LCFI13-.Ltext0
+ 2948 0158 0200     		.2byte	0x2
+ 2949 015a 7D       		.byte	0x7d
+ 2950 015b 00       		.sleb128 0
+ 2951 015c 2E030000 		.4byte	.LCFI13-.Ltext0
+ 2952 0160 30030000 		.4byte	.LCFI14-.Ltext0
+ 2953 0164 0200     		.2byte	0x2
+ 2954 0166 7D       		.byte	0x7d
+ 2955 0167 10       		.sleb128 16
+ 2956 0168 30030000 		.4byte	.LCFI14-.Ltext0
+ 2957 016c D8030000 		.4byte	.LFE10-.Ltext0
+ 2958 0170 0200     		.2byte	0x2
+ 2959 0172 7D       		.byte	0x7d
+ 2960 0173 38       		.sleb128 56
+ 2961 0174 00000000 		.4byte	0
+ 2962 0178 00000000 		.4byte	0
+ 2963              	.LLST10:
+ 2964 017c 24040000 		.4byte	.LFB12-.Ltext0
+ 2965 0180 26040000 		.4byte	.LCFI15-.Ltext0
+ 2966 0184 0200     		.2byte	0x2
+ 2967 0186 7D       		.byte	0x7d
+ 2968 0187 00       		.sleb128 0
+ 2969 0188 26040000 		.4byte	.LCFI15-.Ltext0
+ 2970 018c 54040000 		.4byte	.LFE12-.Ltext0
+ 2971 0190 0200     		.2byte	0x2
+ 2972 0192 7D       		.byte	0x7d
+ 2973 0193 10       		.sleb128 16
+ 2974 0194 00000000 		.4byte	0
+ 2975 0198 00000000 		.4byte	0
+ 2976              	.LLST11:
+ 2977 019c 54040000 		.4byte	.LFB13-.Ltext0
+ 2978 01a0 56040000 		.4byte	.LCFI16-.Ltext0
+ 2979 01a4 0200     		.2byte	0x2
+ 2980 01a6 7D       		.byte	0x7d
+ 2981 01a7 00       		.sleb128 0
+ 2982 01a8 56040000 		.4byte	.LCFI16-.Ltext0
+ 2983 01ac 84040000 		.4byte	.LFE13-.Ltext0
+ 2984 01b0 0200     		.2byte	0x2
+ 2985 01b2 7D       		.byte	0x7d
+ 2986 01b3 10       		.sleb128 16
+ 2987 01b4 00000000 		.4byte	0
+ 2988 01b8 00000000 		.4byte	0
+ 2989              	.LLST12:
+ 2990 01bc 84040000 		.4byte	.LFB14-.Ltext0
+ 2991 01c0 86040000 		.4byte	.LCFI17-.Ltext0
+ 2992 01c4 0200     		.2byte	0x2
+ 2993 01c6 7D       		.byte	0x7d
+ 2994 01c7 00       		.sleb128 0
+ 2995 01c8 86040000 		.4byte	.LCFI17-.Ltext0
+ 2996 01cc 88040000 		.4byte	.LCFI18-.Ltext0
+ 2997 01d0 0200     		.2byte	0x2
+ 2998 01d2 7D       		.byte	0x7d
+ 2999 01d3 04       		.sleb128 4
+ARM GAS  /tmp/ccCmPHmz.s 			page 63
+
+
+ 3000 01d4 88040000 		.4byte	.LCFI18-.Ltext0
+ 3001 01d8 88060000 		.4byte	.LFE14-.Ltext0
+ 3002 01dc 0200     		.2byte	0x2
+ 3003 01de 7D       		.byte	0x7d
+ 3004 01df 10       		.sleb128 16
+ 3005 01e0 00000000 		.4byte	0
+ 3006 01e4 00000000 		.4byte	0
+ 3007              	.LLST13:
+ 3008 01e8 88060000 		.4byte	.LFB15-.Ltext0
+ 3009 01ec 8A060000 		.4byte	.LCFI19-.Ltext0
+ 3010 01f0 0200     		.2byte	0x2
+ 3011 01f2 7D       		.byte	0x7d
+ 3012 01f3 00       		.sleb128 0
+ 3013 01f4 8A060000 		.4byte	.LCFI19-.Ltext0
+ 3014 01f8 A8060000 		.4byte	.LFE15-.Ltext0
+ 3015 01fc 0200     		.2byte	0x2
+ 3016 01fe 7D       		.byte	0x7d
+ 3017 01ff 08       		.sleb128 8
+ 3018 0200 00000000 		.4byte	0
+ 3019 0204 00000000 		.4byte	0
+ 3020              	.LLST14:
+ 3021 0208 A8060000 		.4byte	.LFB16-.Ltext0
+ 3022 020c AA060000 		.4byte	.LCFI20-.Ltext0
+ 3023 0210 0200     		.2byte	0x2
+ 3024 0212 7D       		.byte	0x7d
+ 3025 0213 00       		.sleb128 0
+ 3026 0214 AA060000 		.4byte	.LCFI20-.Ltext0
+ 3027 0218 AC060000 		.4byte	.LCFI21-.Ltext0
+ 3028 021c 0200     		.2byte	0x2
+ 3029 021e 7D       		.byte	0x7d
+ 3030 021f 08       		.sleb128 8
+ 3031 0220 AC060000 		.4byte	.LCFI21-.Ltext0
+ 3032 0224 D8070000 		.4byte	.LFE16-.Ltext0
+ 3033 0228 0200     		.2byte	0x2
+ 3034 022a 7D       		.byte	0x7d
+ 3035 022b 18       		.sleb128 24
+ 3036 022c 00000000 		.4byte	0
+ 3037 0230 00000000 		.4byte	0
+ 3038              		.section	.debug_aranges,"",%progbits
+ 3039 0000 1C000000 		.4byte	0x1c
+ 3040 0004 0200     		.2byte	0x2
+ 3041 0006 00000000 		.4byte	.Ldebug_info0
+ 3042 000a 04       		.byte	0x4
+ 3043 000b 00       		.byte	0
+ 3044 000c 0000     		.2byte	0
+ 3045 000e 0000     		.2byte	0
+ 3046 0010 00000000 		.4byte	.Ltext0
+ 3047 0014 D8070000 		.4byte	.Letext0-.Ltext0
+ 3048 0018 00000000 		.4byte	0
+ 3049 001c 00000000 		.4byte	0
+ 3050              		.section	.debug_line,"",%progbits
+ 3051              	.Ldebug_line0:
+ 3052 0000 C0010000 		.section	.debug_str,"MS",%progbits,1
+ 3052      0200BF00 
+ 3052      00000201 
+ 3052      FB0E0D00 
+ 3052      01010101 
+ARM GAS  /tmp/ccCmPHmz.s 			page 64
+
+
+ 3053              	.LASF67:
+ 3054 0000 64705F6C 		.ascii	"dp_location\000"
+ 3054      6F636174 
+ 3054      696F6E00 
+ 3055              	.LASF18:
+ 3056 000c 636F756E 		.ascii	"count_nfork\000"
+ 3056      745F6E66 
+ 3056      6F726B00 
+ 3057              	.LASF63:
+ 3058 0018 66617374 		.ascii	"fast\000"
+ 3058      00
+ 3059              	.LASF71:
+ 3060 001d 77686565 		.ascii	"wheel_size\000"
+ 3060      6C5F7369 
+ 3060      7A6500
+ 3061              	.LASF7:
+ 3062 0028 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3062      206C6F6E 
+ 3062      6720756E 
+ 3062      7369676E 
+ 3062      65642069 
+ 3063              	.LASF15:
+ 3064 003f 72656164 		.ascii	"read_BUTTON\000"
+ 3064      5F425554 
+ 3064      544F4E00 
+ 3065              	.LASF16:
+ 3066 004b 61646472 		.ascii	"addr\000"
+ 3066      00
+ 3067              	.LASF24:
+ 3068 0050 636F756E 		.ascii	"count_time\000"
+ 3068      745F7469 
+ 3068      6D6500
+ 3069              	.LASF76:
+ 3070 005b 636F6465 		.ascii	"code/main.c\000"
+ 3070      2F6D6169 
+ 3070      6E2E6300 
+ 3071              	.LASF6:
+ 3072 0067 6C6F6E67 		.ascii	"long long int\000"
+ 3072      206C6F6E 
+ 3072      6720696E 
+ 3072      7400
+ 3073              	.LASF0:
+ 3074 0075 7369676E 		.ascii	"signed char\000"
+ 3074      65642063 
+ 3074      68617200 
+ 3075              	.LASF19:
+ 3076 0081 63697263 		.ascii	"circumference\000"
+ 3076      756D6665 
+ 3076      72656E63 
+ 3076      6500
+ 3077              	.LASF33:
+ 3078 008f 696E745F 		.ascii	"int_speed\000"
+ 3078      73706565 
+ 3078      6400
+ 3079              	.LASF4:
+ 3080 0099 6C6F6E67 		.ascii	"long int\000"
+ 3080      20696E74 
+ARM GAS  /tmp/ccCmPHmz.s 			page 65
+
+
+ 3080      00
+ 3081              	.LASF65:
+ 3082 00a2 42555454 		.ascii	"BUTTON_REGS\000"
+ 3082      4F4E5F52 
+ 3082      45475300 
+ 3083              	.LASF60:
+ 3084 00ae 77686565 		.ascii	"wheel_size_tmp\000"
+ 3084      6C5F7369 
+ 3084      7A655F74 
+ 3084      6D7000
+ 3085              	.LASF46:
+ 3086 00bd 74656E5F 		.ascii	"ten_value\000"
+ 3086      76616C75 
+ 3086      6500
+ 3087              	.LASF29:
+ 3088 00c7 636F756E 		.ascii	"count_average_nCrank\000"
+ 3088      745F6176 
+ 3088      65726167 
+ 3088      655F6E43 
+ 3088      72616E6B 
+ 3089              	.LASF9:
+ 3090 00dc 5F5F7569 		.ascii	"__uint32_t\000"
+ 3090      6E743332 
+ 3090      5F7400
+ 3091              	.LASF74:
+ 3092 00e7 68756E64 		.ascii	"hundrend_wheel_size\000"
+ 3092      72656E64 
+ 3092      5F776865 
+ 3092      656C5F73 
+ 3092      697A6500 
+ 3093              	.LASF35:
+ 3094 00fb 76616C75 		.ascii	"value\000"
+ 3094      6500
+ 3095              	.LASF8:
+ 3096 0101 756E7369 		.ascii	"unsigned int\000"
+ 3096      676E6564 
+ 3096      20696E74 
+ 3096      00
+ 3097              	.LASF5:
+ 3098 010e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3098      20756E73 
+ 3098      69676E65 
+ 3098      6420696E 
+ 3098      7400
+ 3099              	.LASF49:
+ 3100 0120 63686563 		.ascii	"check_sensor\000"
+ 3100      6B5F7365 
+ 3100      6E736F72 
+ 3100      00
+ 3101              	.LASF3:
+ 3102 012d 73686F72 		.ascii	"short unsigned int\000"
+ 3102      7420756E 
+ 3102      7369676E 
+ 3102      65642069 
+ 3102      6E7400
+ 3103              	.LASF44:
+ 3104 0140 76616C75 		.ascii	"value_total\000"
+ARM GAS  /tmp/ccCmPHmz.s 			page 66
+
+
+ 3104      655F746F 
+ 3104      74616C00 
+ 3105              	.LASF57:
+ 3106 014c 62757474 		.ascii	"button_Mode\000"
+ 3106      6F6E5F4D 
+ 3106      6F646500 
+ 3107              	.LASF69:
+ 3108 0158 6E4D6F64 		.ascii	"nMode_wheel_times\000"
+ 3108      655F7768 
+ 3108      65656C5F 
+ 3108      74696D65 
+ 3108      7300
+ 3109              	.LASF73:
+ 3110 016a 74656E5F 		.ascii	"ten_wheel_size\000"
+ 3110      77686565 
+ 3110      6C5F7369 
+ 3110      7A6500
+ 3111              	.LASF37:
+ 3112 0179 7365675F 		.ascii	"seg_mod\000"
+ 3112      6D6F6400 
+ 3113              	.LASF20:
+ 3114 0181 726F7574 		.ascii	"route\000"
+ 3114      6500
+ 3115              	.LASF12:
+ 3116 0187 73697A65 		.ascii	"sizetype\000"
+ 3116      74797065 
+ 3116      00
+ 3117              	.LASF11:
+ 3118 0190 6C6F6E67 		.ascii	"long double\000"
+ 3118      20646F75 
+ 3118      626C6500 
+ 3119              	.LASF48:
+ 3120 019c 6164645F 		.ascii	"add_value\000"
+ 3120      76616C75 
+ 3120      6500
+ 3121              	.LASF25:
+ 3122 01a6 74696D65 		.ascii	"time_h\000"
+ 3122      5F6800
+ 3123              	.LASF77:
+ 3124 01ad 2F686F6D 		.ascii	"/home/hh2u22/design/chip/software\000"
+ 3124      652F6868 
+ 3124      32753232 
+ 3124      2F646573 
+ 3124      69676E2F 
+ 3125              	.LASF27:
+ 3126 01cf 74696D65 		.ascii	"time\000"
+ 3126      00
+ 3127              	.LASF26:
+ 3128 01d4 74696D65 		.ascii	"time_m\000"
+ 3128      5F6D00
+ 3129              	.LASF39:
+ 3130 01db 77726974 		.ascii	"write_led\000"
+ 3130      655F6C65 
+ 3130      6400
+ 3131              	.LASF22:
+ 3132 01e5 666C6F61 		.ascii	"float\000"
+ 3132      7400
+ARM GAS  /tmp/ccCmPHmz.s 			page 67
+
+
+ 3133              	.LASF36:
+ 3134 01eb 64697370 		.ascii	"display_value\000"
+ 3134      6C61795F 
+ 3134      76616C75 
+ 3134      6500
+ 3135              	.LASF72:
+ 3136 01f9 6269745F 		.ascii	"bit_wheel_size\000"
+ 3136      77686565 
+ 3136      6C5F7369 
+ 3136      7A6500
+ 3137              	.LASF34:
+ 3138 0208 7365675F 		.ascii	"seg_code\000"
+ 3138      636F6465 
+ 3138      00
+ 3139              	.LASF1:
+ 3140 0211 756E7369 		.ascii	"unsigned char\000"
+ 3140      676E6564 
+ 3140      20636861 
+ 3140      7200
+ 3141              	.LASF61:
+ 3142 021f 64656C61 		.ascii	"delay\000"
+ 3142      7900
+ 3143              	.LASF2:
+ 3144 0225 73686F72 		.ascii	"short int\000"
+ 3144      7420696E 
+ 3144      7400
+ 3145              	.LASF51:
+ 3146 022f 73656E73 		.ascii	"sensor_ready\000"
+ 3146      6F725F72 
+ 3146      65616479 
+ 3146      00
+ 3147              	.LASF59:
+ 3148 023c 62757474 		.ascii	"button_both\000"
+ 3148      6F6E5F62 
+ 3148      6F746800 
+ 3149              	.LASF47:
+ 3150 0248 68756E64 		.ascii	"hundrend_value\000"
+ 3150      72656E64 
+ 3150      5F76616C 
+ 3150      756500
+ 3151              	.LASF45:
+ 3152 0257 6269745F 		.ascii	"bit_value\000"
+ 3152      76616C75 
+ 3152      6500
+ 3153              	.LASF70:
+ 3154 0261 73696E67 		.ascii	"singal_wheel\000"
+ 3154      616C5F77 
+ 3154      6865656C 
+ 3154      00
+ 3155              	.LASF10:
+ 3156 026e 75696E74 		.ascii	"uint32_t\000"
+ 3156      33325F74 
+ 3156      00
+ 3157              	.LASF32:
+ 3158 0277 73706565 		.ascii	"speed_value\000"
+ 3158      645F7661 
+ 3158      6C756500 
+ARM GAS  /tmp/ccCmPHmz.s 			page 68
+
+
+ 3159              	.LASF75:
+ 3160 0283 474E5520 		.ascii	"GNU C11 5.4.1 20160919 (release) [ARM/embedded-5-br"
+ 3160      43313120 
+ 3160      352E342E 
+ 3160      31203230 
+ 3160      31363039 
+ 3161 02b6 616E6368 		.ascii	"anch revision 240496] -mcpu=cortex-m0 -mthumb -gdwa"
+ 3161      20726576 
+ 3161      6973696F 
+ 3161      6E203234 
+ 3161      30343936 
+ 3162 02e9 72662D32 		.ascii	"rf-2 -O0 -fomit-frame-pointer\000"
+ 3162      202D4F30 
+ 3162      202D666F 
+ 3162      6D69742D 
+ 3162      6672616D 
+ 3163              	.LASF21:
+ 3164 0307 696E745F 		.ascii	"int_route\000"
+ 3164      726F7574 
+ 3164      6500
+ 3165              	.LASF52:
+ 3166 0311 5F426F6F 		.ascii	"_Bool\000"
+ 3166      6C00
+ 3167              	.LASF13:
+ 3168 0317 63686172 		.ascii	"char\000"
+ 3168      00
+ 3169              	.LASF38:
+ 3170 031c 6D6F6465 		.ascii	"mode\000"
+ 3170      00
+ 3171              	.LASF64:
+ 3172 0321 53454E53 		.ascii	"SENSOR_REGS\000"
+ 3172      4F525F52 
+ 3172      45475300 
+ 3173              	.LASF14:
+ 3174 032d 72656164 		.ascii	"read_SENSOR\000"
+ 3174      5F53454E 
+ 3174      534F5200 
+ 3175              	.LASF17:
+ 3176 0339 64697374 		.ascii	"distance\000"
+ 3176      616E6365 
+ 3176      00
+ 3177              	.LASF58:
+ 3178 0342 62757474 		.ascii	"button_nTrip\000"
+ 3178      6F6E5F6E 
+ 3178      54726970 
+ 3178      00
+ 3179              	.LASF31:
+ 3180 034f 636F756E 		.ascii	"count_average_nFork\000"
+ 3180      745F6176 
+ 3180      65726167 
+ 3180      655F6E46 
+ 3180      6F726B00 
+ 3181              	.LASF56:
+ 3182 0363 77616974 		.ascii	"wait_for_any_BUTTON_data\000"
+ 3182      5F666F72 
+ 3182      5F616E79 
+ 3182      5F425554 
+ARM GAS  /tmp/ccCmPHmz.s 			page 69
+
+
+ 3182      544F4E5F 
+ 3183              	.LASF68:
+ 3184 037c 6E4D6F64 		.ascii	"nMode_normal_times\000"
+ 3184      655F6E6F 
+ 3184      726D616C 
+ 3184      5F74696D 
+ 3184      657300
+ 3185              	.LASF28:
+ 3186 038f 63616465 		.ascii	"cadence\000"
+ 3186      6E636500 
+ 3187              	.LASF66:
+ 3188 0397 4C45445F 		.ascii	"LED_REGS\000"
+ 3188      52454753 
+ 3188      00
+ 3189              	.LASF54:
+ 3190 03a0 62757474 		.ascii	"button_ready\000"
+ 3190      6F6E5F72 
+ 3190      65616479 
+ 3190      00
+ 3191              	.LASF50:
+ 3192 03ad 73746174 		.ascii	"status\000"
+ 3192      757300
+ 3193              	.LASF55:
+ 3194 03b4 7365675F 		.ascii	"seg_decode\000"
+ 3194      6465636F 
+ 3194      646500
+ 3195              	.LASF23:
+ 3196 03bf 74696D65 		.ascii	"timer\000"
+ 3196      7200
+ 3197              	.LASF30:
+ 3198 03c5 73706565 		.ascii	"speed\000"
+ 3198      6400
+ 3199              	.LASF62:
+ 3200 03cb 6D61696E 		.ascii	"main\000"
+ 3200      00
+ 3201              	.LASF78:
+ 3202 03d0 636C6561 		.ascii	"clear_all_register\000"
+ 3202      725F616C 
+ 3202      6C5F7265 
+ 3202      67697374 
+ 3202      657200
+ 3203              	.LASF40:
+ 3204 03e3 76616C75 		.ascii	"value1\000"
+ 3204      653100
+ 3205              	.LASF41:
+ 3206 03ea 76616C75 		.ascii	"value2\000"
+ 3206      653200
+ 3207              	.LASF42:
+ 3208 03f1 76616C75 		.ascii	"value3\000"
+ 3208      653300
+ 3209              	.LASF43:
+ 3210 03f8 76616C75 		.ascii	"value4\000"
+ 3210      653400
+ 3211              	.LASF53:
+ 3212 03ff 63686563 		.ascii	"check_button\000"
+ 3212      6B5F6275 
+ 3212      74746F6E 
+ARM GAS  /tmp/ccCmPHmz.s 			page 70
+
+
+ 3212      00
+ 3213              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160919 (release) [ARM/embedded-5-bran
+ARM GAS  /tmp/ccCmPHmz.s 			page 71
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/ccCmPHmz.s:57     .data:00000000 SENSOR_REGS
+     /tmp/ccCmPHmz.s:54     .data:00000000 $d
+     /tmp/ccCmPHmz.s:63     .data:00000004 BUTTON_REGS
+     /tmp/ccCmPHmz.s:69     .data:00000008 LED_REGS
+                            *COM*:00000004 dp_location
+                            *COM*:00000004 nMode_normal_times
+                            *COM*:00000004 nMode_wheel_times
+                            *COM*:00000001 singal_wheel
+                            *COM*:00000004 wheel_size
+                            *COM*:00000004 bit_wheel_size
+                            *COM*:00000004 ten_wheel_size
+                            *COM*:00000004 hundrend_wheel_size
+     /tmp/ccCmPHmz.s:80     .text:00000000 $t
+     /tmp/ccCmPHmz.s:85     .text:00000000 read_SENSOR
+     /tmp/ccCmPHmz.s:112    .text:00000018 $d
+     /tmp/ccCmPHmz.s:116    .text:0000001c $t
+     /tmp/ccCmPHmz.s:121    .text:0000001c read_BUTTON
+     /tmp/ccCmPHmz.s:147    .text:00000034 $d
+     /tmp/ccCmPHmz.s:155    .text:00000038 $t
+     /tmp/ccCmPHmz.s:160    .text:00000038 distance
+     /tmp/ccCmPHmz.s:241    .text:000000b0 $d
+     /tmp/ccCmPHmz.s:250    .text:000000c0 $t
+     /tmp/ccCmPHmz.s:255    .text:000000c0 timer
+     /tmp/ccCmPHmz.s:341    .text:0000013c $d
+     /tmp/ccCmPHmz.s:345    .text:00000140 $t
+     /tmp/ccCmPHmz.s:350    .text:00000140 cadence
+     /tmp/ccCmPHmz.s:395    .text:00000170 $d
+     /tmp/ccCmPHmz.s:404    .text:00000174 $t
+     /tmp/ccCmPHmz.s:409    .text:00000174 speed
+     /tmp/ccCmPHmz.s:527    .text:00000234 $d
+     /tmp/ccCmPHmz.s:536    .text:0000024c $t
+     /tmp/ccCmPHmz.s:541    .text:0000024c seg_code
+     /tmp/ccCmPHmz.s:563    .rodata:00000000 $d
+     /tmp/ccCmPHmz.s:642    .text:000002ac $d
+     /tmp/ccCmPHmz.s:646    .text:000002b0 $t
+     /tmp/ccCmPHmz.s:651    .text:000002b0 seg_mod
+     /tmp/ccCmPHmz.s:722    .text:000002f4 $d
+     /tmp/ccCmPHmz.s:726    .text:000002f8 $t
+     /tmp/ccCmPHmz.s:731    .text:000002f8 write_led
+     /tmp/ccCmPHmz.s:782    .text:0000032c seg_decode
+     /tmp/ccCmPHmz.s:888    .text:000003d4 $d
+     /tmp/ccCmPHmz.s:892    .text:000003d8 $t
+     /tmp/ccCmPHmz.s:897    .text:000003d8 clear_all_register
+     /tmp/ccCmPHmz.s:946    .text:00000410 $d
+     /tmp/ccCmPHmz.s:954    .text:00000424 $t
+     /tmp/ccCmPHmz.s:959    .text:00000424 check_sensor
+     /tmp/ccCmPHmz.s:998    .text:00000450 $d
+     /tmp/ccCmPHmz.s:1002   .text:00000454 $t
+     /tmp/ccCmPHmz.s:1007   .text:00000454 check_button
+     /tmp/ccCmPHmz.s:1046   .text:00000480 $d
+     /tmp/ccCmPHmz.s:1050   .text:00000484 $t
+     /tmp/ccCmPHmz.s:1055   .text:00000484 wait_for_any_BUTTON_data
+     /tmp/ccCmPHmz.s:1371   .text:00000668 $d
+     /tmp/ccCmPHmz.s:1382   .text:00000688 $t
+     /tmp/ccCmPHmz.s:1387   .text:00000688 delay
+ARM GAS  /tmp/ccCmPHmz.s 			page 72
+
+
+     /tmp/ccCmPHmz.s:1422   .text:000006a4 $d
+     /tmp/ccCmPHmz.s:1427   .text:000006a8 $t
+     /tmp/ccCmPHmz.s:1432   .text:000006a8 main
+     /tmp/ccCmPHmz.s:1604   .text:000007c4 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_fmul
+__aeabi_fdiv
+__aeabi_fcmple
+__aeabi_f2iz
+__aeabi_idiv
+__aeabi_uidiv
+__aeabi_fcmpeq
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_ddiv
+__aeabi_d2f
+__aeabi_idivmod
+__aeabi_ui2f

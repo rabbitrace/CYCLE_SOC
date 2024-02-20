@@ -1,0 +1,25 @@
+puts "Owner: austriamicrosystems AG  HIT-Kit: Digital"
+
+set lib "/srv/cad/designkits/tsmc/tsmc180/TSMCHOME/digital/Front_End/timing_power_noise/NLDM"
+
+
+
+set search_path	". $lib/tpz018nv_280b $lib/tcb018gbwp7t_270a"
+
+
+set target_library "tpz018nvtc.db tcb018gbwp7ttc.db"
+
+set link_library "* $target_library "
+
+
+
+set sdfout_no_edge  true
+set verilogout_equation	false
+set verilogout_no_tri	true 
+set verilogout_single_bit  false
+set hdlout_internal_busses true     
+set bus_inference_style "%s\[%d\]"  
+set bus_naming_style    "%s\[%d\]"
+set write_name_nets_same_as_ports true
+
+puts {USE: set_fix_multiple_port_nets -all [all_designs]}

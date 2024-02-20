@@ -1,0 +1,72 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : computer
+Version: K-2015.06-SP5
+Date   : Thu Apr 27 18:17:27 2023
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: NCCOM   Library: tpz018nvtc
+Wire Load Model Mode: segmented
+
+  Startpoint: comp_core_inst/arm_soc1/led_1/counter_led_reg[0]
+              (rising edge-triggered flip-flop clocked by master_clock)
+  Endpoint: DP (output port clocked by master_clock)
+  Path Group: master_clock
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  cortexm0ds_logic_test_1
+                     TSMC16K_Conservative  tpz018nvtc
+  ahb_button_test_1  TSMC8K_Conservative   tpz018nvtc
+  ahb_sensor_test_1  TSMC8K_Conservative   tpz018nvtc
+  ahb_out_led_test_1 TSMC8K_Conservative   tpz018nvtc
+  ahb_ram_test_1     TSMC16K_Conservative  tpz018nvtc
+  ahb_rom_test_1     TSMC16K_Conservative  tpz018nvtc
+  ahb_interconnect_test_1
+                     TSMC8K_Conservative   tpz018nvtc
+  CORTEXM0DS_test_1  TSMC16K_Conservative  tpz018nvtc
+  arm_soc_test_1     TSMC64K_Conservative  tpz018nvtc
+  computer           TSMC64K_Conservative  tpz018nvtc
+  comp_core_test_1   TSMC64K_Conservative  tpz018nvtc
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock master_clock (rise edge)                          0.00       0.00
+  clock network delay (ideal)                             5.50       5.50
+  comp_core_inst/arm_soc1/led_1/counter_led_reg[0]/CP (SDFCNQD0BWP7T)
+                                                          0.00 #     5.50 r
+  comp_core_inst/arm_soc1/led_1/counter_led_reg[0]/Q (SDFCNQD0BWP7T)
+                                                          0.35       5.85 f
+  comp_core_inst/arm_soc1/led_1/U3/Z (DEL1BWP7T)          0.60       6.45 f
+  comp_core_inst/arm_soc1/led_1/U30/ZN (INVD1BWP7T)       0.12       6.57 r
+  comp_core_inst/arm_soc1/led_1/U31/ZN (ND2D1BWP7T)       0.39       6.96 f
+  comp_core_inst/arm_soc1/led_1/U26/ZN (OAI221D1BWP7T)
+                                                          0.75       7.71 r
+  comp_core_inst/arm_soc1/led_1/DP (ahb_out_led_test_1)
+                                                          0.00       7.71 r
+  comp_core_inst/arm_soc1/DP (arm_soc_test_1)             0.00       7.71 r
+  comp_core_inst/DP (comp_core_test_1)                    0.00       7.71 r
+  PAD_DP/PAD (PDO08CDG)                                   1.42       9.13 r
+  DP (out)                                                0.00       9.13 r
+  data arrival time                                                  9.13
+
+  clock master_clock (rise edge)                      30517.60   30517.60
+  clock network delay (ideal)                             0.00   30517.60
+  clock uncertainty                                      -1.00   30516.60
+  output external delay                                 -15.00   30501.60
+  data required time                                             30501.60
+  --------------------------------------------------------------------------
+  data required time                                             30501.60
+  data arrival time                                                 -9.13
+  --------------------------------------------------------------------------
+  slack (MET)                                                    30492.47
+
+
+1

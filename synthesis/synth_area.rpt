@@ -1,0 +1,33 @@
+ 
+****************************************
+Report : area
+Design : computer
+Version: K-2015.06-SP5
+Date   : Thu Apr 27 18:17:23 2023
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'computer' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    tcb018gbwp7ttc (File: /srv/cad/designkits/tsmc/tsmc180/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcb018gbwp7t_270a/tcb018gbwp7ttc.db)
+    tpz018nvtc (File: /srv/cad/designkits/tsmc/tsmc180/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpz018nv_280b/tpz018nvtc.db)
+
+Number of ports:                         2620
+Number of nets:                         28387
+Number of cells:                        26035
+Number of combinational cells:          22527
+Number of sequential cells:              3461
+Number of macros/black boxes:              22
+Number of buf/inv:                       7131
+Number of references:                      12
+
+Combinational area:             318514.734943
+Buf/Inv area:                   103916.376011
+Noncombinational area:          237461.368279
+Macro/Black Box area:           177100.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                733076.103222
+Total area:                 undefined
+1

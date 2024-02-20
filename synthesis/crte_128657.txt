@@ -1,0 +1,467 @@
+CRTE_SNAPSHOT_START
+
+SECTION_CRTE_VERSION
+3.0
+
+SECTION_PID
+128657
+
+SECTION_POLLING_INTERVAL
+5
+
+SECTION_DATE_TIME
+Mon Mar 20 16:39:13 GMT 2023 (1679330353)
+
+SECTION_OS_VERSION
+osname: Linux
+hostname: srv02749
+arch: x86_64
+release_version: 3.10.0-1160.83.1.el7.x86_64
+
+SECTION_IPC_INFO
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+
+------ Shared Memory Segments --------
+key        shmid      owner      perms      bytes      nattch     status      
+0x00000000 7798784    cl2g22     600        393216     2          dest         
+0x00000000 1769473    bt3u22     600        524288     2          dest         
+0x00000000 13991938   jt1g22     600        12288      2          dest         
+0x00000000 917507     yl7m22     600        393216     2          dest         
+0x00000000 3702788    wx3g22     600        393216     2          dest         
+0x00000000 8355845    lw3a22     600        16777216   2          dest         
+0x00000000 12845062   jt1g22     600        524288     2          dest         
+0x00000000 13565959   zl14n22    600        1048576    2          dest         
+0x00000000 65544      yd15n22    600        33554432   2          dest         
+0x00000000 65545      yd15n22    600        393216     2         SECTION_ULIMIT
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 1031693
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 4096
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 4096
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+
+SECTION_SYSCONF
+_SC_THREAD_SAFE_FUNCTIONS= 200809
+_SC_CLK_TCK= 100
+_SC_OPEN_MAX= 4096
+_SC_PAGE_SIZE= 4096
+_SC_ARG_MAX= 2097152
+_SC_CHILD_MAX= 4096
+_SC_LINE_MAX= 2048
+
+SECTION_FULL_COMMAND
+/opt/synopsys/synthesis/linux64/syn/bin/common_shell_exec -shell dc_shell -r /opt/synopsys/synthesis -gui
+
+SECTION_CPUINFO
+total_core: 24
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+model_name:  Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+flags:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm ssbd rsb_ctxsw ibrs ibpb stibp tsc_adjust arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+cpu_family: 6
+core_frequency_mhz: 2599
+core_per_socket: 0
+stepping: 2
+cache_size_kb: 40960
+ht: 0
+
+SECTION_OS_RELEASE_VERSION
+Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
+
+SECTION_QSC_CHECKER
+
+        qscchk.sh Version 1.6.3, 12 November 2014
+        qscchk.dat QSC K Rev: 17, 17 November 2014
+     Copyright (c) 1988-2014 by Synopsys, Inc.
+             All RIGHTS RESERVED
+
+ERROR: Unable to determine Snps_Platform for this operating system.
+ERROR: Unknown Linux variant 'Unknown'
+ 
+No QSC information for the K Synopsys release, on the
+64 bit Unknown platform running the Unknown Operating System 
+could be found in datafile /tmp/sdp_128657_0/qscchk.dat
+ 
+
+Return code from the QSC checker script is 256
+
+SECTION_SYS/VM
+/proc/sys/vm/admin_reserve_kbytes:8192
+/proc/sys/vm/block_dump:0
+/proc/sys/vm/dirty_background_bytes:0
+/proc/sys/vm/dirty_background_ratio:10
+/proc/sys/vm/dirty_bytes:0
+/proc/sys/vm/dirty_expire_centisecs:3000
+/proc/sys/vm/dirty_ratio:30
+/proc/sys/vm/dirty_writeback_centisecs:500
+/proc/sys/vm/drop_caches:0
+/proc/sys/vm/extfrag_threshold:500
+/proc/sys/vm/hugepages_treat_as_movable:0
+/proc/sys/vm/hugetlb_shm_group:0
+/proc/sys/vm/laptop_mode:0
+/proc/sys/vm/legacy_va_layout:0
+/proc/sys/vm/lowmem_reserve_ratio:256	256	32
+/proc/sys/vm/max_map_count:65530
+/proc/sys/vm/memory_failure_early_kill:0
+/proc/sys/vm/memory_failure_recovery:1
+/proc/sys/vm/min_free_kbytes:67584
+/proc/sys/vm/min_slab_ratio:5
+/proc/sys/vm/min_unmapped_ratio:1
+/proc/sys/vm/mmap_min_addr:4096
+/proc/sys/vm/nr_hugepages:0
+/proc/sys/vm/nr_hugepages_mempolicy:0
+/proc/sys/vm/nr_overcommit_hugepages:0
+/proc/sys/vm/nr_pdflush_threads:0
+/proc/sys/vm/numa_zonelist_order:default
+/proc/sys/vm/oom_dump_tasks:1
+/proc/sys/vm/oom_kill_allocating_task:0
+/proc/sys/vm/overcommit_kbytes:0
+/proc/sys/vm/overcommit_memory:0
+/proc/sys/vm/overcommit_ratio:50
+/proc/sys/vm/page-cluster:3
+/proc/sys/vm/panic_on_oom:0
+/proc/sys/vm/percpu_pagelist_fraction:0
+/proc/sys/vm/stat_interval:1
+/proc/sys/vm/swappiness:30
+/proc/sys/vm/user_reserve_kbytes:131072
+/proc/sys/vm/vfs_cache_pressure:100
+/proc/sys/vm/zone_reclaim_mode:0
+
+
+SECTION_SWAP
+swap_partition: /dev/dm-1
+size_gb: 7
+
+CRTE_SNAPSHOT_END
+
+CRTE_PERIODIC_START 1 1679330353925
+
+SECTION_MPSTAT
+total_core: 24
+
+CPU     %user   %kernel %wait   %idle   
+all   26.313051 3.995922 0.193539 69.497482
+0     78.278862 5.106617 0.021281 16.593241
+1     78.640602 4.832559 0.024288 16.502550
+2     78.685051 4.741161 0.025039 16.548742
+3     78.722198 4.699111 0.025818 16.552872
+4     18.919914 4.082371 0.185718 76.811996
+5     14.472120 4.355105 0.247618 80.925156
+6     15.017836 3.731690 0.245504 81.004967
+7     17.881098 3.523760 0.236361 78.358780
+8     18.923527 3.558090 0.189924 77.328453
+9     15.266274 4.238702 0.234384 80.260635
+10     15.227353 3.699142 0.226039 80.847466
+11     14.899237 3.647295 0.227144 81.226326
+12     20.629347 3.421639 0.212345 75.736671
+13     14.515095 4.257453 0.247537 80.979912
+14     14.128931 3.740602 0.248315 81.882156
+15     12.784006 3.803005 0.195271 83.217720
+16     18.195599 3.494870 0.208504 78.101021
+17     14.533401 4.241222 0.259729 80.965645
+18     14.743723 3.645084 0.257120 81.354073
+19     13.862375 3.729723 0.197177 82.210724
+20     19.842779 3.417218 0.222341 76.517662
+21     13.931277 4.312926 0.246421 81.509377
+22     13.153001 3.821964 0.250327 82.774712
+23     13.765042 3.760966 0.218455 82.255531
+
+SECTION_PID_STATUS
+name: common_shell_ex
+state: 1
+vmsize: 1784388
+vmrss: 949780
+vmdata: 1329840
+vmstk: 236
+vmexe: 247924
+vmlib: 8104
+threads: 1
+
+SECTION_PROCESS_CPU_UTIL
+pid: 128657
+cpu_total_time: 1079771983
+cpu_used_time: 92264
+cpu_p: 
+
+SECTION_SYSTEM_CPU_UTIL
+sys_cpu_p: 
+
+SECTION_MEMINFO
+memtotal: 264137204
+memfree: 87710920
+cached: 89744220
+swapcached: 0
+active: 113248436
+swaptotal: 8388604
+swapfree: 8388604
+
+SECTION_SMAPS
+shared_kb: 65708
+private_kb: 884084
+
+SECTION_DF
+Filesystem  Size  Used Avail Use%
+filesystem        26G  9G  17G    34
+
+Filesystem    Inodes   IUsed   IFree   IUse%
+filesystem          13897728  67428 13830300   4294946885
+
+SECTION_CWD
+Filesystem  Size  Used Avail Use%
+filesystem        664514G  537726G  103493G    84
+
+Filesystem    Inodes   IUsed   IFree   IUse%
+filesystem          1199844580  1761387134 3733424742   100
+
+SECTION_SWAP_RATE
+blk_read: 6472
+blk_wrtn: 0
+swap_in_rate: 
+swap_out_rate: 
+swap_in_rate: 
+swap_out_rate: 
+
+SECTION_FD_SIZE
+files: 15
+total_size: 9069693
+
+SECTION_NET_INTERFACE
+total_eth_avbl: 1
+
+name net_rx_err net_rx_drp net_tx_err net_tx_drp 
+  eth0:         0        35065        0        0
+
+SECTION_NFSSTAT
+readlink: 0
+write: 0
+getattr: 12
+retrans: 0
+raw_data: 
+net 0 0 0 0
+rpc 56171345 0 56180211
+proc3 22 0 12011537 3604746 3670982 8863135 1748 4967552 5317397 1852072 81781 4511 355 1593861 61637 390462 39103 2046 512587 1131346 204 102 159893
+proc4 60 0 36695 0 0 25416 0 531182 0 528597 0 3 0 0 0 717 0 282 2419285 7166184 110617 4 0 0 0 0 369 2 463180 19933 79507 5 524743 0 0 0 0 0 0 5 1 0 0 0 1 0 0 0 0 1 0 282 0 0 0 0 0 0 0 0 0
+
+
+SECTION_THREAD_CPU_UTIL
+128657 : 128657 (common_shell_ex) R 32691 128657 32691 34839 128657 4202496 380897 204482 0 0 80600 639 10866 160 20 0 1 0 45654304 1827213312 237445 18446744073709551615 4194304 258065197 140731260637104 140731260619576 140537668060992 0 1024 2101248 1268412159 0 0 0 17 23 0 0 52 0 0 260162352 273725496 789774336 140731260645404 140731260645510 140731260645510 140731260649406 0
+
+CRTE_PERIODIC_END 1 1679330353925
